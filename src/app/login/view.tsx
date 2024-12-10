@@ -39,7 +39,7 @@ export default function LoginView({ formMethods, onSubmit }: LoginViewProps) {
                type="password"
             />
             <Button type="submit">Entrar</Button>
-            <p className="text-sm text-center mt-4">Não tem conta? <Link className="underline font-semibold" href="/cadastro">Crie uma gratuita!</Link></p>
+            <p className="text-sm text-center mt-4">Não tem conta? <Link className="underline font-semibold" href="/registro">Crie uma gratuita!</Link></p>
          </form>
       </div>
    )
