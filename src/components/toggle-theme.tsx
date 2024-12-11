@@ -19,7 +19,7 @@ export function ToggleTheme() {
    }
 
    return (
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center space-x-2 pr-4">
          <Switch checked={isLight} onCheckedChange={handleChange} />
       </div>
    )
