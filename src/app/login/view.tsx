@@ -23,7 +23,7 @@ export default function LoginView({ formMethods, onSubmit }: LoginViewProps) {
    return (
       <div className="min-h-screen max-h-full bg-gradient-to-r from-background to-card flex items-center justify-center">
          <form className="rounded-lg bg-card-foreground text-card px-6 py-8 flex flex-col gap-4 w-full max-w-sm shadow-md" onSubmit={handleSubmit(onSubmit)}>
-            <Image src="/fnyi-logo-black.svg" alt="Logo" width={80} height={100} className=""/>
+            <Image src="/fnyi-logo-black.svg" alt="Logo" width={80} height={100} className="" />
             <h1 className="text-2xl font-bold mb-2">Acesse sua conta</h1>
             <Input
                name="email"

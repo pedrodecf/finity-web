@@ -8,6 +8,7 @@
     --foreground: 210 20% 98%;
     --card: 240 38% 18%;
     --card-foreground: 210 20% 98%;
+    --sub: 244 22% 62%;
     --popover: 224 71.4% 4.1%;
     --popover-foreground: 210 20% 98%;
     --primary: 244 77% 63%;
@@ -29,6 +30,10 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    --success: 150 98% 35%;
+    --success-light: hsla(150, 98%, 35%, 0.15);
+    --warning: 0 84% 49%;
+    --warning-light: 0 84% 49% 15%;
     --sidebar-background: 240 38% 18%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 244 77% 63%;
@@ -44,6 +49,7 @@
     --foreground: 224 71.4% 4.1%;
     --card: 0 0% 100%;
     --card-foreground: 224 71.4% 4.1%;
+    --sub: 244 22% 62%;
     --popover: 0 0% 100%;
     --popover-foreground: 224 71.4% 4.1%;
     --primary: 262.1 83.3% 57.8%;
@@ -65,6 +71,10 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+    --success: 150 98% 35%;
+    --success-light: hsla(150, 98%, 35%, 0.15);
+    --warning: 0 84% 49%;
+    --warning-light: 0 84% 49% 15%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
