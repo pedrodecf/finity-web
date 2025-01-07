@@ -1,11 +1,8 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
-import { Pie, PieChart } from "recharts";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -17,6 +14,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { cn } from "@/lib/utils";
+import { Pie, PieChart } from "recharts";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const chartData = [
@@ -50,7 +48,7 @@ const chartConfig = {
     color: "hsl(var(--chart-4))",
   },
   streamings: {
-    label: "Streamings",
+    label: "Streamdasdasdasdings",
     color: "hsl(var(--chart-5))",
   },
 } satisfies ChartConfig;
@@ -120,7 +118,7 @@ export function CategoriesChartDashboard({
 
     return (
       <div className="flex flex-row justify-between items-center w-full py-1">
-        <div className="flex flex-row items-center gap-2">
+        <div className="flex flex-row items-center gap-2 overflow-hidden">
           <Avatar className="w-8 h-8">
             <AvatarImage
               src={props.avatarUrl}
@@ -128,7 +126,7 @@ export function CategoriesChartDashboard({
             />
             <AvatarFallback>{firstLetter}</AvatarFallback>
           </Avatar>
-          <p>{formatName(props.name)}</p>
+          <p className="truncate">{formatName(props.name)}</p>
         </div>
         <div className="text-sub font-semibold">
           <p>{props.percentage}%</p>

@@ -15,7 +15,7 @@ export default function DashboardView() {
           </h2>
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-6 w-full overflow-hidden tablet:flex tablet:flex-col tablet:gap-4">
+      <div className="grid grid-cols-3 gap-6 w-full  tablet:flex tablet:flex-col tablet:gap-4">
         <FinancesCard
           title="Balanço"
           balance="positive"

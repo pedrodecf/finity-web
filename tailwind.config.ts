@@ -1,5 +1,8 @@
 import type { Config } from "tailwindcss";
 
+import containerQueries from "@tailwindcss/container-queries";
+const tailwindAnimate = require("tailwindcss-animate");
+
 export default {
   darkMode: ["class"],
   content: [
@@ -80,8 +83,5 @@ export default {
       },
     },
   },
-  plugins: [
-    require("tailwindcss-animate"),
-    require("@tailwindcss/container-queries"),
-  ],
+  plugins: [tailwindAnimate, containerQueries],
 } satisfies Config;

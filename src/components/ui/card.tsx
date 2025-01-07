@@ -8,7 +8,7 @@ const Card = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("rounded-lg bg-card text-card-foreground shadow", className)}
+    className={cn("rounded-lg bg-card text-card-foreground shadow-md", className)}
     {...props}
   />
 ));
@@ -71,10 +71,6 @@ const CardFooter = React.forwardRef<
 CardFooter.displayName = "CardFooter";
 
 export {
-  Card,
-  CardHeader,
-  CardFooter,
-  CardTitle,
-  CardDescription,
-  CardContent,
+  Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle
 };
+
