@@ -13,7 +13,9 @@ export function FinancesCard(props: FinancesCardProps) {
   return (
     <div className="p-6 w-full flex justify-between rounded-lg bg-card">
       <div className="flex flex-col gap-2">
-        <p className="text-sm text-sub">{props.title}</p>
+        <p className="text-sm text-sub font-medium leading-none tracking-tight">
+          {props.title}
+        </p>
         <div className="flex items-end gap-1">
           <span>R$</span>
           <h2 className="text-3xl font-semibold">{props.value}</h2>
