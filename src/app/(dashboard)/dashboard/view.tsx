@@ -1,6 +1,6 @@
-import { CategoriesChartDashboard } from "@/components/categories-chart-dashboard";
+import { CategoriesChartDashboard } from "@/components/charts/categories-chart-dashboard";
 import { FinancesCard } from "@/components/finances-card";
-import { FixedOrPersonalDashboard } from "@/components/fixed-or-personal-dashboard";
+import { BalanceChartDashboard } from "@/components/charts/balance-chart-dashboard";
 
 export default function DashboardView() {
   return (
@@ -25,16 +25,12 @@ export default function DashboardView() {
           value="1.200,00"
         />
       </div>
-      <div className="grid grid-cols-5 gap-6 w-full flex-1 h-full">
-        <div className="col-span-2 h-full">
-          <CategoriesChartDashboard />
+      <div className="grid grid-cols-5 gap-6 w-full flex-1 h-full overflow-hidden">
+        <CategoriesChartDashboard className="col-span-2 h-full overflow-y-auto" />
+        <div className="col-span-3 h-full gap-6 flex flex-col">
+          <BalanceChartDashboard />
         </div>
-        <div className="col-span-3 h-full">
-          <FixedOrPersonalDashboard />
-        </div>
-        <div className=""></div>
-        <div className=""></div>
-        <div className=""></div>
+        <div />
       </div>
     </>
   );

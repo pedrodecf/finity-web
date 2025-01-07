@@ -1,10 +1,9 @@
 "use client";
-import { TrendingUp } from "lucide-react";
+
 import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -28,7 +27,11 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function FixedOrPersonalDashboard() {
+type TBalanceChartDashboard = {
+  className?: string;
+};
+
+export function BalanceChartDashboard({ className }: TBalanceChartDashboard) {
   const totalExpenses = chartData[0].fixed + chartData[0].personal;
   const percentageFixed = Number(
     ((chartData[0].fixed / totalExpenses) * 100).toFixed(2)
@@ -37,28 +40,42 @@ export function FixedOrPersonalDashboard() {
     ((chartData[0].personal / totalExpenses) * 100).toFixed(2)
   );
   return (
-    <Card className="flex flex-col relative">
+    <Card className={cn("flex flex-col", className)}>
       <CardHeader className="pb-0">
-        <CardTitle className="text-sm text-sub font-medium leading-none tracking-tight">
-          Custos fixos X Gastos pessoais
+        <CardTitle className="text-sm text-sub font-semibold leading-none tracking-tight">
+          Balanço de custos
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-1 items-center pb-0">
+      <CardContent className="flex items-center justify-center mt-2 -mb-2">
+        {getPercentageExpenses({
+          personalColor: "bg-[#64CFF6]",
+          personalPercentage: percentagePersonal,
+          fixedColor: "bg-[#6359E9]",
+          fixedPercentage: percentageFixed,
+        })}
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square w-full max-w-[250px]"
+          className="mx-auto w-full max-w-[250px]"
         >
           <RadialBarChart
+            width={250}
+            height={125}
+            cy={100}
             data={chartData}
-            endAngle={180}
-            innerRadius={100}
-            outerRadius={160}
+            startAngle={180}
+            endAngle={0}
+            innerRadius={80}
+            outerRadius={120}
           >
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
+            <PolarRadiusAxis
+              tick={false}
+              axisLine={false}
+              className="flex items-center justify-center"
+            >
               <Label
                 content={({ viewBox }) => {
                   if (viewBox && "cx" in viewBox && "cy" in viewBox) {
@@ -102,14 +119,6 @@ export function FixedOrPersonalDashboard() {
           </RadialBarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm absolute bottom-0 left-0 right-0">
-        {getPercentageExpenses({
-          personalColor: "bg-[#64CFF6]",
-          personalPercentage: percentagePersonal,
-          fixedColor: "bg-[#6359E9]",
-          fixedPercentage: percentageFixed,
-        })}
-      </CardFooter>
     </Card>
   );
 
@@ -123,24 +132,7 @@ export function FixedOrPersonalDashboard() {
   function getPercentageExpenses(props: getPercentageExpensesProps) {
     return (
       <>
-        <div className="flex items-center justify-around w-full">
-          <div>
-            <div className="flex items-center gap-2">
-              <span
-                className={cn(
-                  "inline-block rounded-full h-3 w-3",
-                  props.personalColor
-                )}
-              />
-              <p>Gastos pessoais</p>
-            </div>
-            <div>
-              <p className="text-lg font-semibold">
-                {props.personalPercentage}%
-              </p>
-            </div>
-          </div>
-
+        <div className="flex flex-col justify-start items-start gap-4 w-full">
           <div>
             <div className="flex items-center gap-2">
               <span
@@ -149,10 +141,27 @@ export function FixedOrPersonalDashboard() {
                   props.fixedColor
                 )}
               />
-              <p>Custos fixos</p>
+              <p className="text-sub">Custos fixos</p>
             </div>
             <div>
               <p className="text-lg font-semibold">{props.fixedPercentage}%</p>
+            </div>
+          </div>
+
+          <div>
+            <div className="flex items-center gap-2">
+              <span
+                className={cn(
+                  "inline-block rounded-full h-3 w-3",
+                  props.personalColor
+                )}
+              />
+              <p className="text-sub">Gastos pessoais</p>
+            </div>
+            <div>
+              <p className="text-lg font-semibold">
+                {props.personalPercentage}%
+              </p>
             </div>
           </div>
         </div>

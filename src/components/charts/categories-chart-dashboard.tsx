@@ -16,7 +16,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { cn } from "@/lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const chartData = [
   { categories: "despesas", expenses: 255.59, fill: "var(--color-despesas)" },
@@ -54,11 +55,17 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function CategoriesChartDashboard() {
+type TCategoriesChartDashboard = {
+  className?: string;
+};
+
+export function CategoriesChartDashboard({
+  className,
+}: TCategoriesChartDashboard) {
   return (
-    <Card className="flex flex-col">
+    <Card className={cn("flex flex-col", className)}>
       <CardHeader className="pb-0 text-sub">
-        <CardTitle className="text-sm text-sub font-medium leading-none tracking-tight">
+        <CardTitle className="text-sm text-sub font-semibold leading-none tracking-tight">
           Gastos por categorias
         </CardTitle>
       </CardHeader>

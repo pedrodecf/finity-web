@@ -13,7 +13,7 @@ export function FinancesCard(props: FinancesCardProps) {
   return (
     <div className="p-6 w-full flex justify-between rounded-lg bg-card">
       <div className="flex flex-col gap-2">
-        <p className="text-sm text-sub font-medium leading-none tracking-tight">
+        <p className="text-sm text-sub font-semibold leading-none tracking-tight">
           {props.title}
         </p>
         <div className="flex items-end gap-1">
