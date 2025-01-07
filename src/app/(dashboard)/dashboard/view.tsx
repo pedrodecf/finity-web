@@ -1,5 +1,6 @@
 import { CategoriesChartDashboard } from "@/components/categories-chart-dashboard";
 import { FinancesCard } from "@/components/finances-card";
+import { FixedOrPersonalDashboard } from "@/components/fixed-or-personal-dashboard";
 
 export default function DashboardView() {
   return (
@@ -28,7 +29,9 @@ export default function DashboardView() {
         <div className="col-span-2 h-full">
           <CategoriesChartDashboard />
         </div>
-        <div className=""></div>
+        <div className="col-span-3 h-full">
+          <FixedOrPersonalDashboard />
+        </div>
         <div className=""></div>
         <div className=""></div>
         <div className=""></div>
