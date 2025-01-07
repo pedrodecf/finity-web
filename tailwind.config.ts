@@ -9,6 +9,13 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        mobile: { max: "639px" },
+        tablet: { max: "960px" },
+      },
+      boxShadow: {
+        left: "-3px 2px 10px -3px rgba(0, 0, 0, 0.20)",
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
@@ -73,5 +80,8 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@tailwindcss/container-queries"),
+  ],
 } satisfies Config;

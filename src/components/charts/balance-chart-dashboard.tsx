@@ -15,6 +15,10 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { cn } from "@/lib/utils";
+import { useEffect, useRef, useState } from "react";
+import { ResizeObserver } from "@juggle/resize-observer";
+import { useElementSize } from "@/hooks/use-element-size";
+
 const chartData = [{ fixed: 1260, personal: 570 }];
 const chartConfig = {
   fixed: {
@@ -32,6 +36,9 @@ type TBalanceChartDashboard = {
 };
 
 export function BalanceChartDashboard({ className }: TBalanceChartDashboard) {
+  const [cardContentRef, { width: cardContentWidth }] =
+    useElementSize<HTMLDivElement>();
+
   const totalExpenses = chartData[0].fixed + chartData[0].personal;
   const percentageFixed = Number(
     ((chartData[0].fixed / totalExpenses) * 100).toFixed(2)
@@ -39,6 +46,7 @@ export function BalanceChartDashboard({ className }: TBalanceChartDashboard) {
   const percentagePersonal = Number(
     ((chartData[0].personal / totalExpenses) * 100).toFixed(2)
   );
+
   return (
     <Card className={cn("flex flex-col", className)}>
       <CardHeader className="pb-0">
@@ -46,12 +54,20 @@ export function BalanceChartDashboard({ className }: TBalanceChartDashboard) {
           Balanço de custos
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex items-center justify-center mt-2 -mb-2">
+      <CardContent
+        ref={cardContentRef}
+        className={cn(
+          "flex items-center justify-center mt-2 -mb-2",
+          cardContentWidth < 427 && "flex-col-reverse"
+        )}
+      >
         {getPercentageExpenses({
           personalColor: "bg-[#64CFF6]",
           personalPercentage: percentagePersonal,
           fixedColor: "bg-[#6359E9]",
           fixedPercentage: percentageFixed,
+          isNarrow: cardContentWidth < 562,
+          isMobile: cardContentWidth < 427,
         })}
         <ChartContainer
           config={chartConfig}
@@ -127,12 +143,19 @@ export function BalanceChartDashboard({ className }: TBalanceChartDashboard) {
     personalPercentage: number;
     fixedColor: string;
     fixedPercentage: number;
+    isNarrow: boolean;
+    isMobile?: boolean;
   }
 
   function getPercentageExpenses(props: getPercentageExpensesProps) {
     return (
       <>
-        <div className="flex flex-col justify-start items-start gap-4 w-full">
+        <div
+          className={cn(
+            "flex gap-4 w-full justify-around",
+            props.isNarrow && !props.isMobile && "flex-col"
+          )}
+        >
           <div>
             <div className="flex items-center gap-2">
               <span
