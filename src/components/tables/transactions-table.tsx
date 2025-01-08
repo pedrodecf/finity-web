@@ -36,7 +36,7 @@ export function TransactionsTable<TData, TValue>({
 
   return (
     <div className="bg-card rounded-lg shadow-md overflow-y-auto">
-      <div className="px-6 py-5 flex items-center justify-between">
+      <div className="px-6 py-5 flex items-center justify-between mobile:pb-2">
         <h2 className="text-sm text-sub font-semibold leading-none tracking-tight">
           <Link
             href="/transacoes"
@@ -45,7 +45,7 @@ export function TransactionsTable<TData, TValue>({
             Resumo de transações
           </Link>
         </h2>
-        <div className="flex items-center text-xs text-sub justify-center gap-2 font-semibold border-[1.5px] rounded-lg py-2 px-4">
+        <div className="flex items-center text-xs text-sub justify-center gap-2 font-semibold border-[1.5px] rounded-lg py-2 px-4 mobile:py-1.5 mobile:px-2">
           <CalendarDaysIcon size={16} />
           01 Jan - 31 Jan
         </div>

@@ -10,18 +10,19 @@ export function ControllerDashboard() {
     "mesAtual"
   );
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex items-center gap-2 overflow-hidden">
-        <SidebarTrigger />
-        <div className="shrink-0 bg-sub w-[1px] mr-1 h-4"></div>
-        <h2 className="font-semibold text-xl truncate tracking-tight">
-          Bem-vindo, Pedro! &#128075;
+    <div className="flex flex-row gap-4 items-center justify-between tablet:flex-col">
+      <div className="flex items-center gap-2 overflow-hidden mobile:w-full justify-between">
+        <SidebarTrigger className="mobile:self-start" />
+        <div className="shrink-0 bg-sub w-[1px] mr-1 h-4 mobile:hidden" />
+        <h2 className="text-xl truncate tracking-tight text-center w-full">
+          Bem-vindo, <span className="font-bold">Pedro!</span> &#128075;
         </h2>
       </div>
-      <div className="flex items-center gap-4">
-        <div className="">
+      <div className="flex items-center gap-4 mobile:flex-col">
+        <div>
           <Button
             variant="outline"
+            size="sm"
             onClick={() => setSelectedButton("mesAtual")}
             className={`rounded-none rounded-tl-lg rounded-bl-lg ${
               selectedButton === "mesAtual"
@@ -33,6 +34,7 @@ export function ControllerDashboard() {
           </Button>
           <Button
             variant="outline"
+            size="sm"
             onClick={() => setSelectedButton("mesPassado")}
             className={`rounded-none ${
               selectedButton === "mesPassado"
@@ -44,6 +46,7 @@ export function ControllerDashboard() {
           </Button>
           <Button
             variant="outline"
+            size="sm"
             onClick={() => setSelectedButton("anoAtual")}
             className={`rounded-none rounded-tr-lg rounded-br-lg ${
               selectedButton === "anoAtual"
@@ -54,7 +57,7 @@ export function ControllerDashboard() {
             Ano atual
           </Button>
         </div>
-        <DatePicker />
+        <DatePicker size="sm" />
       </div>
     </div>
   );

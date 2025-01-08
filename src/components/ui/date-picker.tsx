@@ -8,13 +8,34 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { cva } from "class-variance-authority";
 
-export function DatePicker() {
+interface DatePickerProps {
+  size?: "default" | "sm" | "lg";
+}
+
+const datePickerVariants = cva(
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  {
+    variants: {
+      size: {
+        default: "h-9 px-4 py-2",
+        sm: "h-8 rounded-lg px-3 text-xs",
+        lg: "h-10 rounded-lg px-8",
+      },
+    },
+    defaultVariants: {
+      size: "default",
+    },
+  }
+);
+
+export function DatePicker({ size = "default" }: DatePickerProps) {
   const [date, setDate] = React.useState<Date>();
 
   return (
@@ -23,6 +44,7 @@ export function DatePicker() {
         <Button
           variant="outline"
           className={cn(
+            datePickerVariants({ size }),
             "justify-start text-left font-normal",
             !date && "text-muted-foreground"
           )}

@@ -37,7 +37,7 @@ export function BalanceChartDashboard({ className }: TBalanceChartDashboard) {
 
   return (
     <Card className={cn("flex flex-col", className)}>
-      <CardHeader className="pb-0">
+      <CardHeader className="pb-0 mobile:pb-2">
         <CardTitle className="text-sm text-sub font-semibold leading-none tracking-tight">
           Balanço de custos
         </CardTitle>
