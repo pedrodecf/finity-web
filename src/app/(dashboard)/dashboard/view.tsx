@@ -8,6 +8,10 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function DashboardView() {
   const data = fetchTransactions();
+  const orderedData = data.sort((a, b) => {
+    return new Date(b.data).getTime() - new Date(a.data).getTime();
+  });
+
   return (
     <>
       <div className="flex items-center justify-between">
@@ -43,7 +47,7 @@ export default function DashboardView() {
         <CategoriesChartDashboard className="col-span-2 h-full overflow-y-auto" />
         <div className="col-span-3 h-full gap-6 flex flex-col tablet:gap-4 overflow-hidden">
           <BalanceChartDashboard />
-          <TransactionsTable columns={transactionsColumns} data={data} />
+          <TransactionsTable columns={transactionsColumns} data={orderedData} />
         </div>
         <div />
       </div>

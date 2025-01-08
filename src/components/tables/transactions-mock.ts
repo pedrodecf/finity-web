@@ -12,7 +12,7 @@ export const fetchTransactions = (): TTransactions[] => {
         nome: "Alimentação",
         hex: "#9E77ED",
       },
-      data: new Date("2024-01-07"),
+      data: new Date("2024-01-03"),
     },
     {
       id: "2",
