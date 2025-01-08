@@ -14,6 +14,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { cn } from "@/lib/utils";
+import React from "react";
 import { Pie, PieChart } from "recharts";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
@@ -86,19 +87,20 @@ export function CategoriesChartDashboard({
           </PieChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm">
+      <CardFooter className="flex-col text-sm p-0">
         {chartData
           .sort((a, b) => b.expenses - a.expenses)
-          .map(({ categories, expenses }) => (
-            <>
+          .map(({ categories, expenses }, index) => (
+            <React.Fragment key={categories}>
               <CategoriesListDashboard
-                key={categories}
                 name={categories}
                 avatarUrl=""
                 percentage={Number(((expenses / allExpenses) * 100).toFixed(2))}
               />
-              <hr className="border-t w-full border-gray-200 opacity-10" />
-            </>
+              {index < chartData.length - 1 && (
+                <hr className="border-t w-full border-gray-200 opacity-10" />
+              )}
+            </React.Fragment>
           ))}
       </CardFooter>
     </Card>
@@ -117,7 +119,7 @@ export function CategoriesChartDashboard({
     };
 
     return (
-      <div className="flex flex-row justify-between items-center w-full py-1">
+      <div className="flex flex-row justify-between items-center w-full py-3 p-6">
         <div className="flex flex-row items-center gap-2 overflow-hidden">
           <Avatar className="w-8 h-8">
             <AvatarImage

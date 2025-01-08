@@ -1,9 +1,13 @@
+import { BalanceChartDashboard } from "@/components/charts/balance-chart-dashboard";
 import { CategoriesChartDashboard } from "@/components/charts/categories-chart-dashboard";
 import { FinancesCard } from "@/components/finances-card";
-import { BalanceChartDashboard } from "@/components/charts/balance-chart-dashboard";
+import { transactionsColumns } from "@/components/tables/transactions-columns";
+import { fetchTransactions } from "@/components/tables/transactions-mock";
+import { TransactionsTable } from "@/components/tables/transactions-table";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function DashboardView() {
+  const data = fetchTransactions();
   return (
     <>
       <div className="flex items-center justify-between">
@@ -37,8 +41,9 @@ export default function DashboardView() {
       </div>
       <div className="grid grid-cols-5 gap-6 w-full flex-1 h-full overflow-hidden tablet:flex tablet:flex-col tablet:overflow-auto tablet:gap-4">
         <CategoriesChartDashboard className="col-span-2 h-full overflow-y-auto" />
-        <div className="col-span-3 h-full gap-6 flex flex-col tablet:gap-4">
+        <div className="col-span-3 h-full gap-6 flex flex-col tablet:gap-4 overflow-hidden">
           <BalanceChartDashboard />
+          <TransactionsTable columns={transactionsColumns} data={data} />
         </div>
         <div />
       </div>
