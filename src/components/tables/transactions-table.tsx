@@ -16,6 +16,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { CalendarDaysIcon } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
 interface DataTableProps<TData, TValue> {
@@ -34,10 +35,15 @@ export function TransactionsTable<TData, TValue>({
   });
 
   return (
-    <div className="bg-card rounded-lg shadow-md h-full overflow-y-auto">
+    <div className="bg-card rounded-lg shadow-md overflow-y-auto">
       <div className="px-6 py-5 flex items-center justify-between">
         <h2 className="text-sm text-sub font-semibold leading-none tracking-tight">
-          Resumo de transações
+          <Link
+            href="/transacoes"
+            className="hover:text-primary transition-colors duration-300"
+          >
+            Resumo de transações
+          </Link>
         </h2>
         <div className="flex items-center text-xs text-sub justify-center gap-2 font-semibold border-[1.5px] rounded-lg py-2 px-4">
           <CalendarDaysIcon size={16} />

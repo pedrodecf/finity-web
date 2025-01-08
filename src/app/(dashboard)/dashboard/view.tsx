@@ -1,10 +1,10 @@
 import { BalanceChartDashboard } from "@/components/charts/balance-chart-dashboard";
 import { CategoriesChartDashboard } from "@/components/charts/categories-chart-dashboard";
+import { ControllerDashboard } from "@/components/controller-dashboard";
 import { FinancesCard } from "@/components/finances-card";
 import { transactionsColumns } from "@/components/tables/transactions-columns";
 import { fetchTransactions } from "@/components/tables/transactions-mock";
 import { TransactionsTable } from "@/components/tables/transactions-table";
-import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function DashboardView() {
   const data = fetchTransactions();
@@ -14,15 +14,7 @@ export default function DashboardView() {
 
   return (
     <>
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 overflow-hidden">
-          <SidebarTrigger />
-          <div className="shrink-0 bg-sub w-[1px] mr-1 h-4"></div>
-          <h2 className="font-semibold text-xl truncate">
-            Bem-vindo, Pedro! &#128075;
-          </h2>
-        </div>
-      </div>
+      <ControllerDashboard />
       <div className="grid grid-cols-3 gap-6 w-full  tablet:flex tablet:flex-col tablet:gap-4">
         <FinancesCard
           title="Balanço"

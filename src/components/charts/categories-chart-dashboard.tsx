@@ -14,6 +14,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 import React from "react";
 import { Pie, PieChart } from "recharts";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -64,8 +65,13 @@ export function CategoriesChartDashboard({
   return (
     <Card className={cn("flex flex-col", className)}>
       <CardHeader className="pb-0 text-sub">
-        <CardTitle className="text-sm text-sub font-semibold leading-none tracking-tight">
-          Gastos por categorias
+        <CardTitle className="text-sm text-sub font-semibold leading-none tracking-tight ">
+          <Link
+            href="/categorias"
+            className="hover:text-primary transition-colors duration-300"
+          >
+            Gastos por categorias
+          </Link>
         </CardTitle>
       </CardHeader>
       <CardContent className="flex-1 pb-0">

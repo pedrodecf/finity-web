@@ -61,8 +61,8 @@ export function BalanceChartDashboard({ className }: TBalanceChartDashboard) {
               data={chartData}
               startAngle={180}
               endAngle={0}
-              innerRadius={80}
-              outerRadius={120}
+              innerRadius={90}
+              outerRadius={140}
             >
               <ChartTooltip
                 cursor={false}
@@ -76,22 +76,29 @@ export function BalanceChartDashboard({ className }: TBalanceChartDashboard) {
                 <Label
                   content={({ viewBox }) => {
                     if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                      const text = checkExpenseBalance(percentagePersonal, 45);
+                      const lines = text.split("\n");
+
                       return (
                         <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
+                          {lines.map((line, index) => (
+                            <tspan
+                              key={index}
+                              x={viewBox.cx}
+                              y={(viewBox.cy || 0) - 36}
+                              dy={index === 0 ? 0 : "1.2em"}
+                              className="fill-foreground text-lg font-bold tracking-tight truncate"
+                            >
+                              {line}
+                            </tspan>
+                          ))}
+
                           <tspan
                             x={viewBox.cx}
-                            y={(viewBox.cy || 0) - 16}
-                            className="fill-foreground text-2xl font-bold"
-                          >
-                            <tspan className="text-xs">R$</tspan>
-                            {totalExpenses.toLocaleString()}
-                          </tspan>
-                          <tspan
-                            x={viewBox.cx}
-                            y={(viewBox.cy || 0) + 4}
+                            dy="1.4em"
                             className="fill-muted-foreground"
                           >
-                            Despesas
+                            Indicador
                           </tspan>
                         </text>
                       );
@@ -165,5 +172,53 @@ export function BalanceChartDashboard({ className }: TBalanceChartDashboard) {
         </div>
       </>
     );
+  }
+
+  function checkExpenseBalance(personalSpending: number, goal: number): string {
+    if (
+      personalSpending < 0 ||
+      personalSpending > 100 ||
+      goal < 0 ||
+      goal > 100
+    ) {
+      throw new Error("Valores devem estar entre 0 e 100.");
+    }
+
+    const difference = personalSpending - goal;
+    let indicator: string;
+
+    switch (true) {
+      case Math.abs(difference) <= 5:
+        indicator = "Equilíbrio perfeito";
+        break;
+      case difference > 5 && difference <= 10:
+        indicator = "Gastos leves";
+        break;
+      case difference > 10 && difference <= 15:
+        indicator = "Gastos moderados";
+        break;
+      case difference > 15 && difference <= 20:
+        indicator = "Gastos altos";
+        break;
+      case difference > 20:
+        indicator = "Gastos excessivos";
+        break;
+      case difference < -5 && Math.abs(difference) <= 10:
+        indicator = "Custos leves";
+        break;
+      case difference < -10 && Math.abs(difference) <= 15:
+        indicator = "Custos moderados";
+        break;
+      case difference < -15 && Math.abs(difference) <= 20:
+        indicator = "Custos altos";
+        break;
+      case difference < -20:
+        indicator = "Custos excessivos";
+        break;
+      default:
+        indicator = "Indefinido";
+    }
+
+    return indicator.split(" ").join("\n");
   }
 }
