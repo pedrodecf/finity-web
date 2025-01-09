@@ -4,17 +4,15 @@ import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { Label } from "./label";
 
-type InputProps<T> = React.InputHTMLAttributes<HTMLInputElement> & {
-  label?: string;
-  helperText?: string;
-  name: Path<T extends FieldValues ? T : Record<string, unknown>>;
-  control: Control<
-    T extends FieldValues ? T : Record<string, unknown>,
-    unknown
-  >;
-};
+type InputProps<T extends FieldValues> =
+  React.InputHTMLAttributes<HTMLInputElement> & {
+    label?: string;
+    helperText?: string;
+    name: Path<T>;
+    control: Control<T, unknown>;
+  };
 
-export const Input = <T extends unknown>({
+export const Input = <T extends FieldValues>({
   label,
   helperText,
   name,
@@ -36,7 +34,7 @@ export const Input = <T extends unknown>({
         <Controller
           name={name!}
           control={control}
-          render={({ field: { ref, value, onChange, ...field } }) => (
+          render={({ field: { ref, onChange, ...field } }) => (
             <input
               id={inputId}
               onChange={(e) => onChange(e.target.value)}
