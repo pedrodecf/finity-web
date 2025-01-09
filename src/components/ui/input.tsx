@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { Label } from "./label";
 
 type InputProps<T extends FieldValues> =
-  React.InputHTMLAttributes<HTMLInputElement> & {
+  React.InputHTMLAttributes<HTMLInputElement> & React.RefAttributes<HTMLInputElement> &{
     label?: string;
     helperText?: string;
     name: Path<T>;
