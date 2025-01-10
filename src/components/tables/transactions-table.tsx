@@ -4,6 +4,7 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -15,9 +16,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CalendarDaysIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import { Button } from "../ui/button";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -32,10 +33,16 @@ export function TransactionsTable<TData, TValue>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    initialState: {
+      pagination: {
+        pageSize: 4,
+      },
+    },
   });
 
   return (
-    <div className="bg-card rounded-lg shadow-md overflow-y-auto">
+    <div className="bg-card rounded-lg shadow-md overflow-y-auto h-full">
       <div className="px-6 py-5 flex items-center justify-between mobile:pb-2">
         <h2 className="text-sm text-sub font-semibold leading-none tracking-tight">
           <Link
@@ -45,9 +52,23 @@ export function TransactionsTable<TData, TValue>({
             Resumo de transações
           </Link>
         </h2>
-        <div className="flex items-center text-xs text-sub justify-center gap-2 font-semibold border-[1.5px] rounded-lg py-2 px-4 mobile:py-1.5 mobile:px-2">
-          <CalendarDaysIcon size={16} />
-          01 Jan - 31 Jan
+        <div className="flex items-center justify-end space-x-2 ">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Anterior
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Próxima
+          </Button>
         </div>
       </div>
 
