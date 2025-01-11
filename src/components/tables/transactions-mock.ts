@@ -6,6 +6,7 @@ export const fetchTransactions = (): TTransactions[] => {
       id: "1",
       valor: 150.75,
       tipo: "Saida",
+      custoFixo: true,
       descricao: "Compra de supermercado Jaú Serve de Ribeirão Preto",
       categoria: {
         avatar: "Beef",
@@ -18,6 +19,7 @@ export const fetchTransactions = (): TTransactions[] => {
       id: "2",
       valor: 0.99,
       tipo: "Saida",
+      custoFixo: true,
       descricao: "Compra de aplicativo",
       categoria: {
         avatar: "TvMinimalPlay",
@@ -30,6 +32,7 @@ export const fetchTransactions = (): TTransactions[] => {
       id: "3",
       valor: 14.99,
       tipo: "Entrada",
+      custoFixo: true,
       descricao: "Jogo do bicho",
       categoria: {
         avatar: "CircleDollarSign",
@@ -42,6 +45,7 @@ export const fetchTransactions = (): TTransactions[] => {
       id: "4",
       valor: 50,
       tipo: "Saida",
+      custoFixo: true,
       descricao: "Gasolina",
       categoria: {
         avatar: "CarFront",
@@ -54,6 +58,7 @@ export const fetchTransactions = (): TTransactions[] => {
       id: "5",
       valor: 5000,
       tipo: "Entrada",
+      custoFixo: true,
       descricao: "Salario",
       categoria: {
         avatar: "CircleDollarSign",
@@ -66,6 +71,7 @@ export const fetchTransactions = (): TTransactions[] => {
       id: "6",
       valor: 95.0,
       tipo: "Saida",
+      custoFixo: true,
       descricao: "Compra de materiais de construção",
       categoria: {
         avatar: "Home",
@@ -78,6 +84,7 @@ export const fetchTransactions = (): TTransactions[] => {
       id: "7",
       valor: 250.0,
       tipo: "Saida",
+      custoFixo: true,
       descricao: "Vacina e ração do pet",
       categoria: {
         avatar: "Dog",
@@ -90,6 +97,7 @@ export const fetchTransactions = (): TTransactions[] => {
       id: "8",
       valor: 120.5,
       tipo: "Saida",
+      custoFixo: true,
       descricao: "Compra de roupas",
       categoria: {
         avatar: "Shirt",
@@ -102,6 +110,7 @@ export const fetchTransactions = (): TTransactions[] => {
       id: "9",
       valor: 100.0,
       tipo: "Saida",
+      custoFixo: true,
       descricao: "Cinema com amigos",
       categoria: {
         avatar: "Music2",
@@ -114,6 +123,7 @@ export const fetchTransactions = (): TTransactions[] => {
       id: "10",
       valor: 300.0,
       tipo: "Saida",
+      custoFixo: true,
       descricao: "Curso de inglês",
       categoria: {
         avatar: "Book",
@@ -126,9 +136,10 @@ export const fetchTransactions = (): TTransactions[] => {
       id: "11",
       valor: 35.5,
       tipo: "Saida",
+      custoFixo: true,
       descricao: "Pizzaria com amigos",
       categoria: {
-        avatar: "Beef", // Alimentação
+        avatar: "Beef",
         nome: "Alimentação",
         hex: "#9E77ED",
       },
@@ -138,9 +149,10 @@ export const fetchTransactions = (): TTransactions[] => {
       id: "12",
       valor: 250.0,
       tipo: "Entrada",
+      custoFixo: true,
       descricao: "Pagamento pela venda de peças de computador",
       categoria: {
-        avatar: "CircleDollarSign", // Outros
+        avatar: "CircleDollarSign",
         nome: "Outros",
         hex: "#0BA5EC",
       },
@@ -150,9 +162,10 @@ export const fetchTransactions = (): TTransactions[] => {
       id: "13",
       valor: 7.99,
       tipo: "Saida",
+      custoFixo: true,
       descricao: "Assinatura de canal de esportes",
       categoria: {
-        avatar: "TvMinimalPlay", // Streaming
+        avatar: "TvMinimalPlay",
         nome: "Streaming",
         hex: "#F04438",
       },
@@ -162,9 +175,10 @@ export const fetchTransactions = (): TTransactions[] => {
       id: "14",
       valor: 15.0,
       tipo: "Saida",
+      custoFixo: true,
       descricao: "Lavagem do carro",
       categoria: {
-        avatar: "CarFront", // Transporte
+        avatar: "CarFront",
         nome: "Transporte",
         hex: "#17B26A",
       },
@@ -174,9 +188,10 @@ export const fetchTransactions = (): TTransactions[] => {
       id: "15",
       valor: 120.0,
       tipo: "Entrada",
+      custoFixo: true,
       descricao: "Reembolso de despesas médicas",
       categoria: {
-        avatar: "CircleDollarSign", // Outros
+        avatar: "CircleDollarSign",
         nome: "Outros",
         hex: "#0BA5EC",
       },
@@ -186,9 +201,10 @@ export const fetchTransactions = (): TTransactions[] => {
       id: "16",
       valor: 200.0,
       tipo: "Saida",
+      custoFixo: true,
       descricao: "Reparos elétricos na residência",
       categoria: {
-        avatar: "Home", // Casa
+        avatar: "Home",
         nome: "Casa",
         hex: "#8E44AD",
       },
@@ -198,9 +214,10 @@ export const fetchTransactions = (): TTransactions[] => {
       id: "17",
       valor: 60.0,
       tipo: "Saida",
+      custoFixo: true,
       descricao: "Vacina anual do pet",
       categoria: {
-        avatar: "Dog", // Pet
+        avatar: "Dog",
         nome: "Pet",
         hex: "#E67E22",
       },
@@ -210,9 +227,10 @@ export const fetchTransactions = (): TTransactions[] => {
       id: "18",
       valor: 80.0,
       tipo: "Saida",
+      custoFixo: false,
       descricao: "Presente de aniversário",
       categoria: {
-        avatar: "Shirt", // Roupas (vou simular compra de presente de roupa)
+        avatar: "Shirt",
         nome: "Roupas",
         hex: "#2ECC71",
       },
@@ -222,9 +240,10 @@ export const fetchTransactions = (): TTransactions[] => {
       id: "19",
       valor: 50.0,
       tipo: "Entrada",
+      custoFixo: false,
       descricao: "Dinheiro devolvido por amigo",
       categoria: {
-        avatar: "CircleDollarSign", // Outros
+        avatar: "CircleDollarSign",
         nome: "Outros",
         hex: "#0BA5EC",
       },
@@ -234,9 +253,10 @@ export const fetchTransactions = (): TTransactions[] => {
       id: "20",
       valor: 45.0,
       tipo: "Saida",
+      custoFixo: false,
       descricao: "Bilhar e jogos no bar",
       categoria: {
-        avatar: "Music2", // Lazer
+        avatar: "Music2",
         nome: "Lazer",
         hex: "#3498DB",
       },
@@ -246,9 +266,10 @@ export const fetchTransactions = (): TTransactions[] => {
       id: "21",
       valor: 300.0,
       tipo: "Saida",
+      custoFixo: false,
       descricao: "Matrícula em curso de fotografia",
       categoria: {
-        avatar: "Book", // Educação
+        avatar: "Book",
         nome: "Educação",
         hex: "#F1C40F",
       },
@@ -258,9 +279,10 @@ export const fetchTransactions = (): TTransactions[] => {
       id: "22",
       valor: 55.0,
       tipo: "Saida",
+      custoFixo: false,
       descricao: "Almoço de domingo",
       categoria: {
-        avatar: "Beef", // Alimentação
+        avatar: "Beef",
         nome: "Alimentação",
         hex: "#9E77ED",
       },
@@ -270,9 +292,10 @@ export const fetchTransactions = (): TTransactions[] => {
       id: "23",
       valor: 119.9,
       tipo: "Saida",
+      custoFixo: false,
       descricao: "Troca de pneus do carro (parte da mão de obra)",
       categoria: {
-        avatar: "CarFront", // Transporte
+        avatar: "CarFront",
         nome: "Transporte",
         hex: "#17B26A",
       },
@@ -282,9 +305,10 @@ export const fetchTransactions = (): TTransactions[] => {
       id: "24",
       valor: 3999.0,
       tipo: "Entrada",
+      custoFixo: false,
       descricao: "Ajuste salarial",
       categoria: {
-        avatar: "CircleDollarSign", // Outros
+        avatar: "CircleDollarSign",
         nome: "Outros",
         hex: "#0BA5EC",
       },
@@ -294,9 +318,10 @@ export const fetchTransactions = (): TTransactions[] => {
       id: "25",
       valor: 320.0,
       tipo: "Saida",
+      custoFixo: false,
       descricao: "Roupas de inverno",
       categoria: {
-        avatar: "Shirt", // Roupas
+        avatar: "Shirt",
         nome: "Roupas",
         hex: "#2ECC71",
       },

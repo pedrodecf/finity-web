@@ -1,8 +1,8 @@
 "use client";
 
-import { formatDateToBR } from "@/lib/format-date-br";
-import { formatToBRL } from "@/lib/format-to-brl";
-import { getFirstLetter } from "@/lib/get-first-letter";
+import { formatDateToBR } from "@/lib/formatters/format-date-br";
+import { formatToBRL } from "@/lib/formatters/format-to-brl";
+import { getFirstLetter } from "@/lib/getters/get-first-letter";
 import { ColumnDef } from "@tanstack/react-table";
 import * as LucideIcons from "lucide-react";
 import {
@@ -16,6 +16,7 @@ export type TTransactions = {
   id: string;
   valor: number;
   tipo: "Entrada" | "Saida";
+  custoFixo: boolean;
   descricao: string;
   categoria: {
     nome: string;
@@ -87,7 +88,13 @@ export const transactionsColumns: ColumnDef<TTransactions>[] = [
     accessorKey: "valor",
     header: "Valor",
     cell: ({ row }) => {
-      return <p className="font-semibold">{formatToBRL(row.original.valor)}</p>;
+      return (
+        <p className="font-semibold">
+          {formatToBRL({
+            value: row.original.valor,
+          })}
+        </p>
+      );
     },
   },
   {

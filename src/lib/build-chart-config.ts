@@ -1,6 +1,6 @@
 import { ChartConfig } from "@/components/ui/chart";
 import * as LucideIcons from "lucide-react";
-import { TCategoryExpense } from "./get-expenses-by-categories";
+import { TCategoryExpense } from "./getters/get-expenses-by-categories";
 
 export function buildChartConfig(chartData: TCategoryExpense[]) {
   const baseChartConfig = {} as const;

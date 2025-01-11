@@ -7,10 +7,11 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { getBalance } from "@/lib/getters/get-balance";
 import { cn } from "@/lib/utils";
 import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
+import { TTransactions } from "../tables/transactions-columns";
 
-const chartData = [{ fixed: 1260, personal: 570 }];
 const chartConfig = {
   fixed: {
     label: "Fixos",
@@ -24,19 +25,27 @@ const chartConfig = {
 
 type TBalanceChartDashboard = {
   className?: string;
+  transacoes: TTransactions[];
 };
 
-export function BalanceChartDashboard({ className }: TBalanceChartDashboard) {
+export function BalanceChartDashboard({
+  className,
+  transacoes,
+}: TBalanceChartDashboard) {
+  const chartData = getBalance(transacoes);
+
   const totalExpenses = chartData[0].fixed + chartData[0].personal;
+
   const percentageFixed = Number(
     ((chartData[0].fixed / totalExpenses) * 100).toFixed(2)
   );
+
   const percentagePersonal = Number(
     ((chartData[0].personal / totalExpenses) * 100).toFixed(2)
   );
 
   return (
-    <Card className={cn("flex flex-col", className)}>
+    <Card className={cn("flex flex-col ", className)}>
       <CardHeader className="pb-0 mobile:pb-2">
         <CardTitle className="text-sm text-sub font-semibold leading-none tracking-tight">
           Balanço de custos

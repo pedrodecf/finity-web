@@ -5,9 +5,10 @@ import { ArrowDown, ArrowUp } from "lucide-react";
 
 interface FinancesCardProps {
   title: string;
+  titleIcon?: React.ReactNode;
   value: string;
-  percentage: string;
-  balance: "positive" | "negative" | "neutral";
+  percentage?: string;
+  balance?: "positive" | "negative" | "neutral";
 }
 
 export function FinancesCard(props: FinancesCardProps) {
@@ -17,8 +18,9 @@ export function FinancesCard(props: FinancesCardProps) {
   return (
     <div className="@container/fin p-6 w-full flex justify-between rounded-lg bg-card overflow-hidden shadow-md">
       <div className="flex flex-col gap-2">
-        <p className="text-sm text-sub font-semibold leading-none tracking-tight">
+        <p className="text-sm text-sub font-semibold leading-none tracking-tight flex items-center gap-2">
           {props.title}
+          {props.titleIcon}
         </p>
         <div className="flex items-end gap-1 ">
           <span>R$</span>

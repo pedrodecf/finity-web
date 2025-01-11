@@ -13,29 +13,32 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { buildChartConfig } from "@/lib/build-chart-config";
-import { getExpensesByCategories } from "@/lib/get-expenses-by-categories";
-import { getFirstLetter } from "@/lib/get-first-letter";
+import { getExpensesByCategories } from "@/lib/getters/get-expenses-by-categories";
+import { getFirstLetter } from "@/lib/getters/get-first-letter";
 import { cn } from "@/lib/utils";
 import * as LucideIcons from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { Pie, PieChart } from "recharts";
-import { fetchTransactions } from "../tables/transactions-mock";
-
-const transactions = fetchTransactions();
-const chartData = getExpensesByCategories(transactions);
-const allExpenses = chartData.reduce((acc, { expenses }) => acc + expenses, 0);
-const chartConfig = buildChartConfig(chartData);
+import { TTransactions } from "../tables/transactions-columns";
 
 type TCategoriesChartDashboard = {
   className?: string;
+  transacoes: TTransactions[];
 };
 
 export function CategoriesChartDashboard({
   className,
+  transacoes,
 }: TCategoriesChartDashboard) {
+  const chartData = getExpensesByCategories(transacoes);
+  const allExpenses = chartData.reduce(
+    (acc, { expenses }) => acc + expenses,
+    0
+  );
+  const chartConfig = buildChartConfig(chartData);
   return (
-    <Card className={cn("flex flex-col", className)}>
+    <Card className={cn("flex flex-col col-span-2 overflow-y-auto", className)}>
       <CardHeader className="pb-0 text-sub">
         <CardTitle className="text-sm text-sub font-semibold leading-none tracking-tight ">
           <Link

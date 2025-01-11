@@ -36,7 +36,7 @@ export function TransactionsTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     initialState: {
       pagination: {
-        pageSize: 4,
+        pageSize: 7,
       },
     },
   });

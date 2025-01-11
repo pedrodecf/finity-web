@@ -11,7 +11,7 @@ import {
   SidebarMenuItem,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
-import { Logo } from "@/lib/get-logo-theme";
+import { Logo } from "@/lib/getters/get-logo-theme";
 import { ChartSpline, Layers2, LayoutDashboard, Sun } from "lucide-react";
 import { ToggleTheme } from "./toggle-theme";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
