@@ -5,7 +5,11 @@ import { Button } from "./ui/button";
 import { DatePicker } from "./ui/date-picker";
 import { SidebarTrigger } from "./ui/sidebar";
 
-export function ControllerDashboard() {
+type TControllerDashboard = {
+  userName: string;
+};
+
+export function ControllerDashboard({ userName }: TControllerDashboard) {
   const [selectedButton, setSelectedButton] = useState<string | null>(
     "mesAtual"
   );
@@ -15,7 +19,7 @@ export function ControllerDashboard() {
         <SidebarTrigger className="mobile:self-start" />
         <div className="shrink-0 bg-sub w-[1px] mr-1 h-4 mobile:hidden" />
         <h2 className="text-xl truncate tracking-tight text-center w-full">
-          Bem-vindo, <span className="font-bold">Pedro!</span> &#128075;
+          Bem-vindo, <span className="font-bold">{userName}!</span> &#128075;
         </h2>
       </div>
       <div className="flex items-center gap-4 mobile:flex-col">

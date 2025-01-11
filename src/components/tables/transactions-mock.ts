@@ -316,7 +316,7 @@ export const fetchTransactions = (): TTransactions[] => {
     },
     {
       id: "25",
-      valor: 320.0,
+      valor: 12320.0,
       tipo: "Saida",
       custoFixo: false,
       descricao: "Roupas de inverno",

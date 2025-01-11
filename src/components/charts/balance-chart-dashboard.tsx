@@ -26,11 +26,13 @@ const chartConfig = {
 type TBalanceChartDashboard = {
   className?: string;
   transacoes: TTransactions[];
+  userGastosPorcetagemMeta: number;
 };
 
 export function BalanceChartDashboard({
   className,
   transacoes,
+  userGastosPorcetagemMeta,
 }: TBalanceChartDashboard) {
   const chartData = getBalance(transacoes);
 
@@ -85,7 +87,10 @@ export function BalanceChartDashboard({
                 <Label
                   content={({ viewBox }) => {
                     if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                      const text = checkExpenseBalance(percentagePersonal, 45);
+                      const text = checkExpenseBalance(
+                        percentagePersonal,
+                        userGastosPorcetagemMeta
+                      );
                       const lines = text.split("\n");
 
                       return (
@@ -192,9 +197,11 @@ export function BalanceChartDashboard({
     ) {
       throw new Error("Valores devem estar entre 0 e 100.");
     }
+    
 
     const difference = personalSpending - goal;
     let indicator: string;
+    console.log(difference)
 
     switch (true) {
       case Math.abs(difference) <= 5:
@@ -212,17 +219,11 @@ export function BalanceChartDashboard({
       case difference > 20:
         indicator = "Gastos excessivos";
         break;
-      case difference < -5 && Math.abs(difference) <= 10:
-        indicator = "Custos leves";
+      case difference < -5 && difference >= -49:
+        indicator = "Poucos gastos";
         break;
-      case difference < -10 && Math.abs(difference) <= 15:
-        indicator = "Custos moderados";
-        break;
-      case difference < -15 && Math.abs(difference) <= 20:
-        indicator = "Custos altos";
-        break;
-      case difference < -20:
-        indicator = "Custos excessivos";
+      case difference === -50:
+        indicator = "Nenhum gasto";
         break;
       default:
         indicator = "Indefinido";
