@@ -8,7 +8,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "./ui/tooltip";
+} from "./ui/native/tooltip";
 
 interface FinancesCardProps {
   title: string;

@@ -1,14 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { formatDateToBR } from "@/lib/formatters/format-date-br";
 import { formatToBRL } from "@/lib/formatters/format-to-brl";
 import { getFirstLetter } from "@/lib/getters/get-first-letter";
@@ -21,14 +14,13 @@ import {
   ArrowDownNarrowWide,
   ArrowDownWideNarrow,
   ArrowDownZA,
-  MoreHorizontal,
 } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../../ui/tooltip";
+} from "../../ui/native/tooltip";
 import { TTransactions } from "../type";
 
 export const transactionsColumnsComplete: ColumnDef<TTransactions>[] = [
@@ -63,7 +55,7 @@ export const transactionsColumnsComplete: ColumnDef<TTransactions>[] = [
             <Tooltip>
               <TooltipTrigger>
                 <div
-                  className="flex items-center justify-center w-7 h-7 rounded-full"
+                  className="flex items-center justify-center w-7 h-7 rounded-full cursor-default"
                   style={{ backgroundColor: row.original.categoria.hex }}
                 >
                   {IconComponent ? (
@@ -78,23 +70,7 @@ export const transactionsColumnsComplete: ColumnDef<TTransactions>[] = [
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          <p>
-            {descricao.length > 25 ? (
-              <TooltipProvider delayDuration={0}>
-                <Tooltip>
-                  <TooltipTrigger className="cursor-default text-left">
-                    {descricao.substring(0, 25)}
-                    <span className="text-[9px]">...</span>
-                  </TooltipTrigger>
-                  <TooltipContent className="bg-white text-black">
-                    {descricao}
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            ) : (
-              descricao
-            )}
-          </p>
+          <p className="truncate">{descricao}</p>
         </div>
       );
     },
@@ -120,7 +96,9 @@ export const transactionsColumnsComplete: ColumnDef<TTransactions>[] = [
       );
     },
     cell: ({ row }) => {
-      return <p className="text-sm">{formatDateToBR(row.original.data)}</p>;
+      return (
+        <p className="text-sm text-sub">{formatDateToBR(row.original.data)}</p>
+      );
     },
   },
   {
@@ -174,42 +152,48 @@ export const transactionsColumnsComplete: ColumnDef<TTransactions>[] = [
       );
     },
     cell: ({ row }) => {
+      const isEntrada = row.original.tipo === "Entrada";
+
       return (
-        <p
-          className={`text-sm ${
-            row.original.tipo === "Entrada" ? "text-success" : "text-warning"
-          }`}
-        >
-          {row.original.tipo}
-        </p>
+        <div className="flex items-center gap-2">
+          {isEntrada ? (
+            <div className="text-success flex items-center gap-2">
+              <LucideIcons.ArrowUp size={16} />
+              <p className={`text-sm font-normal`}>{row.original.tipo}</p>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <LucideIcons.ArrowDown size={16} />
+              <p className={`text-sm font-normal`}>{row.original.tipo}</p>
+            </div>
+          )}
+        </div>
       );
     },
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
-
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex items-center justify-end gap-3">
+          <Dialog>
+            <DialogTrigger>
+              <LucideIcons.Pencil
+                className="text-sub hover:text-foreground transition-all"
+                size={20}
+              />
+            </DialogTrigger>
+          </Dialog>
+
+          <Dialog>
+            <DialogTrigger>
+              <LucideIcons.Trash2
+                className="text-sub hover:text-foreground transition-all"
+                size={20}
+              />
+            </DialogTrigger>
+          </Dialog>
+        </div>
       );
     },
   },

@@ -1,32 +1,50 @@
-"use client";
-
-import * as TooltipPrimitive from "@radix-ui/react-tooltip";
-import * as React from "react";
-
 import { cn } from "@/lib/utils";
+import { TooltipArrow } from "@radix-ui/react-tooltip";
+import { ButtonHTMLAttributes, JSX, ReactNode } from "react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./native/tooltip";
 
-const TooltipProvider = TooltipPrimitive.Provider;
+type Side = "top" | "bottom" | "left" | "right";
 
-const Tooltip = TooltipPrimitive.Root;
+type ToolTipProps = {
+  text?: string;
+  formattedText?: JSX.Element;
+  side?: Side;
+  asChild?: boolean;
+  children: ReactNode;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
 
-const TooltipTrigger = TooltipPrimitive.Trigger;
+export default function ToolTip({
+  text,
+  formattedText,
+  children,
+  side = "top",
+  disabled = false,
+  asChild = false,
+  className,
+  ...props
+}: ToolTipProps) {
+  return (
+    <TooltipProvider disableHoverableContent={false} delayDuration={0}>
+      <Tooltip>
+        <TooltipTrigger
+          disabled={disabled}
+          asChild={asChild}
+          className={cn("disabled:opacity-40 cursor-pointer", className)}
+          {...props}
+        >
+          {children}
+        </TooltipTrigger>
+        <TooltipContent side={side} className="border-0 bg-white text-light-0">
+          {formattedText ? formattedText : <p className="text-black">{text}</p>}
 
-const TooltipContent = React.forwardRef<
-  React.ElementRef<typeof TooltipPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
->(({ className, sideOffset = 4, ...props }, ref) => (
-  <TooltipPrimitive.Portal>
-    <TooltipPrimitive.Content
-      ref={ref}
-      sideOffset={sideOffset}
-      className={cn(
-        "z-50 overflow-hidden rounded-md bg-card px-3 py-1.5 text-xs text-primary-foreground animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 shadow",
-        className
-      )}
-      {...props}
-    />
-  </TooltipPrimitive.Portal>
-));
-TooltipContent.displayName = TooltipPrimitive.Content.displayName;
-
-export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger };
+          <TooltipArrow className="fill-white group:data-[state=delayed-open]:animate-in group:data-[state=instant-open]:animate-in group:data-[state=closed]:animate-out" />
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+}

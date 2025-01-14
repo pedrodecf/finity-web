@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  ColumnDef,
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
@@ -18,8 +17,8 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import React from "react";
-import { Button } from "../../ui/button";
 import { DataTableProps } from "../type";
+import { DataTablePagination } from "./pagination";
 
 export function TransactionsTable<TData, TValue>({
   columns,
@@ -32,7 +31,7 @@ export function TransactionsTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     initialState: {
       pagination: {
-        pageSize: 7,
+        pageSize: 6,
       },
     },
   });
@@ -49,26 +48,11 @@ export function TransactionsTable<TData, TValue>({
           </Link>
         </h2>
         <div className="flex items-center justify-end space-x-2 ">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Anterior
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Próxima
-          </Button>
+          <DataTablePagination table={table} />
         </div>
       </div>
 
-      <Table>
+      <Table className="table-fixed w-full h-ull">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -78,9 +62,13 @@ export function TransactionsTable<TData, TValue>({
                     key={header.id}
                     className={`bg-card ${
                       header.index === 0
-                        ? "rounded-tl-lg"
+                        ? "rounded-tl-lg w-[50%]"
                         : header.index === headerGroup.headers.length - 1
-                        ? "rounded-tr-lg"
+                        ? "rounded-tr-lg w-[25%]"
+                        : header.index === 1
+                        ? "w-[25%]"
+                        : header.index === 2
+                        ? "w-[25%]"
                         : ""
                     }`}
                   >
@@ -102,7 +90,10 @@ export function TransactionsTable<TData, TValue>({
               <React.Fragment key={row.id}>
                 <TableRow data-state={row.getIsSelected() && "selected"}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="py-3 bg-card">
+                    <TableCell
+                      key={cell.id}
+                      className="py-3.5 bg-card whitespace-nowrap overflow-hidden text-ellipsis"
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -123,7 +114,7 @@ export function TransactionsTable<TData, TValue>({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                Sem resultados.
               </TableCell>
             </TableRow>
           )}

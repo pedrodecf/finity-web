@@ -10,7 +10,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../../ui/tooltip";
+} from "../../ui/native/tooltip";
 import { TTransactions } from "../type";
 
 export const transactionsColumns: ColumnDef<TTransactions>[] = [
@@ -28,7 +28,7 @@ export const transactionsColumns: ColumnDef<TTransactions>[] = [
             <Tooltip>
               <TooltipTrigger>
                 <div
-                  className="flex items-center justify-center w-7 h-7 rounded-full"
+                  className="flex items-center justify-center w-7 h-7 rounded-full cursor-default"
                   style={{ backgroundColor: row.original.categoria.hex }}
                 >
                   {IconComponent ? (
@@ -43,23 +43,8 @@ export const transactionsColumns: ColumnDef<TTransactions>[] = [
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          <p>
-            {descricao.length > 25 ? (
-              <TooltipProvider delayDuration={0}>
-                <Tooltip>
-                  <TooltipTrigger className="cursor-default text-left">
-                    {descricao.substring(0, 25)}
-                    <span className="text-[9px]">...</span>
-                  </TooltipTrigger>
-                  <TooltipContent className="bg-white text-black">
-                    {descricao}
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            ) : (
-              descricao
-            )}
-          </p>
+
+          <p className="truncate">{descricao}</p>
         </div>
       );
     },
@@ -68,34 +53,41 @@ export const transactionsColumns: ColumnDef<TTransactions>[] = [
     accessorKey: "data",
     header: "Data",
     cell: ({ row }) => {
-      return <p className="text-sm">{formatDateToBR(row.original.data)}</p>;
+      return (
+        <p className="text-sm text-sub">{formatDateToBR(row.original.data)}</p>
+      );
     },
   },
   {
     accessorKey: "valor",
     header: "Valor",
     cell: ({ row }) => {
+      const isEntrada = row.original.tipo === "Entrada";
+
       return (
-        <p className="font-semibold">
-          {formatToBRL({
-            value: row.original.valor,
-          })}
-        </p>
-      );
-    },
-  },
-  {
-    accessorKey: "tipo",
-    header: "Tipo",
-    cell: ({ row }) => {
-      return (
-        <p
-          className={`text-sm ${
-            row.original.tipo === "Entrada" ? "text-success" : "text-warning"
-          }`}
-        >
-          {row.original.tipo}
-        </p>
+        <>
+          {isEntrada ? (
+            <>
+              <p className="font-semibold text-success">
+                +{" "}
+                {formatToBRL({
+                  value: row.original.valor,
+                  removeSymbol: false,
+                })}
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="font-semibold ">
+                -{" "}
+                {formatToBRL({
+                  value: row.original.valor,
+                  removeSymbol: false,
+                })}
+              </p>
+            </>
+          )}
+        </>
       );
     },
   },

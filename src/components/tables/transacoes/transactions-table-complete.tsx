@@ -20,8 +20,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import React from "react";
-import { DataTablePagination } from "./pagination";
 import { DataTableProps } from "../type";
+import { DataTablePagination } from "./pagination";
 
 export function TransactionsTableComplete<TData, TValue>({
   columns,
@@ -52,7 +52,7 @@ export function TransactionsTableComplete<TData, TValue>({
   });
 
   return (
-    <div className="rounded-lg shadow-md h-full overflow-y-auto">
+    <div className="rounded-lg shadow-md h-full overflow-x-auto">
       <div className="flex items-center justify-between py-4">
         <Input
           placeholder="Filtre pela descrição..."
@@ -67,7 +67,7 @@ export function TransactionsTableComplete<TData, TValue>({
         <DataTablePagination table={table} />
       </div>
 
-      <Table className="bg-card rounded-lg pt-2 h-full overflow-y-auto">
+      <Table className="bg-card table-fixed w-full rounded-lg pt-2 h-full overflow-y-auto">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -77,9 +77,17 @@ export function TransactionsTableComplete<TData, TValue>({
                     key={header.id}
                     className={`bg-card ${
                       header.index === 0
-                        ? "rounded-tl-lg"
+                        ? "rounded-tl-lg w-[50%]"
                         : header.index === headerGroup.headers.length - 1
-                        ? "rounded-tr-lg"
+                        ? "rounded-tr-lg w-[10%]"
+                        : header.index === 1
+                        ? "w-[19%]"
+                        : header.index === 2
+                        ? "w-[19%]"
+                        : header.index === 3
+                        ? "w-[19%]"
+                        : header.index === 4
+                        ? "w-[5%]"
                         : ""
                     }`}
                   >
@@ -101,7 +109,10 @@ export function TransactionsTableComplete<TData, TValue>({
               <React.Fragment key={row.id}>
                 <TableRow data-state={row.getIsSelected() && "selected"}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="py-3 bg-card">
+                    <TableCell
+                      key={cell.id}
+                      className="py-3.5 bg-card whitespace-nowrap overflow-hidden text-ellipsis"
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

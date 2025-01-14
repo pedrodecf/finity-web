@@ -20,7 +20,7 @@ import * as LucideIcons from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { Pie, PieChart } from "recharts";
-import { TTransactions } from "../tables/dashboard-transacoes/transactions-columns";
+import { TTransactions } from "../tables/type";
 
 type TCategoriesChartDashboard = {
   className?: string;
@@ -103,7 +103,7 @@ export function CategoriesChartDashboard({
       props.avatarUrl as keyof typeof LucideIcons
     ] as React.ElementType;
     return (
-      <div className="flex flex-row justify-between items-center w-full py-3 p-6">
+      <div className="flex flex-row justify-between items-center w-full py-3.5 p-6">
         <div className="flex flex-row items-center gap-2 overflow-hidden">
           <div
             className="flex items-center justify-center w-7 h-7 rounded-full"
