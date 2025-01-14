@@ -10,21 +10,8 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../ui/tooltip";
-
-export type TTransactions = {
-  id: string;
-  valor: number;
-  tipo: "Entrada" | "Saida";
-  custoFixo: boolean;
-  descricao: string;
-  categoria: {
-    nome: string;
-    avatar: string;
-    hex: string;
-  };
-  data: Date;
-};
+} from "../../ui/tooltip";
+import { TTransactions } from "../type";
 
 export const transactionsColumns: ColumnDef<TTransactions>[] = [
   {

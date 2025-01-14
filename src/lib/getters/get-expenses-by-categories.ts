@@ -1,4 +1,4 @@
-import { TTransactions } from "@/components/tables/transactions-columns";
+import { TTransactions } from "@/components/tables/dashboard-transacoes/transactions-columns";
 
 export type TCategoryExpense = {
   categorie: string;

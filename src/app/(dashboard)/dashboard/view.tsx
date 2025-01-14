@@ -5,8 +5,8 @@ import { FinancesCard } from "@/components/finances-card";
 import {
   transactionsColumns,
   TTransactions,
-} from "@/components/tables/transactions-columns";
-import { TransactionsTable } from "@/components/tables/transactions-table";
+} from "@/components/tables/dashboard-transacoes/transactions-columns";
+import { TransactionsTable } from "@/components/tables/dashboard-transacoes/transactions-table";
 import { formatToBRL } from "@/lib/formatters/format-to-brl";
 import { UserSession } from "@/stores/session";
 import { TrendingDownIcon, TrendingUpIcon } from "lucide-react";

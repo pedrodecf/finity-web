@@ -18,12 +18,8 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import React from "react";
-import { Button } from "../ui/button";
-
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-}
+import { Button } from "../../ui/button";
+import { DataTableProps } from "../type";
 
 export function TransactionsTable<TData, TValue>({
   columns,

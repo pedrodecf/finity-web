@@ -1,4 +1,4 @@
-import { TTransactions } from "./transactions-columns";
+import { TTransactions } from "./type";
 
 export const fetchTransactions = (): TTransactions[] => {
   return [

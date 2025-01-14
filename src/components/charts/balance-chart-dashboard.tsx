@@ -10,7 +10,7 @@ import {
 import { getBalance } from "@/lib/getters/get-balance";
 import { cn } from "@/lib/utils";
 import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
-import { TTransactions } from "../tables/transactions-columns";
+import { TTransactions } from "../tables/dashboard-transacoes/transactions-columns";
 
 const chartConfig = {
   fixed: {
@@ -197,11 +197,10 @@ export function BalanceChartDashboard({
     ) {
       throw new Error("Valores devem estar entre 0 e 100.");
     }
-    
 
     const difference = personalSpending - goal;
     let indicator: string;
-    console.log(difference)
+    console.log(difference);
 
     switch (true) {
       case Math.abs(difference) <= 5:

@@ -20,7 +20,7 @@ import * as LucideIcons from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { Pie, PieChart } from "recharts";
-import { TTransactions } from "../tables/transactions-columns";
+import { TTransactions } from "../tables/dashboard-transacoes/transactions-columns";
 
 type TCategoriesChartDashboard = {
   className?: string;
