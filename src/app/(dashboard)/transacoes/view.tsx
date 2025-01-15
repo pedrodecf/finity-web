@@ -1,40 +1,48 @@
 "use client";
 
+import AddTransaction from "@/components/add-transaction";
 import { ControllerDashboard } from "@/components/controller-dashboard";
 import { FinancesCard } from "@/components/finances-card";
 import { transactionsColumnsComplete } from "@/components/tables/transacoes/transactions-columns-complete";
 import { TransactionsTableComplete } from "@/components/tables/transacoes/transactions-table-complete";
-import { CirclePlus } from "lucide-react";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { DialogTransactionCreate } from "@/components/ui/dialog/dialog-transaction-create/dialog-transaction-create";
+import {
+  TCreateTransactionInput,
+  TCreateTransactionOutput,
+} from "@/components/ui/dialog/dialog-transaction-create/schema";
+import { UseFormReturn } from "react-hook-form";
 import { FinancesStack } from "./ui/cards";
 
 type TTransacoesView = {
   transacoes: any;
   transacoesOrdenadas: any;
+  formMethods: UseFormReturn<
+    TCreateTransactionInput,
+    unknown,
+    TCreateTransactionOutput
+  >;
 };
 
 export default function TransacoesView({
   transacoes,
   transacoesOrdenadas,
+  formMethods,
 }: TTransacoesView) {
   return (
     <>
       <ControllerDashboard userName="pedrão" />
       <div className="grid grid-cols-3 gap-6">
-        <div className="flex items-center rounded-lg bg-card p-4 gap-4 tablet:gap-2 group cursor-pointer border border-border">
-          <div className="rounded-lg bg-primary/50 p-3 flex items-center gap-4 ">
-            <CirclePlus
-              size={38}
-              className="text-white/80 group-hover:scale-110 duration-500 ease-out group-hover:text-white"
-            />
-          </div>
-
-          <div>
-            <h2 className="font-semibold text-lg mobile:text-base">
-              Adicionar transação
-            </h2>
-            <p className="text-sub text-[13px]">Cadastrar movimentação</p>
-          </div>
-        </div>
+        <Dialog>
+          <DialogTrigger>
+            <AddTransaction />
+          </DialogTrigger>
+          <DialogTransactionCreate
+            formMethods={formMethods}
+            onHandleSubmit={() => {}}
+            title="Adicionar transação"
+          />
+        </Dialog>
 
         <FinancesCard
           title="Balanço"

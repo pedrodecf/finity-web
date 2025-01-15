@@ -5,12 +5,13 @@ import { cn } from "@/lib/utils";
 import { Label } from "./label";
 
 type InputProps<T extends FieldValues> =
-  React.InputHTMLAttributes<HTMLInputElement> & React.RefAttributes<HTMLInputElement> &{
-    label?: string;
-    helperText?: string;
-    name: Path<T>;
-    control: Control<T, unknown>;
-  };
+  React.InputHTMLAttributes<HTMLInputElement> &
+    React.RefAttributes<HTMLInputElement> & {
+      label?: string;
+      helperText?: string;
+      name: Path<T>;
+      control: Control<T, unknown>;
+    };
 
 export const Input = <T extends FieldValues>({
   label,
@@ -24,7 +25,7 @@ export const Input = <T extends FieldValues>({
   const hasError = helperText && helperText?.length > 0;
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 w-full">
       {label && (
         <div className={cn("flex items-center gap-2")}>
           <Label htmlFor={inputId}>{label}</Label>

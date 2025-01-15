@@ -55,7 +55,7 @@ export function ControllerDashboard({ userName }: TControllerDashboard) {
             Ano atual
           </Button>
         </div>
-        <DatePicker size="sm" />
+        {/* <DatePicker size="sm" /> */}
       </div>
     </div>
   );

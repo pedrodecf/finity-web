@@ -8,7 +8,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "./ui/native/tooltip";
+} from "./ui/primitive/tooltip";
 
 interface FinancesCardProps {
   className?: string;
@@ -75,7 +75,9 @@ export function FinancesCard(props: FinancesCardProps) {
   function getBalanceTag() {
     if (props.balance === "positive") {
       return (
-        <div className={`${tagStyle} text-success hidden @[224px]:flex border-success/50`}>
+        <div
+          className={`${tagStyle} text-success hidden @[224px]:flex border-success/50`}
+        >
           <ArrowUp size={12} className="mobile:hidden" />
           <span>{props.percentage?.toFixed(0)}%</span>
         </div>
@@ -84,7 +86,9 @@ export function FinancesCard(props: FinancesCardProps) {
 
     if (props.balance === "negative") {
       return (
-        <div className={`${tagStyle} text-warning hidden @[224px]:flex border-warning/50`}>
+        <div
+          className={`${tagStyle} text-warning hidden @[224px]:flex border-warning/50`}
+        >
           <ArrowDown size={12} className="mobile:hidden" />
           <span>{props.percentage?.toFixed(0)}%</span>
         </div>

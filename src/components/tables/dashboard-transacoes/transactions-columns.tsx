@@ -10,7 +10,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../../ui/native/tooltip";
+} from "../../ui/primitive/tooltip";
 import { TTransactions } from "../type";
 
 export const transactionsColumns: ColumnDef<TTransactions>[] = [

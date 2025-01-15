@@ -1,6 +1,6 @@
 "use client";
 
-import { Input } from "@/components/ui/native/input";
+import { Input } from "@/components/ui/primitive/input";
 import {
   Table,
   TableBody,

@@ -6,7 +6,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "./native/tooltip";
+} from "./primitive/tooltip";
 
 type Side = "top" | "bottom" | "left" | "right";
 
