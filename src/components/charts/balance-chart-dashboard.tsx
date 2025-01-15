@@ -10,7 +10,7 @@ import {
 import { getBalance } from "@/lib/getters/get-balance";
 import { cn } from "@/lib/utils";
 import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
-import { TTransactions } from "../tables/dashboard-transacoes/transactions-columns";
+import { TTransactions } from "../tables/type";
 
 const chartConfig = {
   fixed: {
@@ -47,7 +47,7 @@ export function BalanceChartDashboard({
   );
 
   return (
-    <Card className={cn("flex flex-col ", className)}>
+    <Card className={cn("flex flex-col", className)}>
       <CardHeader className="pb-0 mobile:pb-2">
         <CardTitle className="text-sm text-sub font-semibold leading-none tracking-tight">
           Balanço de custos

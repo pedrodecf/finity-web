@@ -21,12 +21,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 const items = [
   {
     title: "Dashboard",
-    url: "#",
+    url: "/dashboard",
     icon: LayoutDashboard,
   },
   {
     title: "Transações",
-    url: "#",
+    url: "/transacoes",
     icon: ChartSpline,
   },
   {

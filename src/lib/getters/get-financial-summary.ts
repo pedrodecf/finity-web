@@ -1,4 +1,4 @@
-import { TTransactions } from "@/components/tables/dashboard-transacoes/transactions-columns";
+import { TTransactions } from "@/components/tables/type";
 
 type TFinancialSummary = {
   totalSaidas: number;
@@ -23,7 +23,7 @@ export function getFinancialSummary(
   const saldoTotal = totalEntradas - totalSaidas;
 
   return {
-    totalSaidas,
+    totalSaidas: totalSaidas,
     totalEntradas,
     saldoTotal,
   };

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { DatePicker } from "./ui/date-picker";
-import { SidebarTrigger } from "./ui/sidebar";
+import Welcome from "./welcome";
 
 type TControllerDashboard = {
   userName: string;
@@ -15,13 +15,7 @@ export function ControllerDashboard({ userName }: TControllerDashboard) {
   );
   return (
     <div className="flex flex-row gap-4 items-center justify-between tablet:flex-col">
-      <div className="flex items-center gap-2 overflow-hidden mobile:w-full justify-between">
-        <SidebarTrigger className="mobile:self-start" />
-        <div className="shrink-0 bg-sub w-[1px] mr-1 h-4 mobile:hidden" />
-        <h2 className="text-xl truncate tracking-tight text-center w-full">
-          Bem-vindo, <span className="font-bold">{userName}!</span> &#128075;
-        </h2>
-      </div>
+      <Welcome userName={userName} />
       <div className="flex items-center gap-4 mobile:flex-col">
         <div>
           <Button
@@ -30,7 +24,7 @@ export function ControllerDashboard({ userName }: TControllerDashboard) {
             onClick={() => setSelectedButton("mesAtual")}
             className={`rounded-none rounded-tl-lg rounded-bl-lg ${
               selectedButton === "mesAtual"
-                ? "bg-primary text-foreground"
+                ? "bg-primary/50 text-foreground"
                 : "text-muted-foreground"
             }`}
           >
@@ -42,7 +36,7 @@ export function ControllerDashboard({ userName }: TControllerDashboard) {
             onClick={() => setSelectedButton("mesPassado")}
             className={`rounded-none ${
               selectedButton === "mesPassado"
-                ? "bg-primary text-foreground"
+                ? "bg-primary/50 text-foreground"
                 : "text-muted-foreground"
             }`}
           >
@@ -54,7 +48,7 @@ export function ControllerDashboard({ userName }: TControllerDashboard) {
             onClick={() => setSelectedButton("anoAtual")}
             className={`rounded-none rounded-tr-lg rounded-br-lg ${
               selectedButton === "anoAtual"
-                ? "bg-primary text-foreground"
+                ? "bg-primary/50 text-foreground"
                 : "text-muted-foreground"
             }`}
           >

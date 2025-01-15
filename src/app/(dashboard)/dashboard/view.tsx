@@ -2,11 +2,9 @@ import { BalanceChartDashboard } from "@/components/charts/balance-chart-dashboa
 import { CategoriesChartDashboard } from "@/components/charts/categories-chart-dashboard";
 import { ControllerDashboard } from "@/components/controller-dashboard";
 import { FinancesCard } from "@/components/finances-card";
-import {
-  transactionsColumns,
-  TTransactions,
-} from "@/components/tables/dashboard-transacoes/transactions-columns";
+import { transactionsColumns } from "@/components/tables/dashboard-transacoes/transactions-columns";
 import { TransactionsTable } from "@/components/tables/dashboard-transacoes/transactions-table";
+import { TTransactions } from "@/components/tables/type";
 import { formatToBRL } from "@/lib/formatters/format-to-brl";
 import { UserSession } from "@/stores/session";
 import { TrendingDownIcon, TrendingUpIcon } from "lucide-react";
@@ -33,7 +31,7 @@ export default function DashboardView({
   return (
     <>
       <ControllerDashboard userName={user.nome} />
-      <div className="grid grid-cols-3 gap-6 w-full  tablet:flex tablet:flex-col tablet:gap-4">
+      <div className="grid grid-cols-3 gap-6 w-full tablet:flex tablet:flex-col tablet:gap-4">
         <FinancesCard
           title="Balanço"
           balance={percentual > 0 ? "positive" : "negative"}

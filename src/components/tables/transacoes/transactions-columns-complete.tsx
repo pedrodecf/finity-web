@@ -157,14 +157,14 @@ export const transactionsColumnsComplete: ColumnDef<TTransactions>[] = [
       return (
         <div className="flex items-center gap-2">
           {isEntrada ? (
-            <div className="text-success flex items-center gap-2">
-              <LucideIcons.ArrowUp size={16} />
-              <p className={`text-sm font-normal`}>{row.original.tipo}</p>
+            <div className="pl-2 text-success flex items-center gap-1">
+              <LucideIcons.ArrowUp size={14} />
+              <p className={`text-[13px] font-normal`}>{row.original.tipo}</p>
             </div>
           ) : (
-            <div className="flex items-center gap-2">
+            <div className="pl-2 text-warning/80 flex items-center gap-1">
               <LucideIcons.ArrowDown size={16} />
-              <p className={`text-sm font-normal`}>{row.original.tipo}</p>
+              <p className={`text-[13px] font-normal`}>{row.original.tipo}</p>
             </div>
           )}
         </div>
