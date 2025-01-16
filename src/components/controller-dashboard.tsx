@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Button } from "./ui/button";
-import { DatePicker } from "./ui/date-picker";
 import Welcome from "./welcome";
 
 type TControllerDashboard = {
@@ -24,7 +23,7 @@ export function ControllerDashboard({ userName }: TControllerDashboard) {
             onClick={() => setSelectedButton("mesAtual")}
             className={`rounded-none rounded-tl-lg rounded-bl-lg ${
               selectedButton === "mesAtual"
-                ? "bg-primary/50 text-foreground"
+                ? "bg-primary text-white"
                 : "text-muted-foreground"
             }`}
           >
@@ -36,7 +35,7 @@ export function ControllerDashboard({ userName }: TControllerDashboard) {
             onClick={() => setSelectedButton("mesPassado")}
             className={`rounded-none ${
               selectedButton === "mesPassado"
-                ? "bg-primary/50 text-foreground"
+                ? "bg-primary text-white"
                 : "text-muted-foreground"
             }`}
           >
@@ -48,14 +47,13 @@ export function ControllerDashboard({ userName }: TControllerDashboard) {
             onClick={() => setSelectedButton("anoAtual")}
             className={`rounded-none rounded-tr-lg rounded-br-lg ${
               selectedButton === "anoAtual"
-                ? "bg-primary/50 text-foreground"
+                ? "bg-primary text-white"
                 : "text-muted-foreground"
             }`}
           >
             Ano atual
           </Button>
         </div>
-        {/* <DatePicker size="sm" /> */}
       </div>
     </div>
   );

@@ -15,6 +15,7 @@ import { getFirstLetter } from "@/lib/getters/get-first-letter";
 import { Logo } from "@/lib/getters/get-logo-theme";
 import { useSessionStore } from "@/stores/session";
 import { ChartSpline, Layers2, LayoutDashboard, Sun } from "lucide-react";
+import Link from "next/link";
 import { ToggleTheme } from "./toggle-theme";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
@@ -50,10 +51,10 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild size={"lg"}>
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       <item.icon />
                       <span className="font-semibold">{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

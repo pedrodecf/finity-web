@@ -40,7 +40,7 @@ interface SingleDatePickerProps<T extends FieldValues> {
 }
 
 const singleDatePickerVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-border disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       size: {
@@ -99,8 +99,7 @@ export function SingleDatePicker<T extends FieldValues>({
                             singleDatePickerVariants({ size }),
                             "justify-start text-left font-normal",
                             !value && "text-muted-foreground",
-                            hasError &&
-                              "border-alert-error focus:border-alert-error hover:border-alert-error focus:ring-alert-error/30"
+                            hasError && ""
                           )}
                           disabled
                         >
@@ -127,8 +126,7 @@ export function SingleDatePicker<T extends FieldValues>({
                         singleDatePickerVariants({ size }),
                         "justify-start text-left font-normal",
                         !value && "text-muted-foreground",
-                        hasError &&
-                          "border-alert-error focus:border-alert-error hover:border-alert-error focus:ring-alert-error/30"
+                        hasError && ""
                       )}
                     >
                       <CalendarIcon />

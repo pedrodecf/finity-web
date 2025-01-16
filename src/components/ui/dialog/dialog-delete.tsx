@@ -32,7 +32,7 @@ export function DialogDelete({ title, item, onHandleDelete }: TDialogDelete) {
           </DialogDescription>
         )}
       </DialogHeader>
-      <DialogFooter className="py-3 px-4 w-full flex items-center gap-2">
+      <DialogFooter className="py-3 px-4 border-t border-border w-full flex items-center gap-2">
         <DialogClose asChild>
           <Button variant="ghost">Cancelar</Button>
         </DialogClose>

@@ -22,7 +22,6 @@ export const Input = <T extends FieldValues>({
   ...props
 }: InputProps<T>) => {
   const inputId = React.useId();
-  const hasError = helperText && helperText?.length > 0;
 
   return (
     <div className="flex flex-col gap-2 w-full">
@@ -50,8 +49,8 @@ export const Input = <T extends FieldValues>({
           )}
         />
       </div>
-      {hasError && (
-        <p className="text-xs text-chart-5 font-normal">{helperText}</p>
+      {helperText && (
+        <p className="text-xs text-red-500 font-normal mt-1">{helperText}</p>
       )}
     </div>
   );

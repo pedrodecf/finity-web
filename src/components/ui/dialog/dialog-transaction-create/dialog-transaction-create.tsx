@@ -62,99 +62,108 @@ export function DialogTransactionCreate({
   const tipo = watch("tipo");
 
   return (
-    <DialogContent className="max-w-[432px] p-0">
-      <DialogHeader>
-        {!!title && (
-          <DialogTitle className="p-4 border-b border-border w-full flex items-center gap-2">
-            <HandCoins size={24} />
-            {title}
-          </DialogTitle>
-        )}
-        <form
-          className="px-4 py-2 flex flex-col gap-6"
-          onSubmit={handleSubmit(onHandleSubmit)}
-        >
-          <Input
-            label="Descrição"
-            name="descricao"
-            placeholder="Ex: Compra de um novo celular"
-            control={control}
-            helperText={errors.descricao?.message}
-            autoFocus
-          />
-          <div className="flex w-full items-center gap-2">
+    <DialogContent className="max-w-[500px] p-0">
+      <form onSubmit={handleSubmit(onHandleSubmit)}>
+        <DialogHeader>
+          {!!title && (
+            <DialogTitle className="py-4 px-6 border-b border-border w-full flex items-center gap-2">
+              <HandCoins size={24} />
+              {title}
+            </DialogTitle>
+          )}
+
+          <div className="pt-4 px-6 flex flex-col gap-8 pb-8">
             <Input
-              label="Valor (R$)"
-              placeholder="Ex: 1000,00"
-              type="number"
-              name="valor"
+              label="Descrição"
+              name="descricao"
+              placeholder="Ex: Compra de um novo celular"
               control={control}
-              helperText={errors.valor?.message}
+              helperText={errors.descricao?.message}
+              autoFocus
             />
-            <SingleDatePicker
-              className="w-1/2"
+            <div className="flex w-full items-start gap-3">
+              <Input
+                label="Valor (R$)"
+                placeholder="Ex: 1000,00"
+                type="number"
+                name="valor"
+                control={control}
+                helperText={errors.valor?.message}
+              />
+              <SingleDatePicker
+                className="w-1/2"
+                control={control}
+                name="data"
+                label="Data"
+                helperText={errors.data?.message}
+              />
+            </div>
+            <Combobox
+              label="Categoria"
               control={control}
-              name="data"
-              label="Data"
-              helperText={errors.data?.message}
+              name="categoriaId"
+              helperText={errors.categoriaId?.message}
+              data={frameworks}
+              placeholder="Selecione uma categoria"
             />
-          </div>
-          <Combobox
-            label="Categoria"
-            control={control}
-            name="categoriaId"
-            helperText={errors.categoriaId?.message}
-            data={frameworks}
-            placeholder="Selecione uma categoria"
-          />
-          <div className="flex gap-10 items-center">
-            <Radio
-              control={control}
-              name="tipo"
-              label="Tipo de transação"
-              helperText={errors.tipo?.message}
-              data={[
-                {
-                  value: "Entrada",
-                  label: "Entrada",
-                },
-                {
-                  value: "Saida",
-                  label: "Saída",
-                },
-              ]}
-              size="sm"
-            />
-            {tipo === "Saida" && (
+            <div className="flex gap-10 items-center">
               <Radio
                 control={control}
-                name="custoFixo"
-                label="Custos ou gastos"
+                name="tipo"
+                label="Tipo de transação"
                 helperText={errors.tipo?.message}
                 data={[
                   {
-                    value: "custo",
-                    label: "Custo fixo",
+                    value: "Entrada",
+                    label: "Entrada",
                   },
                   {
-                    value: "gasto",
-                    label: "Gasto pessoal",
+                    value: "Saida",
+                    label: "Saída",
                   },
                 ]}
                 size="sm"
               />
-            )}
+              {tipo === "Saida" && (
+                <Radio
+                  control={control}
+                  name="custoFixo"
+                  label="Custo ou gasto"
+                  helperText={errors.tipo?.message}
+                  data={[
+                    {
+                      value: "custo",
+                      label: "Custo fixo",
+                    },
+                    {
+                      value: "gasto",
+                      label: "Gasto pessoal",
+                    },
+                  ]}
+                  size="sm"
+                />
+              )}
+            </div>
           </div>
-        </form>
-      </DialogHeader>
-      <DialogFooter className="px-4 py-3 border-t border-border w-full flex items-center gap-2">
-        <DialogClose asChild>
-          <Button variant="ghost" onClick={() => formMethods.reset()}>
-            Cancelar
+        </DialogHeader>
+        <DialogFooter className="px-4 py-3 border-t border-border w-full flex items-center gap-2 justify-between sm:justify-between">
+          <Button
+            variant="link"
+            onClick={(e) => {
+              e.preventDefault();
+              formMethods.reset();
+            }}
+          >
+            Limpar
           </Button>
-        </DialogClose>
-        <Button type="submit">Salvar</Button>
-      </DialogFooter>
+          <div className="flex gap-2">
+            <DialogClose asChild>
+              <Button variant="ghost">Cancelar</Button>
+            </DialogClose>
+            <Button type="submit">Salvar</Button>
+          </div>
+        </DialogFooter>
+      </form>
     </DialogContent>
   );
 }

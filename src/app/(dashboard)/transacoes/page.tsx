@@ -20,9 +20,11 @@ export default function TransacoesPage() {
     resolver: zodResolver(createTransactionSchema),
     defaultValues: {
       descricao: "",
-      tipo: "Entrada",
+      valor: "",
       categoriaId: 0,
-      data: new Date(),
+      data: "",
+      tipo: "Entrada",
+      custoFixo: false,
     },
   });
 
