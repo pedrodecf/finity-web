@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
 
+import { Mask, masks } from "@/lib/mask";
 import { cn } from "@/lib/utils";
 import { Label } from "./label";
 
@@ -11,6 +12,7 @@ type InputProps<T extends FieldValues> =
       helperText?: string;
       name: Path<T>;
       control: Control<T, unknown>;
+      mask?: Mask;
     };
 
 export const Input = <T extends FieldValues>({
@@ -19,6 +21,7 @@ export const Input = <T extends FieldValues>({
   name,
   control,
   className,
+  mask,
   ...props
 }: InputProps<T>) => {
   const inputId = React.useId();
@@ -34,10 +37,13 @@ export const Input = <T extends FieldValues>({
         <Controller
           name={name!}
           control={control}
-          render={({ field: { ref, onChange, ...field } }) => (
+          render={({ field: { ref, value, onChange, ...field } }) => (
             <input
               id={inputId}
-              onChange={(e) => onChange(e.target.value)}
+              value={mask ? masks(mask, value) : value || ""}
+              onChange={(e) =>
+                onChange(mask ? masks(mask, e.target.value) : e.target.value)
+              }
               className={cn(
                 "flex h-10 w-full rounded-lg border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
                 className

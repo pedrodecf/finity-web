@@ -24,7 +24,8 @@ export default function TransacoesPage() {
       categoriaId: 0,
       data: "",
       tipo: "Entrada",
-      custoFixo: false,
+      custoFixo: true,
+      cartaoCredito: false,
     },
   });
 

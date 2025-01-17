@@ -21,6 +21,7 @@ export const createTransactionSchema = z.object({
     .default(""),
   tipo: z.enum(["Entrada", "Saida"]).default("Entrada"),
   custoFixo: z.boolean().optional(),
+  cartaoCredito: z.boolean().optional(),
 });
 
 export type TCreateTransaction = z.infer<typeof createTransactionSchema>;

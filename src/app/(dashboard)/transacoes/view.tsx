@@ -32,18 +32,19 @@ export default function TransacoesView({
   return (
     <>
       <ControllerDashboard userName="pedrão" />
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-3 gap-6 w-full tablet:flex tablet:flex-col tablet:gap-4">
         <Dialog>
           <DialogTrigger>
             <AddTransaction />
           </DialogTrigger>
           <DialogTransactionCreate
             formMethods={formMethods}
-            onHandleSubmit={() => {}}
+            onHandleSubmit={() => {
+              console.log(formMethods.getValues());
+            }}
             title="Adicionar transação"
           />
         </Dialog>
-
         <FinancesCard
           title="Balanço"
           value="1.000,00"
@@ -56,7 +57,7 @@ export default function TransacoesView({
           totalSaidas: 200,
         })}
       </div>
-      <div className="flex flex-col flex-1 h-full overflow-hidden tablet:flex-col tablet:overflow-auto tablet:gap-4 pb-6">
+      <div className="flex flex-col flex-1 h-full overflow-hidden tablet:flex-col tablet:overflow-auto tablet:gap-4 pb-6 tablet:mt-28">
         <TransactionsTableComplete
           columns={transactionsColumnsComplete}
           data={transacoesOrdenadas}

@@ -23,7 +23,7 @@ import { cva } from "class-variance-authority";
 import { Label } from "./label";
 
 interface ComboboxOption {
-  value: string;
+  value: number;
   label: string;
 }
 
@@ -78,10 +78,11 @@ export function Combobox<T extends FieldValues>({
         const [open, setOpen] = React.useState(false);
         const inputId = React.useId();
 
-        const selectedLabel = React.useMemo(() => {
-          const found = data.find((d) => d.value === value);
-          return found ? found.label : "";
+        const selectedOption = React.useMemo(() => {
+          return data.find((d) => d.value === value);
         }, [data, value]);
+
+        const selectedLabel = selectedOption ? selectedOption.label : "";
 
         return (
           <div className={cn("flex flex-col gap-2 w-full", className)}>
@@ -113,11 +114,9 @@ export function Combobox<T extends FieldValues>({
                       {data.map((d) => (
                         <CommandItem
                           key={d.value}
-                          value={d.value}
-                          onSelect={(currentValue) => {
-                            onChange(
-                              currentValue === value ? "" : currentValue
-                            );
+                          value={d.value.toString()}
+                          onSelect={() => {
+                            onChange(d.value);
                             setOpen(false);
                           }}
                         >

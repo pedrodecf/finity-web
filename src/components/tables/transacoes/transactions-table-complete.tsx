@@ -53,7 +53,7 @@ export function TransactionsTableComplete<TData, TValue>({
 
   return (
     <>
-      <div className="flex items-center justify-between py-4 tablet:flex-col tablet:gap-2">
+      <div className="flex items-center justify-between py-4 tablet:flex-col tablet:gap-2 tablet:pb-0">
         <Input
           placeholder="Filtre pela descrição..."
           value={
@@ -67,8 +67,8 @@ export function TransactionsTableComplete<TData, TValue>({
         <DataTablePagination table={table} />
       </div>
 
-      <div className="overflow-y-auto border border-border rounded-lg bg-card table-fixed w-full">
-        <Table>
+      <div className="overflow-y-auto border border-border rounded-lg bg-card">
+        <Table className="table-fixed">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>

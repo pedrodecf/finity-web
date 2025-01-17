@@ -7,33 +7,19 @@ import { cn } from "@/lib/utils";
 import React from "react";
 import { Label } from "./label";
 import { RadioGroup, RadioGroupItem } from "./primitive/radio-group";
-// ou onde quer que você tenha colocado o arquivo base do RadioGroup
 
-/**
- * Estrutura de dados para cada opção do radio
- */
 interface RadioOption {
-  value: string;
+  value: string | boolean;
   label: string;
 }
 
-/**
- * Props inspiradas no DatePicker e Combobox:
- *
- * - `control`, `name` (react-hook-form)
- * - `label`, `placeholder`, `variant`, `readOnly`, `tooltipMessage`
- * - `helperText`, `className`
- * - `size` (sm, default, lg)
- */
 interface RadioProps<T extends FieldValues> {
   control: Control<T>;
   name: Path<T>;
-
-  data: RadioOption[]; // Opções a serem listadas
-
+  data: RadioOption[];
   label?: string;
   variant?: "default" | "filter";
-  placeholder?: string; // Pode ou não ser usado (aqui, pouco usual)
+  placeholder?: string;
   className?: string;
   helperText?: string;
   readOnly?: boolean;
@@ -41,30 +27,23 @@ interface RadioProps<T extends FieldValues> {
   size?: "default" | "sm" | "lg";
 }
 
-/**
- * Estilização (CVA) para o container ou para o RadioGroup
- * (ajuste conforme seu design).
- */
-const radioContainerVariants = cva(
-  "flex flex-col gap-2", // Classes base
-  {
-    variants: {
-      size: {
-        default: "", // Sem incremento, pois o radio group em si não aumenta
-        sm: "text-sm",
-        lg: "text-lg",
-      },
-      variant: {
-        default: "",
-        filter: "",
-      },
+const radioContainerVariants = cva("flex flex-col gap-2", {
+  variants: {
+    size: {
+      default: "",
+      sm: "text-sm",
+      lg: "text-lg",
     },
-    defaultVariants: {
-      size: "default",
-      variant: "default",
+    variant: {
+      default: "",
+      filter: "",
     },
-  }
-);
+  },
+  defaultVariants: {
+    size: "default",
+    variant: "default",
+  },
+});
 
 export function Radio<T extends FieldValues>({
   control,
@@ -80,11 +59,30 @@ export function Radio<T extends FieldValues>({
   size = "default",
 }: RadioProps<T>) {
   const inputId = React.useId();
+
+  const parseValue = (
+    val: string | undefined
+  ): string | boolean | undefined => {
+    if (val === "true") return true;
+    if (val === "false") return false;
+    return val;
+  };
+
+  const serializeValue = (val: string | boolean | undefined): string => {
+    if (val === true) return "true";
+    if (val === false) return "false";
+    return val || "";
+  };
+
   return (
     <Controller
       name={name}
       control={control}
       render={({ field: { onChange, value } }) => {
+        const [open, setOpen] = React.useState(false);
+
+        const serializedValue = serializeValue(value);
+
         return (
           <div className={cn("grid gap-2", className)}>
             {label && (
@@ -94,28 +92,40 @@ export function Radio<T extends FieldValues>({
             )}
 
             <RadioGroup
-              value={value || ""}
-              onValueChange={(val) => onChange(val)}
+              value={serializedValue}
+              onValueChange={(val) => {
+                const parsed = parseValue(val);
+                onChange(parsed);
+              }}
               disabled={readOnly}
               className={cn(radioContainerVariants({ size, variant }))}
             >
-              {data.map((item) => (
-                <div key={item.value} className="flex items-center space-x-2">
-                  <RadioGroupItem
-                    value={item.value}
-                    id={`radio-${item.value}`}
-                  />
-                  <label
-                    htmlFor={`radio-${item.value}`}
-                    className={cn(
-                      "cursor-pointer select-none",
-                      readOnly && "cursor-not-allowed opacity-70"
-                    )}
-                  >
-                    {item.label}
-                  </label>
-                </div>
-              ))}
+              {data.map((item) => {
+                // Serializar o valor para string
+                const itemValue =
+                  typeof item.value === "boolean"
+                    ? item.value.toString()
+                    : item.value;
+
+                return (
+                  <div key={itemValue} className="flex items-center space-x-2">
+                    <RadioGroupItem
+                      value={itemValue}
+                      id={`radio-${itemValue}`}
+                      disabled={readOnly}
+                    />
+                    <label
+                      htmlFor={`radio-${itemValue}`}
+                      className={cn(
+                        "cursor-pointer select-none",
+                        readOnly && "cursor-not-allowed opacity-70"
+                      )}
+                    >
+                      {item.label}
+                    </label>
+                  </div>
+                );
+              })}
             </RadioGroup>
 
             {helperText && (

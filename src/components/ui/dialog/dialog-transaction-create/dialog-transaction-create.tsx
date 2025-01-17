@@ -26,23 +26,23 @@ type TDialogTransactionCreate = {
 
 const frameworks = [
   {
-    value: "next.js",
+    value: 1,
     label: "Next.js",
   },
   {
-    value: "sveltekit",
+    value: 2,
     label: "SvelteKit",
   },
   {
-    value: "nuxt.js",
+    value: 3,
     label: "Nuxt.js",
   },
   {
-    value: "remix",
+    value: 4,
     label: "Remix",
   },
   {
-    value: "astro",
+    value: 5,
     label: "Astro",
   },
 ];
@@ -85,7 +85,7 @@ export function DialogTransactionCreate({
               <Input
                 label="Valor (R$)"
                 placeholder="Ex: 1000,00"
-                type="number"
+                mask="R$"
                 name="valor"
                 control={control}
                 helperText={errors.valor?.message}
@@ -106,7 +106,7 @@ export function DialogTransactionCreate({
               data={frameworks}
               placeholder="Selecione uma categoria"
             />
-            <div className="flex gap-10 items-center">
+            <div className="flex gap-10 items-center justify-between">
               <Radio
                 control={control}
                 name="tipo"
@@ -125,23 +125,42 @@ export function DialogTransactionCreate({
                 size="sm"
               />
               {tipo === "Saida" && (
-                <Radio
-                  control={control}
-                  name="custoFixo"
-                  label="Custo ou gasto"
-                  helperText={errors.tipo?.message}
-                  data={[
-                    {
-                      value: "custo",
-                      label: "Custo fixo",
-                    },
-                    {
-                      value: "gasto",
-                      label: "Gasto pessoal",
-                    },
-                  ]}
-                  size="sm"
-                />
+                <>
+                  <Radio
+                    control={control}
+                    name="custoFixo"
+                    label="Custo ou gasto"
+                    helperText={errors.tipo?.message}
+                    data={[
+                      {
+                        value: true,
+                        label: "Custo fixo",
+                      },
+                      {
+                        value: false,
+                        label: "Gasto pessoal",
+                      },
+                    ]}
+                    size="sm"
+                  />
+                  <Radio
+                    control={control}
+                    name="cartaoCredito"
+                    label="Cartão de crédito?"
+                    helperText={errors.tipo?.message}
+                    data={[
+                      {
+                        value: false,
+                        label: "Não",
+                      },
+                      {
+                        value: true,
+                        label: "Sim",
+                      },
+                    ]}
+                    size="sm"
+                  />
+                </>
               )}
             </div>
           </div>
