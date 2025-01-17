@@ -10,6 +10,7 @@ import { TCategories } from "@/components/tables/type";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { DialogCategoryCreate } from "@/components/ui/dialog/dialog-category-create/dialog-transaction-create";
 import {
+  TCreateCategory,
   TCreateCategoryInput,
   TCreateCategoryOutput,
 } from "@/components/ui/dialog/dialog-category-create/schema";
@@ -22,13 +23,17 @@ type TCategoriasView = {
     TCreateCategoryOutput
   >;
   loading?: boolean;
+  isCreating?: boolean;
   categories?: TCategories[];
+  onSubmit: (data: TCreateCategory) => void;
 };
 
 export default function CategoriasView({
   formMethods,
   loading,
+  isCreating,
   categories,
+  onSubmit,
 }: TCategoriasView) {
   const transactions = fetchTransactions();
 
@@ -38,7 +43,7 @@ export default function CategoriasView({
       <ControllerDashboard userName={"user.nome"} />
       <div className="grid grid-cols-2 gap-6 w-full h-full overflow-hidden tablet:flex tablet:flex-col tablet:overflow-auto tablet:gap-4">
         <CategoriesTable
-          loading={true}
+          loading={loading}
           data={categories}
           columns={categoriesColumns}
         />
@@ -53,12 +58,10 @@ export default function CategoriasView({
                 icon="Layers2"
               />
             </DialogTrigger>
-
             <DialogCategoryCreate
               formMethods={formMethods}
-              onHandleSubmit={() => {
-                console.log(formMethods.getValues());
-              }}
+              isCreating={isCreating}
+              onSubmit={onSubmit}
               title="Adicionar categoria"
             />
           </Dialog>

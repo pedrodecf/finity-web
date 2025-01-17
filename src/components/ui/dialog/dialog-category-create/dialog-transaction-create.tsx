@@ -1,4 +1,4 @@
-import { HandCoins, Layers2 } from "lucide-react";
+import { Layers2 } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { Button } from "../../button";
 import { ColorPicker } from "../../color-picker";
@@ -11,12 +11,17 @@ import {
 } from "../../dialog";
 import { Input } from "../../input";
 import { RadioAvatar } from "../../radio-avatar";
-import { TCreateCategoryInput, TCreateCategoryOutput } from "./schema";
 import { defaultAvatars } from "./default-avatars";
+import {
+  TCreateCategory,
+  TCreateCategoryInput,
+  TCreateCategoryOutput,
+} from "./schema";
 
 type TDialogCategoryCreate = {
   title?: string;
-  onHandleSubmit: () => void;
+  isCreating?: boolean;
+  onSubmit: (data: TCreateCategory) => void;
   formMethods: UseFormReturn<
     TCreateCategoryInput,
     unknown,
@@ -26,7 +31,8 @@ type TDialogCategoryCreate = {
 
 export function DialogCategoryCreate({
   title,
-  onHandleSubmit,
+  isCreating,
+  onSubmit,
   formMethods,
 }: TDialogCategoryCreate) {
   const {
@@ -34,6 +40,15 @@ export function DialogCategoryCreate({
     handleSubmit,
     formState: { errors },
   } = formMethods;
+
+  const onHandleSubmit = async (data: TCreateCategory) => {
+    onSubmit(data);
+    formMethods.reset();
+  };
+
+  const onResetForm = () => {
+    formMethods.reset();
+  };
 
   return (
     <DialogContent className="max-w-[500px] p-0">
@@ -76,6 +91,7 @@ export function DialogCategoryCreate({
         <DialogFooter className="px-4 py-3 border-t border-border w-full flex items-center gap-2 justify-between sm:justify-between">
           <Button
             variant="link"
+            disabled={isCreating}
             onClick={(e) => {
               e.preventDefault();
               formMethods.reset();
@@ -85,9 +101,19 @@ export function DialogCategoryCreate({
           </Button>
           <div className="flex gap-2">
             <DialogClose asChild>
-              <Button variant="ghost">Cancelar</Button>
+              <Button
+                variant="ghost"
+                disabled={isCreating}
+                onClick={onResetForm}
+              >
+                Cancelar
+              </Button>
             </DialogClose>
-            <Button type="submit">Salvar</Button>
+            <DialogClose asChild>
+              <Button type="submit" disabled={isCreating}>
+                Salvar
+              </Button>
+            </DialogClose>
           </div>
         </DialogFooter>
       </form>

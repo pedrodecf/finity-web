@@ -1,3 +1,4 @@
+import { TCreateCategory } from "@/components/ui/dialog/dialog-category-create/schema";
 import { Api } from "../axios";
 import { ListCategoriesResponse } from "./types";
 
@@ -9,5 +10,9 @@ export class CategoriesGateway {
       "/categorias?orderBy=nome&ordination=desc&page=1&quantity=10"
     );
     return data;
+  }
+
+  async createCategory(data: TCreateCategory): Promise<void> {
+    await this.api.post("/categorias", data);
   }
 }
