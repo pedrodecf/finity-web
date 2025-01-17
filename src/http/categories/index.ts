@@ -15,4 +15,8 @@ export class CategoriesGateway {
   async createCategory(data: TCreateCategory): Promise<void> {
     await this.api.post("/categorias", data);
   }
+
+  async deleteCategory(id: string): Promise<void> {
+    await this.api.delete(`/categorias/${id}`);
+  }
 }

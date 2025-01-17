@@ -51,8 +51,22 @@ export default function CategoriasPage() {
     },
   });
 
+  const { mutateAsync: deleteCategory } = useMutation({
+    mutationFn: async (id: string) => categoriesGateway.deleteCategory(id),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(["categories"]);
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  })
+
   const onSubmit = async (data: TCreateCategory) => {
     await createCategory(data);
+  }
+
+  const onDelete = async (id: string) => { 
+    await deleteCategory(id);
   }
 
   return (
@@ -61,6 +75,7 @@ export default function CategoriasPage() {
       categories={categorias?.items}
       loading={isLoading}
       onSubmit={onSubmit}
+      onDelete={onDelete}
     />
   );
 }

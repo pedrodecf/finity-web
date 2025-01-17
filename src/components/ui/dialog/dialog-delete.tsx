@@ -27,8 +27,8 @@ export function DialogDelete({ title, item, onHandleDelete }: TDialogDelete) {
         )}
         {!!item && (
           <DialogDescription className="p-4">
-            Tem certeza que deseja excluir{" "}
-            <span className="font-semibold">{item}</span>?
+            Tem certeza que deseja excluir a categoria{" "}
+            <span className="font-semibold">"{item}"</span>?
           </DialogDescription>
         )}
       </DialogHeader>
