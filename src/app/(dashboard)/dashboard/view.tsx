@@ -15,7 +15,7 @@ type TDashboardView = {
   saldoTotal: number;
   totalEntradas: number;
   totalSaidas: number;
-  user: UserSession;
+  // user: UserSession;
   percentual: number;
 };
 
@@ -25,12 +25,12 @@ export default function DashboardView({
   saldoTotal,
   totalEntradas,
   totalSaidas,
-  user,
+  // user,
   percentual,
 }: TDashboardView) {
   return (
     <>
-      <ControllerDashboard userName={user.nome} />
+      <ControllerDashboard userName={'dasda'} />
       <div className="grid grid-cols-3 gap-6 w-full tablet:flex tablet:flex-col tablet:gap-4">
         <FinancesCard
           title="Balanço"
@@ -64,7 +64,7 @@ export default function DashboardView({
         <div className="col-span-3 h-full gap-6 flex flex-col tablet:gap-4 overflow-hidden">
           <BalanceChartDashboard
             transacoes={transacoes}
-            userGastosPorcetagemMeta={user.gastosPorcetagemMeta}
+            userGastosPorcetagemMeta={50}
           />
           <TransactionsTable
             columns={transactionsColumns}

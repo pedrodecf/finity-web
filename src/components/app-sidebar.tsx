@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Sidebar,
   SidebarContent,
@@ -11,9 +13,9 @@ import {
   SidebarMenuItem,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
+import { useProfile } from "@/hooks/use-profile";
 import { getFirstLetter } from "@/lib/getters/get-first-letter";
 import { Logo } from "@/lib/getters/get-logo-theme";
-import { useSessionStore } from "@/stores/session";
 import { ChartSpline, Layers2, LayoutDashboard, Sun } from "lucide-react";
 import Link from "next/link";
 import { ToggleTheme } from "./toggle-theme";
@@ -38,7 +40,7 @@ const items = [
 ];
 
 export function AppSidebar() {
-  const { user } = useSessionStore();
+  const { data: user, isLoading, isError } = useProfile();
   return (
     <Sidebar>
       <SidebarHeader>
@@ -83,11 +85,11 @@ export function AppSidebar() {
       <SidebarFooter className="flex flex-row items-center px-6">
         <Avatar>
           <AvatarImage src="" alt="Avatar do Usuário" />
-          <AvatarFallback>{getFirstLetter(user.nome)}</AvatarFallback>
+          <AvatarFallback>{getFirstLetter(user?.nome || "?")}</AvatarFallback>
         </Avatar>
         <div className="w-full overflow-hidden">
-          <p className="font-semibold truncate">{user.nome}</p>
-          <p className="font-light text-xs truncate">{user.email}</p>
+          <p className="font-semibold truncate">{user?.nome}</p>
+          <p className="font-light text-xs truncate">{user?.email}</p>
         </div>
       </SidebarFooter>
     </Sidebar>

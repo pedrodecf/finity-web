@@ -10,7 +10,7 @@ export default function DashboardPage() {
   const transacoesOrdenadas = transacoes.sort((a, b) => {
     return new Date(b.data).getTime() - new Date(a.data).getTime();
   });
-  const { user } = useSessionStore();
+  // const { user } = useSessionStore();
   const percentual = (saldoTotal / totalEntradas) * 100;
 
   return (
@@ -20,7 +20,7 @@ export default function DashboardPage() {
       totalEntradas={totalEntradas}
       totalSaidas={totalSaidas}
       transacoesOrdenadas={transacoesOrdenadas}
-      user={user}
+      // user={user}
       percentual={percentual}
     />
   );

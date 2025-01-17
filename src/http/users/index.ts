@@ -1,0 +1,16 @@
+import { Api } from "../axios";
+import { LoginCredentials, LoginResponse, Usuario } from "./types";
+
+export class UsersGateway {
+  constructor(private api: typeof Api) {}
+
+  async login(credentials: LoginCredentials): Promise<LoginResponse> {
+    const { data } = await this.api.post("/usuarios/login", credentials);
+    return data;
+  }
+
+  async profile(): Promise<Usuario> {
+    const { data } = await this.api.get("/usuarios/me");
+    return data;
+  }
+}

@@ -13,6 +13,9 @@ import {
   TCreateCategoryInput,
   TCreateCategoryOutput,
 } from "@/components/ui/dialog/dialog-category-create/schema";
+import { Api } from "@/http/axios";
+import { CategoriesGateway } from "@/http/categories";
+import { useQuery } from "@tanstack/react-query";
 import { UseFormReturn } from "react-hook-form";
 
 type TCategoriasView = {
@@ -24,8 +27,19 @@ type TCategoriasView = {
 };
 
 export default function CategoriasView({ formMethods }: TCategoriasView) {
+  const categoriesGateway = new CategoriesGateway(Api);
   const categories = fecthCategories();
   const transactions = fetchTransactions();
+
+  const {
+    data: categorias,
+    isError,
+    isLoading,
+  } = useQuery(["categories"], () => categoriesGateway.getCategories(), {
+    keepPreviousData: true,
+    staleTime: 1000 * 60,
+  });
+
   return (
     <>
       <ControllerDashboard userName={"user.nome"} />

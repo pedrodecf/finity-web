@@ -1,28 +1,30 @@
-'use client'
+"use client";
 
-import { useForm } from "react-hook-form";
-import LoginView from "./view";
+import { useLogin } from "@/hooks/use-login";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginSchema, loginSchema, LoginSchemaInput, LoginSchemaOutput } from "./schema";
+import { useForm } from "react-hook-form";
+import {
+  LoginSchema,
+  loginSchema,
+  LoginSchemaInput,
+  LoginSchemaOutput,
+} from "./schema";
+import LoginView from "./view";
 
 export default function LoginPage() {
-   const formMethods = useForm<
-      LoginSchemaInput,
-      unknown,
-      LoginSchemaOutput
-   >({
-      mode: 'onSubmit',
-      resolver: zodResolver(loginSchema)
-   })
+  const { mutate: doLogin, isLoading, isError, error } = useLogin();
 
-   const onSubmit = async (data: LoginSchema) => {
-      console.log(data)
-   }
+  const formMethods = useForm<LoginSchemaInput, unknown, LoginSchemaOutput>({
+    mode: "onSubmit",
+    resolver: zodResolver(loginSchema),
+  });
 
-   return (
-      <LoginView
-         formMethods={formMethods}
-         onSubmit={onSubmit}
-      />
-   )
+  const onSubmit = async (data: LoginSchema) => {
+    doLogin({
+      email: data.email,
+      senha: data.password,
+    });
+  };
+
+  return <LoginView formMethods={formMethods} onSubmit={onSubmit} />;
 }

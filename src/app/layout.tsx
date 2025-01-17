@@ -1,8 +1,8 @@
-import { ThemeProvider } from "@/components/theme-provider";
 import "animate.css";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Providers } from "./providers";
 
 const generalSans = localFont({
   src: "../fonts/GeneralSans-Variable.woff",
@@ -23,14 +23,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body className={`${generalSans.variable} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
