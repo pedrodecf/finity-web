@@ -10,7 +10,13 @@ import { TCategories } from "../type";
 export const categoriesColumns: ColumnDef<TCategories>[] = [
   {
     accessorKey: "nome",
-    header: "Nome",
+    header: () => {
+      return (
+        <p className="text-sm text-sub font-semibold leading-none tracking-tight pt-2 pb-3">
+          Nome
+        </p>
+      );
+    },
     cell: ({ row }) => {
       const IconComponent = LucideIcons[
         row.original.avatar as keyof typeof LucideIcons
@@ -18,7 +24,7 @@ export const categoriesColumns: ColumnDef<TCategories>[] = [
       return (
         <div className="flex items-center text-left gap-2">
           <div
-            className="flex items-center justify-center w-7 h-7 rounded-full cursor-default"
+            className="flex items-center justify-center w-7 h-7 rounded-lg cursor-default"
             style={{ backgroundColor: row.original.hex }}
           >
             {IconComponent ? (
@@ -34,6 +40,13 @@ export const categoriesColumns: ColumnDef<TCategories>[] = [
   },
   {
     id: "actions",
+    header: () => {
+      return (
+        <p className="text-sm text-sub font-semibold leading-none tracking-tight pt-2 pb-3">
+          Ações
+        </p>
+      );
+    },
     cell: ({ row }) => {
       return (
         <div className="flex items-center justify-end gap-3">

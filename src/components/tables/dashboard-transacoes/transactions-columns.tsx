@@ -28,7 +28,7 @@ export const transactionsColumns: ColumnDef<TTransactions>[] = [
             <Tooltip>
               <TooltipTrigger>
                 <div
-                  className="flex items-center justify-center w-7 h-7 rounded-full cursor-default"
+                  className="flex items-center justify-center w-7 h-7 rounded-lg cursor-default"
                   style={{ backgroundColor: row.original.categoria.hex }}
                 >
                   {IconComponent ? (

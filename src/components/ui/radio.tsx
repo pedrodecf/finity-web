@@ -101,7 +101,6 @@ export function Radio<T extends FieldValues>({
               className={cn(radioContainerVariants({ size, variant }))}
             >
               {data.map((item) => {
-                // Serializar o valor para string
                 const itemValue =
                   typeof item.value === "boolean"
                     ? item.value.toString()

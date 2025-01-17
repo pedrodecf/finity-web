@@ -39,9 +39,10 @@ export const transactionsColumnsComplete: ColumnDef<TTransactions>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(isSorted === "asc")}
+          className="text-sm text-sub font-semibold leading-none tracking-tight flex items-center hover:border-transparent"
         >
           Descrição
-          <Icon className="ml-1 h-4 w-4" />
+          <Icon className="h-4 w-4" />
         </Button>
       );
     },
@@ -56,7 +57,7 @@ export const transactionsColumnsComplete: ColumnDef<TTransactions>[] = [
             <Tooltip>
               <TooltipTrigger>
                 <div
-                  className="flex items-center justify-center w-7 h-7 rounded-full cursor-default"
+                  className="flex items-center justify-center w-7 h-7 rounded-lg cursor-default"
                   style={{ backgroundColor: row.original.categoria.hex }}
                 >
                   {IconComponent ? (
@@ -90,9 +91,10 @@ export const transactionsColumnsComplete: ColumnDef<TTransactions>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(isSorted === "asc")}
+          className="text-sm text-sub font-semibold leading-none tracking-tight flex items-center hover:border-transparent"
         >
           Data
-          <Icon className="ml-1 h-4 w-4" />
+          <Icon className="h-4 w-4" />
         </Button>
       );
     },
@@ -116,9 +118,10 @@ export const transactionsColumnsComplete: ColumnDef<TTransactions>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(isSorted === "asc")}
+          className="text-sm text-sub font-semibold leading-none tracking-tight flex items-center hover:border-transparent"
         >
           Valor
-          <Icon className="ml-1 h-4 w-4" />
+          <Icon className="h-4 w-4" />
         </Button>
       );
     },
@@ -146,9 +149,10 @@ export const transactionsColumnsComplete: ColumnDef<TTransactions>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(isSorted === "asc")}
+          className="text-sm text-sub font-semibold leading-none tracking-tight flex items-center hover:border-transparent"
         >
           Tipo
-          <Icon className="ml-1 h-4 w-4" />
+          <Icon className="h-4 w-4" />
         </Button>
       );
     },
@@ -174,6 +178,13 @@ export const transactionsColumnsComplete: ColumnDef<TTransactions>[] = [
   },
   {
     id: "actions",
+    header: ({ column }) => {
+      return (
+        <p className="text-sm text-sub font-semibold leading-none tracking-tight flex items-center">
+          Ações
+        </p>
+      );
+    },
     cell: ({ row }) => {
       return (
         <div className="flex items-center justify-end gap-3">

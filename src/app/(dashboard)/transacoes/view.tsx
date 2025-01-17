@@ -36,7 +36,6 @@ export default function TransacoesView({
         <Dialog>
           <DialogTrigger>
             <AddButton
-              className="h-fit"
               title="Adiconar transação"
               description="Crie uma nova transação"
               icon="ChartSpline"

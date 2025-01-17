@@ -106,7 +106,7 @@ export function CategoriesChartDashboard({
       <div className="flex flex-row justify-between items-center w-full py-3.5 p-6">
         <div className="flex flex-row items-center gap-2 overflow-hidden">
           <div
-            className="flex items-center justify-center w-7 h-7 rounded-full"
+            className="flex items-center justify-center w-7 h-7 rounded-lg"
             style={{ backgroundColor: props?.fill ?? "#6359E9" }}
           >
             {IconComponent ? (
