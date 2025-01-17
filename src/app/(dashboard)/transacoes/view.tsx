@@ -1,6 +1,6 @@
 "use client";
 
-import AddTransaction from "@/components/add-transaction";
+import AddButton from "@/components/add-button";
 import { ControllerDashboard } from "@/components/controller-dashboard";
 import { FinancesCard } from "@/components/finances-card";
 import { transactionsColumnsComplete } from "@/components/tables/transacoes/transactions-columns-complete";
@@ -35,7 +35,12 @@ export default function TransacoesView({
       <div className="grid grid-cols-3 gap-6 w-full tablet:flex tablet:flex-col tablet:gap-4">
         <Dialog>
           <DialogTrigger>
-            <AddTransaction />
+            <AddButton
+              className="h-fit"
+              title="Adiconar transação"
+              description="Crie uma nova transação"
+              icon="ChartSpline"
+            />
           </DialogTrigger>
           <DialogTransactionCreate
             formMethods={formMethods}

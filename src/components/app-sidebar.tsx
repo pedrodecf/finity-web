@@ -32,7 +32,7 @@ const items = [
   },
   {
     title: "Categorias",
-    url: "#",
+    url: "/categorias",
     icon: Layers2,
   },
 ];

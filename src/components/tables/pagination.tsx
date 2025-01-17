@@ -9,19 +9,34 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;
+  namePagination: string;
+  className?: string;
 }
 
 export function DataTablePagination<TData>({
   table,
+  namePagination,
+  className,
 }: DataTablePaginationProps<TData>) {
   return (
-    <div className="flex items-center justify-between px-2 tablet:w-full">
-      <div className="flex items-center space-x-6 lg:space-x-8 tablet:space-x-0 tablet:justify-between tablet:w-full">
+    <div
+      className={cn(
+        "flex items-center justify-between px-2 tablet:w-full",
+        className
+      )}
+    >
+      <div
+        className={cn(
+          "flex items-center space-x-6 lg:space-x-8 tablet:space-x-0 tablet:justify-between tablet:w-full",
+          className
+        )}
+      >
         <div className="flex items-center space-x-2 tablet:flex-col tablet:gap-2 tablet:mt-2">
-          <p className="text-sm font-medium">Transações</p>
+          <p className="text-sm font-medium">{namePagination}</p>
           <Select
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={(value) => {

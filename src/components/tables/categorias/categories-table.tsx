@@ -20,10 +20,10 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import React from "react";
-import { DataTableProps } from "../type";
 import { DataTablePagination } from "../pagination";
+import { DataTableProps } from "../type";
 
-export function TransactionsTableComplete<TData, TValue>({
+export function CategoriesTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -53,18 +53,15 @@ export function TransactionsTableComplete<TData, TValue>({
 
   return (
     <>
-      <div className="flex items-center justify-between py-4 tablet:flex-col tablet:gap-2 tablet:pb-0">
+      <div className="flex flex-col gap-4 w-full items-center justify-between pb-4 tablet:flex-col tablet:gap-2 tablet:pb-0">
         <Input
-          placeholder="Filtre pela descrição..."
-          value={
-            (table.getColumn("descricao")?.getFilterValue() as string) ?? ""
-          }
+          placeholder="Filtre pelo nome..."
+          value={(table.getColumn("nome")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("descricao")?.setFilterValue(event.target.value)
+            table.getColumn("nome")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="max-w-full"
         />
-        <DataTablePagination table={table} namePagination="Transações"/>
       </div>
 
       <div className="overflow-y-auto border border-border rounded-lg bg-card">
@@ -144,6 +141,13 @@ export function TransactionsTableComplete<TData, TValue>({
             )}
           </TableBody>
         </Table>
+      </div>
+      <div className="flex items-center justify-between pt-4 w-full">
+        <DataTablePagination
+          table={table}
+          namePagination="Categorias"
+          className="justify-between w-full"
+        />
       </div>
     </>
   );
