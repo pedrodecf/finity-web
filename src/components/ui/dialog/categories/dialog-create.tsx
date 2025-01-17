@@ -21,7 +21,7 @@ import {
 type TDialogCategoryCreate = {
   title?: string;
   isCreating?: boolean;
-  onSubmit: (data: TCreateCategory) => void;
+  onCreate: (data: TCreateCategory) => void;
   formMethods: UseFormReturn<
     TCreateCategoryInput,
     unknown,
@@ -32,7 +32,7 @@ type TDialogCategoryCreate = {
 export function DialogCategoryCreate({
   title,
   isCreating,
-  onSubmit,
+  onCreate,
   formMethods,
 }: TDialogCategoryCreate) {
   const {
@@ -42,7 +42,7 @@ export function DialogCategoryCreate({
   } = formMethods;
 
   const onHandleSubmit = async (data: TCreateCategory) => {
-    onSubmit(data);
+    onCreate(data);
     formMethods.reset();
   };
 

@@ -1,12 +1,11 @@
 "use client";
-
 import { queryClient } from "@/app/providers";
 import {
   createCategorySchema,
   TCreateCategory,
   TCreateCategoryInput,
   TCreateCategoryOutput,
-} from "@/components/ui/dialog/dialog-category-create/schema";
+} from "@/components/ui/dialog/categories/schema";
 import { Api } from "@/http/axios";
 import { CategoriesGateway } from "@/http/categories";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,15 +15,14 @@ import CategoriasView from "./view";
 
 export default function CategoriasPage() {
   const categoriesGateway = new CategoriesGateway(Api);
-
-  const {
-    data: categorias,
-    isError,
-    isLoading,
-  } = useQuery(["categories"], () => categoriesGateway.getCategories(), {
-    keepPreviousData: true,
-    staleTime: 1000 * 60,
-  });
+  const { data: categorias, isLoading } = useQuery(
+    ["categories"],
+    () => categoriesGateway.getCategories(),
+    {
+      keepPreviousData: true,
+      staleTime: 60000,
+    }
+  );
 
   const formMethods = useForm<
     TCreateCategoryInput,
@@ -51,7 +49,7 @@ export default function CategoriasPage() {
     },
   });
 
-  const { mutateAsync: deleteCategory } = useMutation({
+  const { mutateAsync: deleteCategory, isLoading: isDeleting } = useMutation({
     mutationFn: async (id: string) => categoriesGateway.deleteCategory(id),
     onSuccess: async () => {
       await queryClient.invalidateQueries(["categories"]);
@@ -59,23 +57,42 @@ export default function CategoriasPage() {
     onError: (error) => {
       console.error(error);
     },
-  })
+  });
 
-  const onSubmit = async (data: TCreateCategory) => {
+  const { mutateAsync: editCategory, isLoading: isEditing } = useMutation({
+    mutationFn: async ({ id, data }: { id: string; data: TCreateCategory }) =>
+      categoriesGateway.editCategory(id, data),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(["categories"]);
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
+  async function onCreate(data: TCreateCategory) {
     await createCategory(data);
   }
 
-  const onDelete = async (id: string) => { 
+  async function onDelete(id: string) {
     await deleteCategory(id);
+  }
+
+  async function onEdit(id: string, data: TCreateCategory) {
+    await editCategory({ id, data });
   }
 
   return (
     <CategoriasView
       formMethods={formMethods}
       categories={categorias?.items}
-      loading={isLoading}
-      onSubmit={onSubmit}
+      isLoading={isLoading}
+      onCreate={onCreate}
+      isCreating={isCreating}
       onDelete={onDelete}
+      isDeleting={isDeleting}
+      onEdit={onEdit}
+      isEditing={isEditing}
     />
   );
 }

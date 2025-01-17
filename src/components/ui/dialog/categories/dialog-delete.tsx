@@ -1,5 +1,5 @@
 import { Trash2 } from "lucide-react";
-import { Button } from "../button";
+import { Button } from "../../button";
 import {
   DialogClose,
   DialogContent,
@@ -7,15 +7,21 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "../dialog";
+} from "../../dialog";
 
 type TDialogDelete = {
   title?: string;
   item?: string;
-  onHandleDelete: () => void;
+  onDelete: () => void;
+  isDeleting?: boolean;
 };
 
-export function DialogDelete({ title, item, onHandleDelete }: TDialogDelete) {
+export function DialogDelete({
+  title,
+  item,
+  onDelete,
+  isDeleting,
+}: TDialogDelete) {
   return (
     <DialogContent className="max-w-[432px] p-0">
       <DialogHeader>
@@ -34,9 +40,13 @@ export function DialogDelete({ title, item, onHandleDelete }: TDialogDelete) {
       </DialogHeader>
       <DialogFooter className="py-3 px-4 border-t border-border w-full flex items-center gap-2">
         <DialogClose asChild>
-          <Button variant="ghost">Cancelar</Button>
+          <Button variant="ghost" disabled={isDeleting}>
+            Cancelar
+          </Button>
         </DialogClose>
-        <Button onClick={onHandleDelete}>Excluir</Button>
+        <Button onClick={onDelete} disabled={isDeleting}>
+          Excluir
+        </Button>
       </DialogFooter>
     </DialogContent>
   );

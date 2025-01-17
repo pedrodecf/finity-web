@@ -1,5 +1,4 @@
 "use client";
-
 import AddButton from "@/components/add-button";
 import { CategoriesChartDashboard } from "@/components/charts/categories-chart-dashboard";
 import { ControllerDashboard } from "@/components/controller-dashboard";
@@ -7,63 +6,65 @@ import CategoriesTable from "@/components/tables/categorias/categories-table";
 import { fetchTransactions } from "@/components/tables/transactions-mock";
 import { TCategories } from "@/components/tables/type";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { DialogCategoryCreate } from "@/components/ui/dialog/dialog-category-create/dialog-transaction-create";
+import { DialogCategoryCreate } from "@/components/ui/dialog/categories/dialog-create";
+import { DialogDelete } from "@/components/ui/dialog/categories/dialog-delete";
+import { DialogCategoryEdit } from "@/components/ui/dialog/categories/dialog-edit";
 import {
   TCreateCategory,
   TCreateCategoryInput,
   TCreateCategoryOutput,
-} from "@/components/ui/dialog/dialog-category-create/schema";
-import { DialogDelete } from "@/components/ui/dialog/dialog-delete";
+} from "@/components/ui/dialog/categories/schema";
 import { getFirstLetter } from "@/lib/getters/get-first-letter";
 import * as LucideIcons from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 
-type TCategoriasView = {
+type Props = {
   formMethods: UseFormReturn<
     TCreateCategoryInput,
     unknown,
     TCreateCategoryOutput
   >;
-  loading?: boolean;
-  isCreating?: boolean;
   categories?: TCategories[];
-  onSubmit: (data: TCreateCategory) => void;
+  isLoading?: boolean;
+  onCreate: (data: TCreateCategory) => void;
+  isCreating?: boolean;
   onDelete: (id: string) => void;
+  isDeleting?: boolean;
+  onEdit: (id: string, data: TCreateCategory) => void;
+  isEditing?: boolean;
 };
 
 export default function CategoriasView({
   formMethods,
-  loading,
-  isCreating,
   categories,
-  onSubmit,
+  isLoading,
+  onCreate,
+  isCreating,
   onDelete,
-}: TCategoriasView) {
+  isDeleting,
+  onEdit,
+  isEditing,
+}: Props) {
   const transactions = fetchTransactions();
-
-  console.log(categories);
   return (
     <>
-      <ControllerDashboard userName={"user.nome"} />
+      <ControllerDashboard userName="user.nome" />
       <div className="grid grid-cols-2 gap-6 w-full h-full overflow-hidden tablet:flex tablet:flex-col tablet:overflow-auto tablet:gap-4">
         <CategoriesTable
-          loading={loading}
+          loading={isLoading}
           data={categories}
           columns={[
             {
               accessorKey: "nome",
-              header: () => {
-                return (
-                  <p className="text-sm text-sub font-semibold leading-none tracking-tight pt-2 pb-2">
-                    Nome
-                  </p>
-                );
-              },
+              header: () => (
+                <p className="text-sm text-sub font-semibold leading-none tracking-tight pt-2 pb-2">
+                  Nome
+                </p>
+              ),
               cell: ({ row }) => {
                 const IconComponent = LucideIcons[
                   row.original.avatar as keyof typeof LucideIcons
                 ] as React.ElementType;
-
                 return (
                   <div className="flex items-center text-left gap-2">
                     <div
@@ -73,7 +74,7 @@ export default function CategoriasView({
                       {IconComponent ? (
                         <IconComponent size={16} />
                       ) : (
-                        <>{getFirstLetter(row.original.nome)}</>
+                        getFirstLetter(row.original.nome)
                       )}
                     </div>
                     <p className="truncate">{row.original.nome}</p>
@@ -87,41 +88,44 @@ export default function CategoriasView({
             },
             {
               id: "actions",
-              header: () => {
-                return (
-                  <p className="text-sm text-sub text-right mr-1 font-semibold leading-none tracking-tight pt-2 pb-2">
-                    Ações
-                  </p>
-                );
-              },
-              cell: ({ row }) => {
-                return (
-                  <div className="flex items-center justify-end gap-3">
-                    <Dialog>
-                      <DialogTrigger>
-                        <LucideIcons.Pencil
-                          className="text-sub hover:text-foreground transition-all"
-                          size={20}
-                        />
-                      </DialogTrigger>
-                    </Dialog>
-
-                    <Dialog>
-                      <DialogTrigger>
-                        <LucideIcons.Trash2
-                          className="text-sub hover:text-foreground transition-all"
-                          size={20}
-                        />
-                      </DialogTrigger>
-                      <DialogDelete
-                        title="Deletar transação"
-                        item={row.original.nome}
-                        onHandleDelete={() => onDelete(String(row.original.id))}
+              header: () => (
+                <p className="text-sm text-sub text-right mr-1 font-semibold leading-none tracking-tight pt-2 pb-2">
+                  Ações
+                </p>
+              ),
+              cell: ({ row }) => (
+                <div className="flex items-center justify-end gap-3">
+                  <Dialog>
+                    <DialogTrigger>
+                      <LucideIcons.Pencil
+                        className="text-sub hover:text-foreground transition-all"
+                        size={20}
                       />
-                    </Dialog>
-                  </div>
-                );
-              },
+                    </DialogTrigger>
+                    <DialogCategoryEdit
+                      title="Editar categoria"
+                      categoryId={String(row.original.id)}
+                      isEditing={isEditing}
+                      onEdit={(id, data) => onEdit(id, data)}
+                      categoryData={row.original}
+                    />
+                  </Dialog>
+                  <Dialog>
+                    <DialogTrigger>
+                      <LucideIcons.Trash2
+                        className="text-sub hover:text-foreground transition-all"
+                        size={20}
+                      />
+                    </DialogTrigger>
+                    <DialogDelete
+                      title="Deletar transação"
+                      item={row.original.nome}
+                      onDelete={() => onDelete(String(row.original.id))}
+                      isDeleting={isDeleting}
+                    />
+                  </Dialog>
+                </div>
+              ),
               enableResizing: false,
               size: 100,
               minSize: 100,
@@ -129,7 +133,6 @@ export default function CategoriasView({
             },
           ]}
         />
-
         <div className="h-full gap-6 flex flex-col tablet:gap-4 overflow-hidden">
           <Dialog>
             <DialogTrigger>
@@ -142,8 +145,8 @@ export default function CategoriasView({
             </DialogTrigger>
             <DialogCategoryCreate
               formMethods={formMethods}
+              onCreate={onCreate}
               isCreating={isCreating}
-              onSubmit={onSubmit}
               title="Adicionar categoria"
             />
           </Dialog>
