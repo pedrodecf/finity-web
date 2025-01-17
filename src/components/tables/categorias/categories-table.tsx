@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 import {
   ColumnFiltersState,
   SortingState,
@@ -20,12 +21,14 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import React from "react";
-import { DataTableProps } from "../type";
 import { DataTablePagination } from "../pagination";
+import { DataTableProps } from "../type";
+import { FallbackList } from "./fallback-list";
 
-export function CategoriesTable<TData, TValue>({
+export default function CategoriesTable<TData, TValue>({
   columns,
-  data,
+  data = [],
+  loading,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -73,19 +76,10 @@ export function CategoriesTable<TData, TValue>({
                   return (
                     <TableHead
                       key={header.id}
-                      className={`bg-card ${
-                        header.index === 0
-                          ? "w-[44%]"
-                          : header.index === 1
-                          ? "w-[15%]"
-                          : header.index === 2
-                          ? "w-[15%]"
-                          : header.index === 3
-                          ? "w-[15%]"
-                          : header.index === 4
-                          ? "w-[11%]"
-                          : ""
-                      }`}
+                      className="bg-card"
+                      style={{
+                        width: header.getSize(),
+                      }}
                     >
                       {header.isPlaceholder
                         ? null
@@ -100,23 +94,28 @@ export function CategoriesTable<TData, TValue>({
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows?.map((row, i) => (
+            {!!table.getRowModel().rows?.length &&
+              table.getRowModel().rows.map((row, i) => (
                 <React.Fragment key={row.id}>
-                  <TableRow data-state={row.getIsSelected() && "selected"}>
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell
-                        key={cell.id}
-                        className="py-3.5 bg-card whitespace-nowrap overflow-hidden text-ellipsis"
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    ))}
+                  <TableRow
+                    data-test-id={`data-table-content-row-${row.id}`}
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                    className={cn(
+                      "py-3.5 bg-card whitespace-nowrap overflow-hidden text-ellipsis"
+                    )}
+                  >
+                    {row.getVisibleCells().map((cell) => {
+                      return (
+                        <TableCell className="py-6" key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      );
+                    })}
                   </TableRow>
-
                   {i < table.getRowModel().rows.length - 1 && (
                     <tr>
                       <td
@@ -128,14 +127,14 @@ export function CategoriesTable<TData, TValue>({
                     </tr>
                   )}
                 </React.Fragment>
-              ))
-            ) : (
-              <TableRow>
+              ))}
+            {!!!table.getRowModel().rows?.length && (
+              <TableRow className="hover:bg-transparent">
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className="w-full font-bold text-center"
                 >
-                  Sem resultados! 😢
+                  {!loading ? "Sem resultados" : <FallbackList />}
                 </TableCell>
               </TableRow>
             )}

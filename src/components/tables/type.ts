@@ -16,7 +16,8 @@ export type TTransactions = {
 
 export interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  data?: TData[];
+  loading?: boolean;
 }
 
 export type TCategories = {

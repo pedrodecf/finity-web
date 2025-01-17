@@ -12,7 +12,7 @@ export const categoriesColumns: ColumnDef<TCategories>[] = [
     accessorKey: "nome",
     header: () => {
       return (
-        <p className="text-sm text-sub font-semibold leading-none tracking-tight pt-2 pb-3">
+        <p className="text-sm text-sub font-semibold leading-none tracking-tight pt-2 pb-2">
           Nome
         </p>
       );
@@ -37,12 +37,16 @@ export const categoriesColumns: ColumnDef<TCategories>[] = [
         </div>
       );
     },
+    enableResizing: false,
+    size: 200,
+    minSize: 200,
+    maxSize: 200,
   },
   {
     id: "actions",
     header: () => {
       return (
-        <p className="text-sm text-sub font-semibold leading-none tracking-tight pt-2 pb-3">
+        <p className="text-sm text-sub text-right mr-1 font-semibold leading-none tracking-tight pt-2 pb-2">
           Ações
         </p>
       );
@@ -75,5 +79,9 @@ export const categoriesColumns: ColumnDef<TCategories>[] = [
         </div>
       );
     },
+    enableResizing: false,
+    size: 100,
+    minSize: 100,
+    maxSize: 100,
   },
 ];
