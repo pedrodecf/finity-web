@@ -29,11 +29,9 @@ export default function CategoriasView({ formMethods }: TCategoriasView) {
   return (
     <>
       <ControllerDashboard userName={"user.nome"} />
-      <div className="grid grid-cols-2 gap-6 w-full flex-1 h-full overflow-hidden tablet:flex tablet:flex-col tablet:overflow-auto tablet:gap-4">
-        <div className="col-span-1">
-          <CategoriesTable data={categories} columns={categoriesColumns} />
-        </div>
-        <div className="flex flex-col gap-6 w-full flex-1 h-full overflow-hidden tablet:flex tablet:flex-col tablet:overflow-auto tablet:gap-4">
+      <div className="grid grid-cols-2 gap-6 w-full h-full overflow-hidden tablet:flex tablet:flex-col tablet:overflow-auto tablet:gap-4">
+        <CategoriesTable data={categories} columns={categoriesColumns} />
+        <div className="h-full gap-6 flex flex-col tablet:gap-4 overflow-hidden">
           <Dialog>
             <DialogTrigger>
               <AddButton

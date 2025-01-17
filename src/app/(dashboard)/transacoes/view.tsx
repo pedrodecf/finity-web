@@ -37,7 +37,7 @@ export default function TransacoesView({
           <DialogTrigger>
             <AddButton
               title="Adiconar transação"
-              description="Crie uma nova transação"
+              description="Crie uma nova entrada ou saída"
               icon="ChartSpline"
             />
           </DialogTrigger>

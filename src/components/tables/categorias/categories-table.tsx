@@ -20,8 +20,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import React from "react";
-import { DataTablePagination } from "../pagination";
 import { DataTableProps } from "../type";
+import { DataTablePagination } from "../pagination";
 
 export function CategoriesTable<TData, TValue>({
   columns,
@@ -52,7 +52,7 @@ export function CategoriesTable<TData, TValue>({
   });
 
   return (
-    <>
+    <div className="h-full flex flex-col overflow-hidden">
       <div className="flex flex-col gap-4 w-full items-center justify-between pb-4 tablet:flex-col tablet:gap-2 tablet:pb-0">
         <Input
           placeholder="Filtre pelo nome..."
@@ -149,6 +149,6 @@ export function CategoriesTable<TData, TValue>({
           className="justify-between w-full"
         />
       </div>
-    </>
+    </div>
   );
 }

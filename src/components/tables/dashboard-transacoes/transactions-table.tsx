@@ -37,7 +37,7 @@ export function TransactionsTable<TData, TValue>({
   });
 
   return (
-    <div className="bg-card rounded-lg overflow-y-auto h-full border border-border">
+    <div className="bg-card rounded-lg overflow-y-auto border border-border">
       <div className="px-6 py-5 flex items-center justify-between mobile:pb-2">
         <h2 className="text-sm text-sub font-semibold leading-none tracking-tight">
           <Link

@@ -1,7 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 
 export type TTransactions = {
-  id: string;
+  id: number;
   valor: number;
   tipo: "Entrada" | "Saida";
   custoFixo: boolean;
@@ -24,4 +24,4 @@ export type TCategories = {
   nome: string;
   avatar: string;
   hex: string;
-}
+};
