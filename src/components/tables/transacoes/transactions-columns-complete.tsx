@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { DialogDelete } from "@/components/ui/dialog/dialog-delete";
 import { formatDateToBR } from "@/lib/formatters/format-date-br";
 import { formatToBRL } from "@/lib/formatters/format-to-brl";
 import { getFirstLetter } from "@/lib/getters/get-first-letter";
@@ -23,6 +22,7 @@ import {
   TooltipTrigger,
 } from "../../ui/primitive/tooltip";
 import { TTransactions } from "../type";
+import { DialogDelete } from "@/components/ui/dialog/categories/dialog-delete";
 
 export const transactionsColumnsComplete: ColumnDef<TTransactions>[] = [
   {
@@ -204,11 +204,11 @@ export const transactionsColumnsComplete: ColumnDef<TTransactions>[] = [
                 size={20}
               />
             </DialogTrigger>
-            <DialogDelete
+            {/* <DialogDelete
               title="Deletar transação"
               item="Compra no Jaú"
               onHandleDelete={() => console.log("Deletar transação")}
-            />
+            /> */}
           </Dialog>
         </div>
       );

@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/toaster";
 import "animate.css";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
@@ -24,6 +25,7 @@ export default function RootLayout({
     <html lang="pt-br">
       <body className={`${generalSans.variable} antialiased`}>
         <Providers>{children}</Providers>
+        <Toaster />
       </body>
     </html>
   );

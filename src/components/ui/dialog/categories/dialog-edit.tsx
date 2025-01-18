@@ -1,6 +1,6 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Layers2 } from "lucide-react";
+import { Pencil } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "../../button";
@@ -72,7 +72,7 @@ export function DialogCategoryEdit({
         <DialogHeader>
           {title && (
             <DialogTitle className="py-4 px-6 border-b border-border w-full flex items-center gap-2">
-              <Layers2 size={24} />
+              <Pencil size={24} />
               {title}
             </DialogTitle>
           )}
@@ -103,33 +103,19 @@ export function DialogCategoryEdit({
             />
           </div>
         </DialogHeader>
-        <DialogFooter className="px-4 py-3 border-t border-border w-full flex items-center gap-2 justify-between sm:justify-between">
-          <Button
-            variant="link"
-            disabled={isEditing}
-            onClick={(e) => {
-              e.preventDefault();
-              reset();
-            }}
-          >
-            Limpar
+        <DialogFooter className="px-4 py-3 border-t border-border w-full flex items-center gap-2 justify-end sm:justify-end">
+          <DialogClose asChild>
+            <Button
+              variant="ghost"
+              disabled={isEditing}
+              onClick={() => reset()}
+            >
+              Cancelar
+            </Button>
+          </DialogClose>
+          <Button type="submit" disabled={isEditing}>
+            Salvar
           </Button>
-          <div className="flex gap-2">
-            <DialogClose asChild>
-              <Button
-                variant="ghost"
-                disabled={isEditing}
-                onClick={() => reset()}
-              >
-                Cancelar
-              </Button>
-            </DialogClose>
-            <DialogClose asChild>
-              <Button type="submit" disabled={isEditing}>
-                Salvar
-              </Button>
-            </DialogClose>
-          </div>
         </DialogFooter>
       </form>
     </DialogContent>

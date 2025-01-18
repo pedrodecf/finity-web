@@ -38,12 +38,13 @@ export function DialogCategoryCreate({
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = formMethods;
 
   const onHandleSubmit = async (data: TCreateCategory) => {
     onCreate(data);
-    formMethods.reset();
+    reset();
   };
 
   const onResetForm = () => {
@@ -109,11 +110,9 @@ export function DialogCategoryCreate({
                 Cancelar
               </Button>
             </DialogClose>
-            <DialogClose asChild>
-              <Button type="submit" disabled={isCreating}>
-                Salvar
-              </Button>
-            </DialogClose>
+            <Button type="submit" disabled={isCreating}>
+              Salvar
+            </Button>
           </div>
         </DialogFooter>
       </form>

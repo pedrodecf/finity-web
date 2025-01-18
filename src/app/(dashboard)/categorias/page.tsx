@@ -6,15 +6,24 @@ import {
   TCreateCategoryInput,
   TCreateCategoryOutput,
 } from "@/components/ui/dialog/categories/schema";
+import { useToast } from "@/hooks/use-toast";
 import { Api } from "@/http/axios";
 import { CategoriesGateway } from "@/http/categories";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { CircleCheckBig, CircleX } from "lucide-react";
 import { useForm } from "react-hook-form";
 import CategoriasView from "./view";
 
+type TErrorResponse = {
+  message?: string;
+};
+
 export default function CategoriasPage() {
   const categoriesGateway = new CategoriesGateway(Api);
+  const { toast } = useToast();
+
   const { data: categorias, isLoading } = useQuery(
     ["categories"],
     () => categoriesGateway.getCategories(),
@@ -43,9 +52,22 @@ export default function CategoriasPage() {
       categoriesGateway.createCategory(data),
     onSuccess: async () => {
       await queryClient.invalidateQueries(["categories"]);
+      toast({
+        variant: "success",
+        title: "Categoria criada com sucesso",
+        description: `Nova categoria foi cadastrada`,
+        icon: <CircleCheckBig />,
+      });
     },
-    onError: (error) => {
-      console.error(error);
+    onError: (error: AxiosError<TErrorResponse>) => {
+      toast({
+        variant: "destructive",
+        title: "Erro ao criar categoria",
+        description:
+          error.response?.data?.message ||
+          "Um problema inesperado ocorreu, tente novamente",
+        icon: <CircleX />,
+      });
     },
   });
 
@@ -53,9 +75,22 @@ export default function CategoriasPage() {
     mutationFn: async (id: string) => categoriesGateway.deleteCategory(id),
     onSuccess: async () => {
       await queryClient.invalidateQueries(["categories"]);
+      toast({
+        variant: "success",
+        title: "Categoria deletada com sucesso",
+        description: "A categoria foi removida da lista",
+        icon: <CircleCheckBig />,
+      });
     },
-    onError: (error) => {
-      console.error(error);
+    onError: (error: AxiosError<TErrorResponse>) => {
+      toast({
+        variant: "destructive",
+        title: "Erro ao deletar categoria",
+        description:
+          error.response?.data?.message ||
+          "Um problema inesperado ocorreu, tente novamente",
+        icon: <CircleX />,
+      });
     },
   });
 
@@ -64,9 +99,22 @@ export default function CategoriasPage() {
       categoriesGateway.editCategory(id, data),
     onSuccess: async () => {
       await queryClient.invalidateQueries(["categories"]);
+      toast({
+        variant: "success",
+        title: "Categoria editada com sucesso",
+        description: "A categoria foi atualizada",
+        icon: <CircleCheckBig />,
+      });
     },
-    onError: (error) => {
-      console.error(error);
+    onError: (error: AxiosError<TErrorResponse>) => {
+      toast({
+        variant: "destructive",
+        title: "Erro ao editar categoria",
+        description:
+          error.response?.data?.message ||
+          "Um problema inesperado ocorreu, tente novamente",
+        icon: <CircleX />,
+      });
     },
   });
 
