@@ -7,11 +7,10 @@ export const createTransactionSchema = z.object({
     .max(50, "Máximo 50 caracteres")
     .trim()
     .default(""),
-  valor: z.coerce
-    .string({ required_error: "Campo obrigatório" })
-    .min(2, "Mínimo 2 caracteres")
-    .trim()
-    .default(""),
+  valor: z.union([
+    z.coerce.string({ required_error: "Campo obrigatório" }).min(2, "Mínimo 2 caracteres").trim().default(""),
+    z.coerce.number({ required_error: "Campo obrigatório" })
+  ]),
   categoriaId: z.coerce
     .number({ required_error: "Campo obrigatório" })
     .positive({ message: "Campo obrigatório" }),
@@ -20,8 +19,8 @@ export const createTransactionSchema = z.object({
     .min(1, "Campo obrigatório")
     .default(""),
   tipo: z.enum(["Entrada", "Saida"]).default("Entrada"),
-  custoFixo: z.boolean().optional(),
-  cartaoCredito: z.boolean().optional(),
+  custoFixo: z.boolean().optional().nullable(),
+  cartaoCredito: z.boolean().optional().nullable(),
 });
 
 export type TCreateTransaction = z.infer<typeof createTransactionSchema>;

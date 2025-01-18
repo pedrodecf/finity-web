@@ -98,7 +98,6 @@ export default function CategoriesTable<TData, TValue>({
               table.getRowModel().rows.map((row, i) => (
                 <React.Fragment key={row.id}>
                   <TableRow
-                    data-test-id={`data-table-content-row-${row.id}`}
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
                     className={cn(

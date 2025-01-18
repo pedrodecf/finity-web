@@ -1,4 +1,5 @@
-import { HandCoins } from "lucide-react";
+import { Api } from "@/http/axios";
+import { ChartSpline } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { Button } from "../../button";
 import { Combobox } from "../../combobox";
@@ -12,16 +13,21 @@ import {
 } from "../../dialog";
 import { Input } from "../../input";
 import { Radio } from "../../radio";
-import { TCreateTransactionInput, TCreateTransactionOutput } from "./schema";
+import {
+  TCreateTransaction,
+  TCreateTransactionInput,
+  TCreateTransactionOutput,
+} from "./schema";
 
 type TDialogTransactionCreate = {
   title?: string;
-  onHandleSubmit: () => void;
   formMethods: UseFormReturn<
     TCreateTransactionInput,
     unknown,
     TCreateTransactionOutput
   >;
+  onCreate: (data: TCreateTransaction) => void;
+  isCreating?: boolean;
 };
 
 const frameworks = [
@@ -49,8 +55,9 @@ const frameworks = [
 
 export function DialogTransactionCreate({
   title,
-  onHandleSubmit,
   formMethods,
+  onCreate,
+  isCreating,
 }: TDialogTransactionCreate) {
   const {
     control,
@@ -61,13 +68,20 @@ export function DialogTransactionCreate({
 
   const tipo = watch("tipo");
 
+  const onHandleSubmit = async (data: TCreateTransaction) => {
+    onCreate(data);
+    formMethods.reset();
+  };
+
+  console.log(formMethods.watch("categoriaId"));
+
   return (
     <DialogContent className="max-w-[500px] p-0">
       <form onSubmit={handleSubmit(onHandleSubmit)}>
         <DialogHeader>
           {!!title && (
             <DialogTitle className="py-4 px-6 border-b border-border w-full flex items-center gap-2">
-              <HandCoins size={24} />
+              <ChartSpline size={24} />
               {title}
             </DialogTitle>
           )}
@@ -105,6 +119,11 @@ export function DialogTransactionCreate({
               helperText={errors.categoriaId?.message}
               data={frameworks}
               placeholder="Selecione uma categoria"
+              request={{
+                api: Api,
+                path: "/categorias",
+                queries: {},
+              }}
             />
             <div className="flex gap-10 items-center justify-between">
               <Radio
@@ -177,9 +196,13 @@ export function DialogTransactionCreate({
           </Button>
           <div className="flex gap-2">
             <DialogClose asChild>
-              <Button variant="ghost">Cancelar</Button>
+              <Button variant="ghost" disabled={isCreating}>
+                Cancelar
+              </Button>
             </DialogClose>
-            <Button type="submit">Salvar</Button>
+            <Button type="submit" disabled={isCreating}>
+              Salvar
+            </Button>
           </div>
         </DialogFooter>
       </form>

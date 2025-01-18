@@ -1,9 +1,14 @@
 "use client";
 
+import { AxiosInstance } from "axios";
+import { CommandLoading } from "cmdk";
 import { Check, ChevronsUpDown } from "lucide-react";
 import * as React from "react";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
+import { useInView } from "react-intersection-observer";
+import { useDebounce } from "use-debounce";
 
+import { queryClient } from "@/app/providers";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -23,14 +28,21 @@ import { cva } from "class-variance-authority";
 import { Label } from "./label";
 
 interface ComboboxOption {
-  value: number;
+  value: string | number;
   label: string;
+}
+
+interface ComboboxRequest {
+  api: AxiosInstance;
+  path: string;
+  queries?: { [key: string]: any };
 }
 
 interface ComboboxProps<T extends FieldValues> {
   control: Control<T>;
   name: Path<T>;
-  data: ComboboxOption[];
+  request?: ComboboxRequest;
+  data?: ComboboxOption[];
   label?: string;
   variant?: "default" | "filter";
   placeholder?: string;
@@ -39,6 +51,87 @@ interface ComboboxProps<T extends FieldValues> {
   readOnly?: boolean;
   tooltipMessage?: string;
   size?: "default" | "sm" | "lg";
+  disabled?: boolean;
+}
+
+function useSelect({
+  open,
+  searchQuery,
+  request,
+}: {
+  open: boolean;
+  searchQuery: string;
+  request?: ComboboxRequest;
+}) {
+  const [options, setOptions] = React.useState<ComboboxOption[]>([]);
+  const [page, setPage] = React.useState(1);
+  const [hasNextPage, setHasNextPage] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [isFetchingNextPage, setIsFetchingNextPage] = React.useState(false);
+
+  async function fetchData(pageToFetch: number, reset = false) {
+    if (!request) return;
+
+    try {
+      if (reset) {
+        setOptions([]);
+        setPage(1);
+      }
+      setLoading(true);
+
+      const response = await request.api.get(request.path, {
+        params: {
+          ...request.queries,
+          page: pageToFetch,
+          quantity: 10,
+          nome: searchQuery,
+          orderBy: "nome",
+          ordination: "asc",
+        },
+      });
+
+      const { items = [], pages = 1 } = response.data;
+      const newOptions: ComboboxOption[] = items.map((item: any) => ({
+        value: item.id,
+        label: item.nome,
+      }));
+
+      setOptions((prev) => (reset ? newOptions : [...prev, ...newOptions]));
+      setHasNextPage(pageToFetch < pages);
+    } catch (err) {
+      console.error("Erro ao buscar dados:", err);
+    } finally {
+      setLoading(false);
+      setIsFetchingNextPage(false);
+    }
+  }
+
+  React.useEffect(() => {
+    if (request && open) {
+      queryClient.invalidateQueries([request.path]);
+      fetchData(1, true);
+    }
+  }, [open, searchQuery]);
+
+  function fetchNextPage() {
+    if (!hasNextPage || isFetchingNextPage) return;
+    setIsFetchingNextPage(true);
+    setPage((p) => p + 1);
+  }
+
+  React.useEffect(() => {
+    if (page > 1) {
+      fetchData(page);
+    }
+  }, [page]);
+
+  return {
+    options,
+    loading,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+  };
 }
 
 const comboboxButtonVariants = cva(
@@ -60,7 +153,8 @@ const comboboxButtonVariants = cva(
 export function Combobox<T extends FieldValues>({
   control,
   name,
-  data,
+  request,
+  data = [],
   label,
   variant = "default",
   placeholder = "Selecione uma opção",
@@ -69,6 +163,7 @@ export function Combobox<T extends FieldValues>({
   readOnly,
   tooltipMessage,
   size = "default",
+  disabled = false,
 }: ComboboxProps<T>) {
   return (
     <Controller
@@ -76,19 +171,42 @@ export function Combobox<T extends FieldValues>({
       control={control}
       render={({ field: { onChange, value } }) => {
         const [open, setOpen] = React.useState(false);
-        const inputId = React.useId();
+        const [searchText, setSearchText] = React.useState("");
+        const [debouncedSearch] = useDebounce(searchText, 500);
+
+        const {
+          options: remoteOptions,
+          loading,
+          isFetchingNextPage,
+          hasNextPage,
+          fetchNextPage,
+        } = useSelect({
+          open,
+          searchQuery: debouncedSearch,
+          request,
+        });
+
+        const { ref: lastItemRef, inView } = useInView();
+
+        React.useEffect(() => {
+          if (inView && hasNextPage && !isFetchingNextPage) {
+            fetchNextPage();
+          }
+        }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+        const finalData = request ? remoteOptions : data;
 
         const selectedOption = React.useMemo(() => {
-          return data.find((d) => d.value === value);
-        }, [data, value]);
+          return finalData.find((item) => item.value === value);
+        }, [finalData, value]);
 
-        const selectedLabel = selectedOption ? selectedOption.label : "";
+        const selectedLabel = selectedOption?.label || "";
 
         return (
           <div className={cn("flex flex-col gap-2 w-full", className)}>
             {label && (
-              <div className={cn("flex items-center gap-2")}>
-                <Label htmlFor={inputId}>{label}</Label>
+              <div className="flex items-center gap-2">
+                <Label>{label}</Label>
               </div>
             )}
 
@@ -98,37 +216,62 @@ export function Combobox<T extends FieldValues>({
                   variant="outline"
                   role="combobox"
                   aria-expanded={open}
-                  disabled={readOnly}
+                  disabled={readOnly || disabled}
                   className={cn(comboboxButtonVariants({ size }))}
                 >
                   {selectedLabel || placeholder}
                   <ChevronsUpDown className="h-4 w-4 opacity-50 shrink-0" />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-[200px] p-0" align="start">
-                <Command>
-                  <CommandInput placeholder="Pesquisar..." />
-                  <CommandList>
-                    <CommandEmpty>Nenhuma opção encontrada.</CommandEmpty>
+
+              <PopoverContent
+                align="start"
+                sideOffset={5}
+                className="w-[200px] p-0 pointer-events-auto"
+              >
+                <Command shouldFilter={false}>
+                  {request && (
+                    <CommandInput
+                      placeholder="Pesquisar..."
+                      value={searchText}
+                      onValueChange={(val) => setSearchText(val)}
+                    />
+                  )}
+
+                  <CommandList className="max-h-60 overflow-y-auto pointer-events-auto">
+                    {loading ? (
+                      <CommandLoading className="px-2 py-1.5">
+                        Carregando...
+                      </CommandLoading>
+                    ) : (
+                      <CommandEmpty>Nenhuma opção encontrada.</CommandEmpty>
+                    )}
+
                     <CommandGroup>
-                      {data.map((d) => (
-                        <CommandItem
-                          key={d.value}
-                          value={d.value.toString()}
-                          onSelect={() => {
-                            onChange(d.value);
-                            setOpen(false);
-                          }}
-                        >
-                          {d.label}
-                          <Check
-                            className={cn(
-                              "ml-auto h-4 w-4",
-                              value === d.value ? "opacity-100" : "opacity-0"
-                            )}
-                          />
-                        </CommandItem>
-                      ))}
+                      {finalData.map((item, index) => {
+                        const isLast = index === finalData.length - 1;
+                        return (
+                          <CommandItem
+                            key={item.value}
+                            ref={isLast ? lastItemRef : null}
+                            value={String(item.label)}
+                            onSelect={() => {
+                              onChange(item.value);
+                              setOpen(false);
+                            }}
+                          >
+                            {item.label}
+                            <Check
+                              className={cn(
+                                "ml-auto h-4 w-4",
+                                item.value === value
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                          </CommandItem>
+                        );
+                      })}
                     </CommandGroup>
                   </CommandList>
                 </Command>
