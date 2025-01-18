@@ -15,4 +15,12 @@ export class TransactionsGateway {
   async createTransaction(data: TCreateTransaction): Promise<void> {
     await this.api.post("/transacoes", data);
   }
+
+  async deleteTransaction(id: string): Promise<void> {
+    await this.api.delete(`/transacoes/${id}`);
+  }
+
+  async editTransaction(id: string, data: TCreateTransaction): Promise<void> {
+    await this.api.put(`/transacoes/${id}`, data);
+  }
 }

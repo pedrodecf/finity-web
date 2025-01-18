@@ -7,6 +7,7 @@ import { TransactionsTableComplete } from "@/components/tables/transacoes/transa
 import { TTransactions } from "@/components/tables/type";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { DialogDelete } from "@/components/ui/dialog/categories/dialog-delete";
 import { DialogTransactionCreate } from "@/components/ui/dialog/dialog-transaction-create/dialog-transaction-create";
 import {
   TCreateTransaction,
@@ -19,6 +20,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/primitive/tooltip";
+import { formatDateToBR } from "@/lib/formatters/format-date-br";
 import { formatToBRL } from "@/lib/formatters/format-to-brl";
 import { getFirstLetter } from "@/lib/getters/get-first-letter";
 import * as LucideIcons from "lucide-react";
@@ -32,7 +34,6 @@ import {
 } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { FinancesStack } from "./ui/cards";
-import { formatDateToBR } from "@/lib/formatters/format-date-br";
 
 type TTransacoesView = {
   transacoes?: TTransactions[];
@@ -44,6 +45,8 @@ type TTransacoesView = {
   >;
   onCreate: (data: TCreateTransaction) => void;
   isCreating: boolean;
+  onDelete: (id: string) => void;
+  isDeleting: boolean;
 };
 
 export default function TransacoesView({
@@ -52,6 +55,8 @@ export default function TransacoesView({
   formMethods,
   onCreate,
   isCreating,
+  onDelete,
+  isDeleting,
 }: TTransacoesView) {
   return (
     <>
@@ -275,11 +280,12 @@ export default function TransacoesView({
                           size={20}
                         />
                       </DialogTrigger>
-                      {/* <DialogDelete
+                      <DialogDelete
                         title="Deletar transação"
-                        item="Compra no Jaú"
-                        onHandleDelete={() => console.log("Deletar transação")}
-                      /> */}
+                        item={row.original.descricao}
+                        onDelete={() => onDelete(String(row.original.id))}
+                        isDeleting={isDeleting}
+                      />
                     </Dialog>
                   </div>
                 );

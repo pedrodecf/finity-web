@@ -123,7 +123,7 @@ export default function CategoriasView({
                       />
                     </DialogTrigger>
                     <DialogDelete
-                      title="Deletar transação"
+                      title="Deletar categoria"
                       item={row.original.nome}
                       onDelete={() => onDelete(String(row.original.id))}
                       isDeleting={isDeleting}

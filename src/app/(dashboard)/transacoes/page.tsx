@@ -75,6 +75,29 @@ export default function TransacoesPage() {
     }
   );
 
+  const { mutateAsync: deleteTransaction, isLoading: isDeleting } = useMutation({
+    mutationFn: async (id: string) => transactionsGateway.deleteTransaction(id),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(["transacoes"]);
+      toast({
+        variant: "success",
+        title: "Transação deletada com sucesso",
+        description: "A transação foi removida da lista",
+        icon: <CircleCheckBig />,
+      });
+    },
+    onError: (error: AxiosError<TErrorResponse>) => {
+      toast({
+        variant: "destructive",
+        title: "Erro ao deletar transação",
+        description:
+          error.response?.data?.message ||
+          "Um problema inesperado ocorreu, tente novamente",
+        icon: <CircleX />,
+      });
+    },
+  });
+
   function parseCurrency(value: string): number {
     const numericValue = value.replace(/\./g, "").replace(/,/g, ".");
     return parseFloat(numericValue);
@@ -92,6 +115,10 @@ export default function TransacoesPage() {
     });
   }
 
+  async function onDelete(id: string) {
+    await deleteTransaction(id);
+  }
+
   return (
     <TransacoesView
       transacoes={transacoes?.items}
@@ -99,6 +126,8 @@ export default function TransacoesPage() {
       formMethods={formMethods}
       onCreate={onCreate}
       isCreating={isCreating}
+      onDelete={onDelete}
+      isDeleting={isDeleting}
     />
   );
 }
