@@ -3,8 +3,7 @@ import AddButton from "@/components/add-button";
 import { CategoriesChartDashboard } from "@/components/charts/categories-chart-dashboard";
 import { ControllerDashboard } from "@/components/controller-dashboard";
 import CategoriesTable from "@/components/tables/categorias/categories-table";
-import { fetchTransactions } from "@/components/tables/transactions-mock";
-import { TCategories } from "@/components/tables/type";
+import { TCategories, TTransactions } from "@/components/tables/type";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { DialogCategoryCreate } from "@/components/ui/dialog/categories/dialog-create";
 import { DialogDelete } from "@/components/ui/dialog/categories/dialog-delete";
@@ -26,6 +25,8 @@ type Props = {
   >;
   categories?: TCategories[];
   isLoading?: boolean;
+  transactions?: TTransactions[];
+  isLoadingTransactions?: boolean;
   onCreate: (data: TCreateCategory) => void;
   isCreating?: boolean;
   onDelete: (id: string) => void;
@@ -38,6 +39,8 @@ export default function CategoriasView({
   formMethods,
   categories,
   isLoading,
+  transactions,
+  isLoadingTransactions,
   onCreate,
   isCreating,
   onDelete,
@@ -45,7 +48,6 @@ export default function CategoriasView({
   onEdit,
   isEditing,
 }: Props) {
-  const transactions = fetchTransactions();
   return (
     <>
       <ControllerDashboard userName="user.nome" />
@@ -65,6 +67,9 @@ export default function CategoriasView({
                 const IconComponent = LucideIcons[
                   row.original.avatar as keyof typeof LucideIcons
                 ] as React.ElementType;
+                const formatName = (name: string) => {
+                  return name.charAt(0).toUpperCase() + name.slice(1);
+                };
                 return (
                   <div className="flex items-center text-left gap-2">
                     <div
@@ -77,7 +82,7 @@ export default function CategoriasView({
                         getFirstLetter(row.original.nome)
                       )}
                     </div>
-                    <p className="truncate">{row.original.nome}</p>
+                    <p className="truncate">{formatName(row.original.nome)}</p>
                   </div>
                 );
               },
@@ -153,6 +158,7 @@ export default function CategoriasView({
           <CategoriesChartDashboard
             transacoes={transactions}
             className="col-span-1"
+            loading={isLoadingTransactions}
           />
         </div>
       </div>

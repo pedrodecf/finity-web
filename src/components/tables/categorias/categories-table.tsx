@@ -134,7 +134,7 @@ export default function CategoriesTable<TData, TValue>({
                   colSpan={columns.length}
                   className="w-full font-bold text-center"
                 >
-                  {!loading ? "Sem resultados" : <FallbackList />}
+                  {!loading ? "Sem resultados!" : <FallbackList />}
                 </TableCell>
               </TableRow>
             )}

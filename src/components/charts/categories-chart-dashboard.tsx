@@ -21,15 +21,18 @@ import Link from "next/link";
 import React from "react";
 import { Pie, PieChart } from "recharts";
 import { TTransactions } from "../tables/type";
+import { CategoriesChartFallback } from "./categories-chart-fallback";
 
 type TCategoriesChartDashboard = {
   className?: string;
-  transacoes: TTransactions[];
+  transacoes?: TTransactions[];
+  loading?: boolean;
 };
 
 export function CategoriesChartDashboard({
   className,
-  transacoes,
+  transacoes = [],
+  loading,
 }: TCategoriesChartDashboard) {
   const chartData = getExpensesByCategories(transacoes);
   const allExpenses = chartData.reduce(
@@ -50,23 +53,35 @@ export function CategoriesChartDashboard({
         </CardTitle>
       </CardHeader>
       <CardContent className="pb-0">
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px]"
-        >
-          <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Pie
-              data={chartData}
-              dataKey="expenses"
-              nameKey="categorie"
-              innerRadius={60}
-            />
-          </PieChart>
-        </ChartContainer>
+        {chartData.length ? (
+          <ChartContainer
+            config={chartConfig}
+            className="mx-auto aspect-square max-h-[250px]"
+          >
+            <PieChart>
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent hideLabel />}
+              />
+              <Pie
+                data={chartData}
+                dataKey="expenses"
+                nameKey="categorie"
+                innerRadius={60}
+              />
+            </PieChart>
+          </ChartContainer>
+        ) : (
+          <>
+            {!loading ? (
+              <div className="flex items-center justify-center h-32 p-6">
+                <p className="font-bold">Sem resultados!</p>
+              </div>
+            ) : (
+              <CategoriesChartFallback />
+            )}
+          </>
+        )}
       </CardContent>
       <CardFooter className="flex-col text-sm p-0">
         {chartData

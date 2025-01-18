@@ -9,6 +9,8 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { Api } from "@/http/axios";
 import { CategoriesGateway } from "@/http/categories";
+import { TransactionsGateway } from "@/http/transactions";
+import { TErrorResponse } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
@@ -16,17 +18,23 @@ import { CircleCheckBig, CircleX } from "lucide-react";
 import { useForm } from "react-hook-form";
 import CategoriasView from "./view";
 
-type TErrorResponse = {
-  message?: string;
-};
-
 export default function CategoriasPage() {
   const categoriesGateway = new CategoriesGateway(Api);
+  const transactionsGateway = new TransactionsGateway(Api);
   const { toast } = useToast();
 
   const { data: categorias, isLoading } = useQuery(
     ["categories"],
     () => categoriesGateway.getCategories(),
+    {
+      keepPreviousData: true,
+      staleTime: 60000,
+    }
+  );
+
+  const { data: transacoes, isLoading: isLoadingTransactions } = useQuery(
+    ["transacoes"],
+    () => transactionsGateway.getTransactions(),
     {
       keepPreviousData: true,
       staleTime: 60000,
@@ -135,6 +143,8 @@ export default function CategoriasPage() {
       formMethods={formMethods}
       categories={categorias?.items}
       isLoading={isLoading}
+      transactions={transacoes?.items}
+      isLoadingTransactions={isLoadingTransactions}
       onCreate={onCreate}
       isCreating={isCreating}
       onDelete={onDelete}
