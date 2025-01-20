@@ -2,16 +2,19 @@ import { ColumnDef } from "@tanstack/react-table";
 
 export type TTransactions = {
   id: number;
+  descricao: string;
   valor: number;
+  categoriaId: number;
+  data: Date;
   tipo: "Entrada" | "Saida";
   custoFixo: boolean;
-  descricao: string;
+  cartaoCredito: boolean;
   categoria: {
+    id: number;
     nome: string;
     avatar: string;
     hex: string;
   };
-  data: Date;
 };
 
 export interface DataTableProps<TData, TValue> {

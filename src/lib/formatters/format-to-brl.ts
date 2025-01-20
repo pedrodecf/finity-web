@@ -9,9 +9,11 @@ export function formatToBRL({
   removeSymbol,
   absolute,
 }: FormatToBRLProps): string {
-  const baseValue = absolute ? Math.abs(value) : value;
+  const adjustedValue = (absolute ? Math.abs(value) : value) / 100;
 
-  const [integerPart, fractionalPart = "00"] = baseValue.toFixed(2).split(".");
+  const [integerPart, fractionalPart = "00"] = adjustedValue
+    .toFixed(2)
+    .split(".");
 
   let integerFormatted = "";
   let count = 0;

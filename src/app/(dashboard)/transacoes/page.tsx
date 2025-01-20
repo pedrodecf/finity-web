@@ -6,7 +6,7 @@ import {
   TCreateTransaction,
   TCreateTransactionInput,
   TCreateTransactionOutput,
-} from "@/components/ui/dialog/dialog-transaction-create/schema";
+} from "@/components/ui/dialog/transactions/schema";
 import { useToast } from "@/hooks/use-toast";
 import { Api } from "@/http/axios";
 import { TransactionsGateway } from "@/http/transactions";
@@ -75,21 +75,53 @@ export default function TransacoesPage() {
     }
   );
 
-  const { mutateAsync: deleteTransaction, isLoading: isDeleting } = useMutation({
-    mutationFn: async (id: string) => transactionsGateway.deleteTransaction(id),
+  const { mutateAsync: deleteTransaction, isLoading: isDeleting } = useMutation(
+    {
+      mutationFn: async (id: string) =>
+        transactionsGateway.deleteTransaction(id),
+      onSuccess: async () => {
+        await queryClient.invalidateQueries(["transacoes"]);
+        toast({
+          variant: "success",
+          title: "Transação deletada com sucesso",
+          description: "A transação foi removida da lista",
+          icon: <CircleCheckBig />,
+        });
+      },
+      onError: (error: AxiosError<TErrorResponse>) => {
+        toast({
+          variant: "destructive",
+          title: "Erro ao deletar transação",
+          description:
+            error.response?.data?.message ||
+            "Um problema inesperado ocorreu, tente novamente",
+          icon: <CircleX />,
+        });
+      },
+    }
+  );
+
+  const { mutateAsync: editTransaction, isLoading: isEditing } = useMutation({
+    mutationFn: async ({
+      id,
+      data,
+    }: {
+      id: string;
+      data: TCreateTransaction;
+    }) => transactionsGateway.editTransaction(id, data),
     onSuccess: async () => {
       await queryClient.invalidateQueries(["transacoes"]);
       toast({
         variant: "success",
-        title: "Transação deletada com sucesso",
-        description: "A transação foi removida da lista",
+        title: "Transação editada com sucesso",
+        description: "A transação foi atualizada",
         icon: <CircleCheckBig />,
       });
     },
     onError: (error: AxiosError<TErrorResponse>) => {
       toast({
         variant: "destructive",
-        title: "Erro ao deletar transação",
+        title: "Erro ao editar transação",
         description:
           error.response?.data?.message ||
           "Um problema inesperado ocorreu, tente novamente",
@@ -99,8 +131,8 @@ export default function TransacoesPage() {
   });
 
   function parseCurrency(value: string): number {
-    const numericValue = value.replace(/\./g, "").replace(/,/g, ".");
-    return parseFloat(numericValue);
+    const numericValue = value.replace(/[.,]/g, "");
+    return Number(numericValue);
   }
 
   async function onCreate(data: TCreateTransaction) {
@@ -119,6 +151,21 @@ export default function TransacoesPage() {
     await deleteTransaction(id);
   }
 
+  async function onEdit(id: string, data: TCreateTransaction) {
+    await editTransaction({
+      id,
+      data: {
+        descricao: data.descricao,
+        valor: parseCurrency(data.valor as string),
+        categoriaId: data.categoriaId,
+        data: data.data,
+        tipo: data.tipo,
+        custoFixo: data.tipo === "Saida" ? data.custoFixo : null,
+        cartaoCredito: data.tipo === "Saida" ? data.cartaoCredito : null,
+      },
+    });
+  }
+
   return (
     <TransacoesView
       transacoes={transacoes?.items}
@@ -128,6 +175,8 @@ export default function TransacoesPage() {
       isCreating={isCreating}
       onDelete={onDelete}
       isDeleting={isDeleting}
+      onEdit={onEdit}
+      isEditing={isEditing}
     />
   );
 }

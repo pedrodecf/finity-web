@@ -7,13 +7,14 @@ import { TransactionsTableComplete } from "@/components/tables/transacoes/transa
 import { TTransactions } from "@/components/tables/type";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { DialogDelete } from "@/components/ui/dialog/categories/dialog-delete";
-import { DialogTransactionCreate } from "@/components/ui/dialog/dialog-transaction-create/dialog-transaction-create";
+import { DialogDelete } from "@/components/ui/dialog/dialog-delete";
+import { DialogTransactionCreate } from "@/components/ui/dialog/transactions/dialog-create";
+import { DialogTransactionEdit } from "@/components/ui/dialog/transactions/dialog-edit";
 import {
   TCreateTransaction,
   TCreateTransactionInput,
   TCreateTransactionOutput,
-} from "@/components/ui/dialog/dialog-transaction-create/schema";
+} from "@/components/ui/dialog/transactions/schema";
 import {
   Tooltip,
   TooltipContent,
@@ -46,7 +47,9 @@ type TTransacoesView = {
   onCreate: (data: TCreateTransaction) => void;
   isCreating: boolean;
   onDelete: (id: string) => void;
-  isDeleting: boolean;
+  isDeleting?: boolean;
+  onEdit: (id: string, data: TCreateTransaction) => void;
+  isEditing?: boolean;
 };
 
 export default function TransacoesView({
@@ -57,6 +60,8 @@ export default function TransacoesView({
   isCreating,
   onDelete,
   isDeleting,
+  onEdit,
+  isEditing,
 }: TTransacoesView) {
   return (
     <>
@@ -201,7 +206,7 @@ export default function TransacoesView({
                 return (
                   <p className="font-semibold">
                     {formatToBRL({
-                      value: row.original.valor,
+                      value: row.original.valor as number,
                     })}
                   </p>
                 );
@@ -262,6 +267,7 @@ export default function TransacoesView({
                 );
               },
               cell: ({ row }) => {
+                console.log(row.original);
                 return (
                   <div className="flex items-center justify-end gap-3">
                     <Dialog>
@@ -271,6 +277,26 @@ export default function TransacoesView({
                           size={20}
                         />
                       </DialogTrigger>
+                      <DialogTransactionEdit
+                        title="Editar transação"
+                        transactionId={String(row.original.id)}
+                        isEditing={isEditing}
+                        onEdit={(id, data) => onEdit(id, data)}
+                        transactionData={{
+                          id: row.original.id,
+                          descricao: row.original.descricao,
+                          valor: String(row.original.valor),
+                          categoriaId: row.original.categoriaId,
+                          data: String(row.original.data),
+                          tipo: row.original.tipo,
+                          custoFixo: row.original.custoFixo,
+                          cartaoCredito: row.original.cartaoCredito,
+                          categoria: {
+                            id: row.original.categoriaId,
+                            nome: row.original.categoria.nome,
+                          },
+                        }}
+                      />
                     </Dialog>
 
                     <Dialog>

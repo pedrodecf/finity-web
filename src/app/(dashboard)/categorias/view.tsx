@@ -6,7 +6,7 @@ import CategoriesTable from "@/components/tables/categorias/categories-table";
 import { TCategories, TTransactions } from "@/components/tables/type";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { DialogCategoryCreate } from "@/components/ui/dialog/categories/dialog-create";
-import { DialogDelete } from "@/components/ui/dialog/categories/dialog-delete";
+import { DialogDelete } from "@/components/ui/dialog/dialog-delete";
 import { DialogCategoryEdit } from "@/components/ui/dialog/categories/dialog-edit";
 import {
   TCreateCategory,

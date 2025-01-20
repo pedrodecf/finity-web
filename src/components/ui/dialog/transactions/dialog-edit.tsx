@@ -1,6 +1,8 @@
 import { Api } from "@/http/axios";
-import { ChartSpline } from "lucide-react";
-import { UseFormReturn } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Pencil } from "lucide-react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { Button } from "../../button";
 import { Combobox } from "../../combobox";
 import { SingleDatePicker } from "../../date-picker-single";
@@ -13,75 +15,81 @@ import {
 } from "../../dialog";
 import { Input } from "../../input";
 import { Radio } from "../../radio";
-import {
-  TCreateTransaction,
-  TCreateTransactionInput,
-  TCreateTransactionOutput,
-} from "./schema";
+import { editTransactionSchema, TEditTransaction } from "./schema";
 
-type TDialogTransactionCreate = {
+type TDialogTransactionEdit = {
   title?: string;
-  formMethods: UseFormReturn<
-    TCreateTransactionInput,
-    unknown,
-    TCreateTransactionOutput
-  >;
-  onCreate: (data: TCreateTransaction) => void;
-  isCreating?: boolean;
+  transactionId: string;
+  transactionData?: {
+    id: number;
+    descricao: string;
+    valor: string;
+    categoriaId: number;
+    data: string;
+    tipo: "Entrada" | "Saida";
+    custoFixo: boolean;
+    cartaoCredito: boolean;
+    categoria: {
+      id: number;
+      nome: string;
+    };
+  };
+  onEdit: (id: string, data: TEditTransaction) => void;
+  isEditing?: boolean;
 };
 
-const frameworks = [
-  {
-    value: 1,
-    label: "Next.js",
-  },
-  {
-    value: 2,
-    label: "SvelteKit",
-  },
-  {
-    value: 3,
-    label: "Nuxt.js",
-  },
-  {
-    value: 4,
-    label: "Remix",
-  },
-  {
-    value: 5,
-    label: "Astro",
-  },
-];
-
-export function DialogTransactionCreate({
+export function DialogTransactionEdit({
   title,
-  formMethods,
-  onCreate,
-  isCreating,
-}: TDialogTransactionCreate) {
+  transactionId,
+  transactionData,
+  onEdit,
+  isEditing,
+}: TDialogTransactionEdit) {
   const {
     control,
     handleSubmit,
     formState: { errors },
     watch,
-  } = formMethods;
+    reset,
+  } = useForm<TEditTransaction>({
+    resolver: zodResolver(editTransactionSchema),
+    defaultValues: {
+      descricao: "",
+      valor: "",
+      categoriaId: 0,
+      data: "",
+      tipo: "Entrada",
+    },
+  });
 
   const tipo = watch("tipo");
 
-  const onHandleSubmit = async (data: TCreateTransaction) => {
-    onCreate(data);
-    formMethods.reset();
-  };
+  useEffect(() => {
+    if (transactionData) {
+      reset({
+        descricao: transactionData.descricao,
+        valor: transactionData.valor,
+        categoriaId: transactionData.categoriaId,
+        data: transactionData.data,
+        tipo: transactionData.tipo,
+        custoFixo: transactionData.custoFixo,
+        cartaoCredito: transactionData.cartaoCredito,
+      });
+    }
+  }, [transactionData, reset]);
 
-  console.log(formMethods.watch("categoriaId"));
+  function onSubmit(data: TEditTransaction) {
+    onEdit(transactionId, data);
+    reset();
+  }
 
   return (
     <DialogContent className="max-w-[500px] p-0">
-      <form onSubmit={handleSubmit(onHandleSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <DialogHeader>
           {!!title && (
             <DialogTitle className="py-4 px-6 border-b border-border w-full flex items-center gap-2">
-              <ChartSpline size={24} />
+              <Pencil size={24} />
               {title}
             </DialogTitle>
           )}
@@ -117,12 +125,15 @@ export function DialogTransactionCreate({
               control={control}
               name="categoriaId"
               helperText={errors.categoriaId?.message}
-              data={frameworks}
               placeholder="Selecione uma categoria"
               request={{
                 api: Api,
                 path: "/categorias",
                 queries: {},
+              }}
+              preSelected={{
+                value: transactionData!.categoriaId,
+                label: transactionData!.categoria.nome,
               }}
             />
             <div className="flex gap-10 items-center justify-between">
@@ -185,22 +196,13 @@ export function DialogTransactionCreate({
           </div>
         </DialogHeader>
         <DialogFooter className="px-4 py-3 border-t border-border w-full flex items-center gap-2 justify-between sm:justify-between">
-          <Button
-            variant="link"
-            onClick={(e) => {
-              e.preventDefault();
-              formMethods.reset();
-            }}
-          >
-            Limpar
-          </Button>
           <div className="flex gap-2">
             <DialogClose asChild>
-              <Button variant="ghost" disabled={isCreating}>
+              <Button variant="ghost" disabled={isEditing}>
                 Cancelar
               </Button>
             </DialogClose>
-            <Button type="submit" disabled={isCreating}>
+            <Button type="submit" disabled={isEditing}>
               Salvar
             </Button>
           </div>

@@ -16,7 +16,6 @@ export default function RegistroPage() {
    })
 
    const onSubmit = async (data: RegistroSchema) => {
-      console.log(data)
    }
 
    return (

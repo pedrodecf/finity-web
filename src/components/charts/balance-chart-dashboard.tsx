@@ -200,7 +200,6 @@ export function BalanceChartDashboard({
 
     const difference = personalSpending - goal;
     let indicator: string;
-    console.log(difference);
 
     switch (true) {
       case Math.abs(difference) <= 5:
