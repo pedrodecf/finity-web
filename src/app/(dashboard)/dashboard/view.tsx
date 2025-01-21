@@ -10,23 +10,21 @@ import { UserSession } from "@/stores/session";
 import { TrendingDownIcon, TrendingUpIcon } from "lucide-react";
 
 type TDashboardView = {
-  transacoes: TTransactions[];
-  transacoesOrdenadas: TTransactions[];
-  saldoTotal: number;
-  totalEntradas: number;
-  totalSaidas: number;
-  // user: UserSession;
-  percentual: number;
+  transactions?: TTransactions[];
+  isLoadingTransactions?: boolean;
+  balance?: {
+    totalEntrada: number;
+    totalSaida: number;
+    total: number;
+  },
+  percentual?: number;
 };
 
 export default function DashboardView({
-  transacoes,
-  transacoesOrdenadas,
-  saldoTotal,
-  totalEntradas,
-  totalSaidas,
-  // user,
-  percentual,
+transactions,
+isLoadingTransactions,
+balance,
+percentual,
 }: TDashboardView) {
   return (
     <>
@@ -34,11 +32,11 @@ export default function DashboardView({
       <div className="grid grid-cols-3 gap-6 w-full tablet:flex tablet:flex-col tablet:gap-4">
         <FinancesCard
           title="Balanço"
-          balance={percentual > 0 ? "positive" : "negative"}
+          balance={percentual !== undefined ? (percentual > 0 ? "positive" : "negative") : "neutral"}
           percentage={percentual}
-          difference={totalEntradas - totalSaidas}
+          difference={(balance?.totalEntrada || 0)  - (balance?.totalSaida || 0)}
           value={formatToBRL({
-            value: saldoTotal,
+            value: balance?.total || 0,
             removeSymbol: true,
           })}
         />
@@ -46,7 +44,7 @@ export default function DashboardView({
           title="Entradas"
           titleIcon={<TrendingUpIcon size={16} />}
           value={formatToBRL({
-            value: totalEntradas,
+            value: balance?.totalEntrada || 0,
             removeSymbol: true,
           })}
         />
@@ -54,21 +52,21 @@ export default function DashboardView({
           title="Saídas"
           titleIcon={<TrendingDownIcon size={16} />}
           value={formatToBRL({
-            value: totalSaidas,
+            value: balance?.totalSaida || 0,
             removeSymbol: true,
           })}
         />
       </div>
       <div className="grid grid-cols-5 gap-6 w-full flex-1 h-full overflow-hidden tablet:flex tablet:flex-col tablet:overflow-auto tablet:gap-4">
-        <CategoriesChartDashboard transacoes={transacoes} />
+        <CategoriesChartDashboard transacoes={transactions} loading={isLoadingTransactions}/>
         <div className="col-span-3 h-full gap-6 flex flex-col tablet:gap-4 overflow-hidden">
           <BalanceChartDashboard
-            transacoes={transacoes}
+            transacoes={transactions!}
             userGastosPorcetagemMeta={50}
           />
           <TransactionsTable
             columns={transactionsColumns}
-            data={transacoesOrdenadas}
+            data={transactions!}
           />
         </div>
         <div />

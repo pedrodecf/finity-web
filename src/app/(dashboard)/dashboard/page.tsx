@@ -1,27 +1,34 @@
-import { fetchTransactions } from "@/components/tables/transactions-mock";
-import { getFinancialSummary } from "@/lib/getters/get-financial-summary";
-import { useSessionStore } from "@/stores/session";
+"use client";
+
 import DashboardView from "./view";
+import { useQuery } from "@tanstack/react-query";
+import { TransactionsGateway } from "@/http/transactions";
+import { Api } from "@/http/axios";
 
 export default function DashboardPage() {
-  const transacoes = fetchTransactions();
-  const { saldoTotal, totalEntradas, totalSaidas } =
-    getFinancialSummary(transacoes);
-  const transacoesOrdenadas = transacoes.sort((a, b) => {
-    return new Date(b.data).getTime() - new Date(a.data).getTime();
-  });
-  // const { user } = useSessionStore();
-  const percentual = (saldoTotal / totalEntradas) * 100;
+  const transactionsGateway = new TransactionsGateway(Api);
+
+  const { data: transacoes, isLoading: isLoadingTransactions, isError } = useQuery(
+    ["transacoes"],
+    () => transactionsGateway.getTransactions(),
+    {
+      keepPreviousData: true,
+      staleTime: 60000,
+    }
+  );
+
+  if (!transacoes) {
+    return null
+  }
+
+  const percentual = (transacoes?.balance.total / transacoes?.balance.totalEntrada) * 100;
 
   return (
     <DashboardView
-      transacoes={transacoes}
-      saldoTotal={saldoTotal}
-      totalEntradas={totalEntradas}
-      totalSaidas={totalSaidas}
-      transacoesOrdenadas={transacoesOrdenadas}
-      // user={user}
+      balance={transacoes.balance}
+      isLoadingTransactions={isLoadingTransactions}
       percentual={percentual}
+      transactions={transacoes.items}
     />
   );
 }
