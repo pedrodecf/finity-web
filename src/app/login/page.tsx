@@ -1,7 +1,14 @@
 "use client";
 
-import { useLogin } from "@/hooks/use-login";
+import { useToast } from "@/hooks/use-toast";
+import { Api } from "@/http/axios";
+import { UsersGateway } from "@/http/users";
+import { TErrorResponse } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { CircleCheckBig, CircleX } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import {
   LoginSchema,
@@ -12,11 +19,38 @@ import {
 import LoginView from "./view";
 
 export default function LoginPage() {
-  const { mutate: doLogin, isLoading, isError, error } = useLogin();
+  const usersGateway = new UsersGateway(Api);
+  const { toast } = useToast();
+  const router = useRouter();
 
   const formMethods = useForm<LoginSchemaInput, unknown, LoginSchemaOutput>({
     mode: "onSubmit",
     resolver: zodResolver(loginSchema),
+  });
+
+  const { mutateAsync: doLogin, isLoading } = useMutation({
+    mutationFn: (data: { email: string; senha: string }) =>
+      usersGateway.login(data),
+
+    onSuccess: () => {
+      toast({
+        variant: "success",
+        title: "Login efetuado com sucesso!",
+        description: "Seja bem-vindo ao finity",
+        icon: <CircleCheckBig />,
+      });
+      router.push("/app/dashboard");
+    },
+
+    onError: (error: AxiosError<TErrorResponse>) => {
+      toast({
+        variant: "destructive",
+        title: "Erro ao efetuar login",
+        description:
+          error.response?.data?.message || "Um erro inesperado ocorreu",
+        icon: <CircleX />,
+      });
+    },
   });
 
   const onSubmit = async (data: LoginSchema) => {
@@ -26,5 +60,11 @@ export default function LoginPage() {
     });
   };
 
-  return <LoginView formMethods={formMethods} onSubmit={onSubmit} />;
+  return (
+    <LoginView
+      formMethods={formMethods}
+      onSubmit={onSubmit}
+      loading={isLoading}
+    />
+  );
 }

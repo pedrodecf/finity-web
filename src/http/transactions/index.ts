@@ -1,14 +1,14 @@
 import { TCreateTransaction } from "@/components/ui/dialog/transactions/schema";
 import { Api } from "../axios";
-import { ListTransactionsResponse } from "./types";
+import { getTransactionsQuery, ListTransactionsResponse } from "./types";
 
 export class TransactionsGateway {
   constructor(private api: typeof Api) {}
 
-  async getTransactions(): Promise<ListTransactionsResponse> {
-    const { data } = await this.api.get(
-      "/transacoes?orderBy=data&ordination=desc&page=1&quantity=10"
-    );
+  async getTransactions(
+    params: getTransactionsQuery
+  ): Promise<ListTransactionsResponse> {
+    const { data } = await this.api.get("/transacoes", { params: { ...params, quantity: 10 } });
     return data;
   }
 

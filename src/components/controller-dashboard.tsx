@@ -4,14 +4,22 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import Welcome from "./welcome";
 
-type TControllerDashboard = {
+type TControllerDashboardProps = {
   userName: string;
+  onChangePeriod?: (period: "mesAtual" | "mesPassado" | "anoAtual") => void;
 };
 
-export function ControllerDashboard({ userName }: TControllerDashboard) {
-  const [selectedButton, setSelectedButton] = useState<string | null>(
-    "mesAtual"
-  );
+export function ControllerDashboard({
+  userName,
+  onChangePeriod,
+}: TControllerDashboardProps) {
+  const [selectedButton, setSelectedButton] = useState<"mesAtual" | "mesPassado" | "anoAtual">("mesAtual");
+
+  function handleClick(period: "mesAtual" | "mesPassado" | "anoAtual") {
+    setSelectedButton(period);
+    onChangePeriod?.(period);
+  }
+
   return (
     <div className="flex flex-row gap-4 items-center justify-between tablet:flex-col">
       <Welcome userName={userName} />
@@ -20,7 +28,7 @@ export function ControllerDashboard({ userName }: TControllerDashboard) {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => setSelectedButton("mesAtual")}
+            onClick={() => handleClick("mesAtual")}
             className={`rounded-none rounded-tl-lg rounded-bl-lg ${
               selectedButton === "mesAtual"
                 ? "bg-primary text-white"
@@ -32,7 +40,7 @@ export function ControllerDashboard({ userName }: TControllerDashboard) {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => setSelectedButton("mesPassado")}
+            onClick={() => handleClick("mesPassado")}
             className={`rounded-none ${
               selectedButton === "mesPassado"
                 ? "bg-primary text-white"
@@ -44,7 +52,7 @@ export function ControllerDashboard({ userName }: TControllerDashboard) {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => setSelectedButton("anoAtual")}
+            onClick={() => handleClick("anoAtual")}
             className={`rounded-none rounded-tr-lg rounded-br-lg ${
               selectedButton === "anoAtual"
                 ? "bg-primary text-white"

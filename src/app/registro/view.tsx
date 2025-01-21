@@ -16,11 +16,13 @@ type RegistroViewProps = {
     RegistroSchemaOutput
   >;
   onSubmit: (data: RegistroSchema) => Promise<void>;
+  loading?: boolean;
 };
 
 export default function RegistroView({
   formMethods,
   onSubmit,
+  loading,
 }: RegistroViewProps) {
   const {
     handleSubmit,
@@ -67,7 +69,7 @@ export default function RegistroView({
           helperText={errors.confirmPassword?.message}
           type="password"
         />
-        <Button type="submit" size="lg">
+        <Button type="submit" size="lg" disabled={loading}>
           Criar conta
         </Button>
         <p className="text-sm text-center mt-4">

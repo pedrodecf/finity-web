@@ -7,6 +7,12 @@ export type LoginResponse = {
   token: string;
 };
 
+export type RegisterCredentials = {
+  nome: string;
+  email: string;
+  senha: string;
+};
+
 export type Usuario = {
   id: string;
   nome: string;

@@ -8,9 +8,14 @@ import { LoginSchema, LoginSchemaInput, LoginSchemaOutput } from "./schema";
 type LoginViewProps = {
   formMethods: UseFormReturn<LoginSchemaInput, unknown, LoginSchemaOutput>;
   onSubmit: (data: LoginSchema) => Promise<void>;
+  loading?: boolean;
 };
 
-export default function LoginView({ formMethods, onSubmit }: LoginViewProps) {
+export default function LoginView({
+  formMethods,
+  onSubmit,
+  loading,
+}: LoginViewProps) {
   const {
     handleSubmit,
     control,
@@ -43,7 +48,7 @@ export default function LoginView({ formMethods, onSubmit }: LoginViewProps) {
           helperText={errors.password?.message}
           type="password"
         />
-        <Button type="submit" size="lg">
+        <Button type="submit" size="lg" disabled={loading}>
           Entrar
         </Button>
         <p className="text-sm text-center mt-4">
