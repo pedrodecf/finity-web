@@ -50,6 +50,12 @@ type TTransacoesView = {
   isDeleting?: boolean;
   onEdit: (id: string, data: TCreateTransaction) => void;
   isEditing?: boolean;
+  balance?: {
+    totalEntrada: number;
+    totalSaida: number;
+    total: number;
+  },
+  percentual?: number;
 };
 
 export default function TransacoesView({
@@ -62,6 +68,8 @@ export default function TransacoesView({
   isDeleting,
   onEdit,
   isEditing,
+  balance,
+  percentual
 }: TTransacoesView) {
   return (
     <>
@@ -84,14 +92,17 @@ export default function TransacoesView({
         </Dialog>
         <FinancesCard
           title="Balanço"
-          value="1.000,00"
-          balance="positive"
-          percentage={11}
-          difference={80}
+          value={formatToBRL({
+            value: balance?.total || 0,
+            removeSymbol: true,
+          })}
+          balance={percentual !== undefined ? (percentual > 0 ? "positive" : "negative") : "neutral"}
+          percentage={percentual}
+          difference={(balance?.totalEntrada || 0)  - (balance?.totalSaida || 0)}
         />
         {FinancesStack({
-          totalEntradas: 1000,
-          totalSaidas: 200,
+          totalEntradas: balance?.totalEntrada || 0,
+          totalSaidas: balance?.totalSaida || 0,
         })}
       </div>
       <div className="flex flex-col flex-1 h-full overflow-hidden tablet:flex-col tablet:overflow-auto tablet:gap-4 pb-6 tablet:mt-28">
@@ -151,6 +162,10 @@ export default function TransacoesView({
                   </div>
                 );
               },
+              enableResizing: false,
+              size: 300,
+              minSize: 300,
+              maxSize: 300,
             },
             {
               accessorKey: "data",
@@ -261,13 +276,12 @@ export default function TransacoesView({
               id: "actions",
               header: ({ column }) => {
                 return (
-                  <p className="text-sm text-sub font-semibold leading-none tracking-tight flex items-center">
+                  <p className="text-sm text-sub font-semibold leading-none tracking-tight mr-6">
                     Ações
                   </p>
                 );
               },
               cell: ({ row }) => {
-                console.log(row.original);
                 return (
                   <div className="flex items-center justify-end gap-3">
                     <Dialog>
@@ -316,6 +330,10 @@ export default function TransacoesView({
                   </div>
                 );
               },
+              enableResizing: false,
+              size: 65,
+              minSize: 65,
+              maxSize: 65,
             },
           ]}
         />

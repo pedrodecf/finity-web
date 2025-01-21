@@ -166,8 +166,16 @@ export default function TransacoesPage() {
     });
   }
 
+  if (!transacoes) {
+    return null;
+  }
+
+  const percentual = (transacoes?.balance.total / transacoes?.balance.totalEntrada) * 100;
+
   return (
     <TransacoesView
+      balance={transacoes?.balance}
+      percentual={percentual}
       transacoes={transacoes?.items}
       loading={isLoading}
       formMethods={formMethods}
