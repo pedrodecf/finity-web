@@ -114,7 +114,7 @@ export function TransactionsTable<TData, TValue>({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                Sem resultados.
+                <p className="font-bold">Sem resultados!</p>
               </TableCell>
             </TableRow>
           )}

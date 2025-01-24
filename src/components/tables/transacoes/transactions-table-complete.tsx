@@ -137,7 +137,11 @@ export function TransactionsTableComplete<TData, TValue>({
                   colSpan={columns.length}
                   className="w-full font-bold text-center"
                 >
-                  {!loading ? "Sem resultados!" : <TransactionTableFallback />}
+                  {!loading ? (
+                    <p className="font-bold">Sem resultados!</p>
+                  ) : (
+                    <TransactionTableFallback />
+                  )}
                 </TableCell>
               </TableRow>
             )}

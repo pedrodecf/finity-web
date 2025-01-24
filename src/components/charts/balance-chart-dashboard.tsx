@@ -57,9 +57,9 @@ export function BalanceChartDashboard({
         <div className="flex flex-col-reverse items-center justify-center @md/card:flex-row">
           {getPercentageExpenses({
             personalColor: "bg-[#64CFF6]",
-            personalPercentage: percentagePersonal,
+            personalPercentage: percentagePersonal || 0,
             fixedColor: "bg-[#6359E9]",
-            fixedPercentage: percentageFixed,
+            fixedPercentage: percentageFixed || 0,
           })}
           <ChartContainer
             config={chartConfig}
@@ -224,7 +224,7 @@ export function BalanceChartDashboard({
         indicator = "Nenhum gasto";
         break;
       default:
-        indicator = "Indefinido";
+        indicator = "Sem resultados!";
     }
 
     return indicator.split(" ").join("\n");

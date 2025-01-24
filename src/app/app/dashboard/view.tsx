@@ -64,10 +64,11 @@ export default function DashboardView({
           })}
         />
       </div>
-      <div className="grid grid-cols-5 gap-6 w-full flex-1 h-full overflow-hidden tablet:flex tablet:flex-col tablet:overflow-auto tablet:gap-4">
+      <div className="grid grid-cols-5 gap-6 w-full flex-1 overflow-hidden tablet:flex tablet:flex-col tablet:overflow-auto tablet:gap-4">
         <CategoriesChartDashboard
           transacoes={transactions}
           loading={isLoadingTransactions}
+          className="h-fit"
         />
         <div className="col-span-3 h-full gap-6 flex flex-col tablet:gap-4 overflow-hidden">
           <BalanceChartDashboard

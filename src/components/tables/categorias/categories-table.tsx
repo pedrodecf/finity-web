@@ -21,7 +21,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import React from "react";
-import { DataTablePagination } from "../pagination";
 import { DataTableProps } from "../type";
 import { FallbackList } from "./fallback-list";
 
@@ -131,7 +130,7 @@ export default function CategoriesTable<TData, TValue>({
               <TableRow className="hover:bg-transparent">
                 <TableCell
                   colSpan={columns.length}
-                  className="w-full font-bold text-center"
+                  className="w-full font-bold text-center h-full pb-8"
                 >
                   {!loading ? "Sem resultados!" : <FallbackList />}
                 </TableCell>
@@ -139,13 +138,6 @@ export default function CategoriesTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
-      </div>
-      <div className="flex items-center justify-between pt-4 w-full">
-        <DataTablePagination
-          table={table}
-          namePagination="Categorias"
-          className="justify-between w-full"
-        />
       </div>
     </div>
   );

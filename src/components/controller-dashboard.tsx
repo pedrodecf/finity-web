@@ -13,7 +13,9 @@ export function ControllerDashboard({
   userName,
   onChangePeriod,
 }: TControllerDashboardProps) {
-  const [selectedButton, setSelectedButton] = useState<"mesAtual" | "mesPassado" | "anoAtual">("mesAtual");
+  const [selectedButton, setSelectedButton] = useState<
+    "mesAtual" | "mesPassado" | "anoAtual"
+  >("mesAtual");
 
   function handleClick(period: "mesAtual" | "mesPassado" | "anoAtual") {
     setSelectedButton(period);
@@ -22,7 +24,7 @@ export function ControllerDashboard({
 
   return (
     <div className="flex flex-row gap-4 items-center justify-between tablet:flex-col">
-      <Welcome userName={userName} />
+      <Welcome />
       <div className="flex items-center gap-4 mobile:flex-col">
         <div>
           <Button
