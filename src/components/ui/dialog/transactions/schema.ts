@@ -24,7 +24,7 @@ export const createTransactionSchema = z.object({
     .default(""),
   tipo: z.enum(["Entrada", "Saida"]).default("Entrada"),
   custoFixo: z.boolean().optional().nullable(),
-  cartaoCredito: z.boolean().optional().nullable(),
+  cartaoCredito: z.union([z.boolean(), z.string()]).optional().nullable(),
 });
 
 export type TCreateTransaction = z.infer<typeof createTransactionSchema>;
@@ -52,7 +52,7 @@ export const editTransactionSchema = z.object({
     .min(1, "Campo obrigatório"),
   tipo: z.enum(["Entrada", "Saida"]).default("Entrada"),
   custoFixo: z.boolean().optional().nullable(),
-  cartaoCredito: z.boolean().optional().nullable(),
+  cartaoCredito: z.union([z.boolean(), z.string()]).optional().nullable(),
 });
 
 export type TEditTransaction = z.infer<typeof editTransactionSchema>;

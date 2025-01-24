@@ -71,44 +71,49 @@ function useSelect({
   const [loading, setLoading] = React.useState(false);
   const [isFetchingNextPage, setIsFetchingNextPage] = React.useState(false);
 
-  async function fetchData(pageToFetch: number, reset = false) {
-    if (!request) return;
-    try {
-      if (reset) {
-        setOptions([]);
-        setPage(1);
+  const fetchData = React.useCallback(
+    async (pageToFetch: number, reset = false) => {
+      if (!request) return;
+      try {
+        if (reset) {
+          setOptions([]);
+          setPage(1);
+        }
+        setLoading(true);
+        const response = await request.api.get(request.path, {
+          params: {
+            ...request.queries,
+            page: pageToFetch,
+            quantity: 10,
+            nome: searchQuery,
+            orderBy: "nome",
+            ordination: "asc",
+          },
+        });
+
+        const { items = [], pages = 1 } = response.data;
+        const newOptions: ComboboxOption[] = items.map((item: any) => ({
+          value: item.id,
+          label: item.nome,
+        }));
+
+        setOptions((prev) => (reset ? newOptions : [...prev, ...newOptions]));
+        setHasNextPage(pageToFetch < pages);
+      } catch {
+      } finally {
+        setLoading(false);
+        setIsFetchingNextPage(false);
       }
-      setLoading(true);
-      const response = await request.api.get(request.path, {
-        params: {
-          ...request.queries,
-          page: pageToFetch,
-          quantity: 10,
-          nome: searchQuery,
-          orderBy: "nome",
-          ordination: "asc",
-        },
-      });
-      const { items = [], pages = 1 } = response.data;
-      const newOptions: ComboboxOption[] = items.map((item: any) => ({
-        value: item.id,
-        label: item.nome,
-      }));
-      setOptions((prev) => (reset ? newOptions : [...prev, ...newOptions]));
-      setHasNextPage(pageToFetch < pages);
-    } catch {
-    } finally {
-      setLoading(false);
-      setIsFetchingNextPage(false);
-    }
-  }
+    },
+    [request, searchQuery]
+  );
 
   React.useEffect(() => {
     if (request && open) {
       queryClient.invalidateQueries([request.path]);
       fetchData(1, true);
     }
-  }, [open, searchQuery]);
+  }, [open, fetchData, request]);
 
   function fetchNextPage() {
     if (!hasNextPage || isFetchingNextPage) return;
@@ -120,7 +125,7 @@ function useSelect({
     if (page > 1) {
       fetchData(page);
     }
-  }, [page]);
+  }, [page, fetchData]);
 
   React.useEffect(() => {
     if (
@@ -166,40 +171,39 @@ export function Combobox<T extends FieldValues>({
   disabled = false,
   preSelected,
 }: ComboboxProps<T>) {
+  const [open, setOpen] = React.useState(false);
+  const [searchText, setSearchText] = React.useState("");
+  const [debouncedSearch] = useDebounce(searchText, 500);
+
+  const {
+    options: remoteOptions,
+    loading,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+  } = useSelect({
+    open,
+    searchQuery: debouncedSearch,
+    request,
+    preSelected,
+  });
+
+  const { ref: lastItemRef, inView } = useInView();
+
+  React.useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  const finalData = request ? remoteOptions : data;
+
   return (
     <Controller
       name={name}
       control={control}
       render={({ field: { onChange, value } }) => {
-        const [open, setOpen] = React.useState(false);
-        const [searchText, setSearchText] = React.useState("");
-        const [debouncedSearch] = useDebounce(searchText, 500);
-
-        const {
-          options: remoteOptions,
-          loading,
-          isFetchingNextPage,
-          hasNextPage,
-          fetchNextPage,
-        } = useSelect({
-          open,
-          searchQuery: debouncedSearch,
-          request,
-          preSelected,
-        });
-
-        const { ref: lastItemRef, inView } = useInView();
-
-        React.useEffect(() => {
-          if (inView && hasNextPage && !isFetchingNextPage) {
-            fetchNextPage();
-          }
-        }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
-
-        const finalData = request ? remoteOptions : data;
-        const selectedOption = React.useMemo(() => {
-          return finalData.find((item) => item.value === value);
-        }, [finalData, value]);
+        const selectedOption = finalData.find((item) => item.value === value);
         const selectedLabel = selectedOption?.label || "";
 
         return (

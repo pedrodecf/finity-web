@@ -34,7 +34,7 @@ export function DialogDelete({
         {!!item && (
           <DialogDescription className="p-4">
             Tem certeza que deseja excluir a categoria{" "}
-            <span className="font-semibold">"{item}"</span>?
+            <span className="font-semibold">&quot;{item}&quot;</span>
           </DialogDescription>
         )}
       </DialogHeader>

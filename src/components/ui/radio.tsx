@@ -79,14 +79,14 @@ export function Radio<T extends FieldValues>({
       name={name}
       control={control}
       render={({ field: { onChange, value } }) => {
-        const [open, setOpen] = React.useState(false);
+        // Removido o useState daqui
 
         const serializedValue = serializeValue(value);
 
         return (
           <div className={cn("grid gap-2", className)}>
             {label && (
-              <div className={cn("flex items-center gap-2")}>
+              <div className="flex items-center gap-2">
                 <Label htmlFor={inputId}>{label}</Label>
               </div>
             )}
@@ -110,11 +110,11 @@ export function Radio<T extends FieldValues>({
                   <div key={itemValue} className="flex items-center space-x-2">
                     <RadioGroupItem
                       value={itemValue}
-                      id={`radio-${itemValue}`}
+                      id={`radio-${itemValue}-${inputId}`}
                       disabled={readOnly}
                     />
                     <label
-                      htmlFor={`radio-${itemValue}`}
+                      htmlFor={`radio-${itemValue}-${inputId}`}
                       className={cn(
                         "cursor-pointer select-none",
                         readOnly && "cursor-not-allowed opacity-70"

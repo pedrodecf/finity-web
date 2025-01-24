@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 
 function formatDateToDDMMYYYY(date = new Date()) {
   const day = String(date.getDate()).padStart(2, "0");
@@ -13,9 +13,9 @@ function formatDateToDDMMYYYY(date = new Date()) {
 function getCurrentMonthRange() {
   const now = new Date();
   const year = now.getFullYear();
-  const month = now.getMonth(); // 0 a 11
+  const month = now.getMonth();
   const firstDay = new Date(year, month, 1);
-  const lastDay = new Date(year, month + 1, 0); 
+  const lastDay = new Date(year, month + 1, 0);
   return { firstDay, lastDay };
 }
 
@@ -35,17 +35,22 @@ export function useQueryParams() {
   const searchParams = useSearchParams();
   const { firstDay, lastDay } = getCurrentMonthRange();
 
-  function setQueries(newQueries: Partial<TQueries>) {
-    const params = new URLSearchParams(searchParams.toString());
-    Object.entries(newQueries).forEach(([key, value]) => {
-      if (!value && value !== 0) {
-        params.delete(key);
-      } else {
-        params.set(key, String(value));
-      }
-    });
-    router.push(`${pathname}?${params.toString()}`);
-  }
+  const setQueries = useCallback(
+    (newQueries: Partial<TQueries>) => {
+      const params = new URLSearchParams(searchParams.toString());
+
+      Object.entries(newQueries).forEach(([key, value]) => {
+        if (!value && value !== 0) {
+          params.delete(key);
+        } else {
+          params.set(key, String(value));
+        }
+      });
+
+      router.push(`${pathname}?${params.toString()}`);
+    },
+    [searchParams, router, pathname]
+  );
 
   useEffect(() => {
     const periodoDe = searchParams.get("periodoDe");
@@ -57,17 +62,19 @@ export function useQueryParams() {
         periodoAte: periodoAte ?? formatDateToDDMMYYYY(lastDay),
       });
     }
-  }, [searchParams]); 
+  }, [searchParams, firstDay, lastDay, setQueries]);
 
   const queries = useMemo(() => {
     return {
       name: searchParams.get("name") ?? "",
       ordination: searchParams.get("ordination") ?? "desc",
       orderBy: searchParams.get("orderBy") ?? "data",
-      periodoDe: searchParams.get("periodoDe") ?? formatDateToDDMMYYYY(firstDay),
-      periodoAte: searchParams.get("periodoAte") ?? formatDateToDDMMYYYY(lastDay),
+      periodoDe:
+        searchParams.get("periodoDe") ?? formatDateToDDMMYYYY(firstDay),
+      periodoAte:
+        searchParams.get("periodoAte") ?? formatDateToDDMMYYYY(lastDay),
     };
-  }, [searchParams]);
+  }, [searchParams, firstDay, lastDay]);
 
   return { queries, setQueries };
 }
