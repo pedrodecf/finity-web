@@ -135,7 +135,7 @@ export function TransactionsTableComplete<TData, TValue>({
               <TableRow className="hover:bg-transparent">
                 <TableCell
                   colSpan={columns.length}
-                  className="w-full font-bold text-center"
+                  className="w-full font-bold text-center p-6 pb-8 text-base"
                 >
                   {!loading ? (
                     <p className="font-bold">Sem resultados!</p>

@@ -7,6 +7,7 @@ export type getTransactionsQuery = {
   orderBy: string;
   periodoDe?: string;
   periodoAte?: string;
+  quantity?: number;
 };
 
 export type ListTransactionsResponse = {

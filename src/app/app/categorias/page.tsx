@@ -6,6 +6,7 @@ import {
   TCreateCategoryInput,
   TCreateCategoryOutput,
 } from "@/components/ui/dialog/categories/schema";
+import { useQueryParams } from "@/hooks/use-query-params";
 import { useToast } from "@/hooks/use-toast";
 import { Api } from "@/http/axios";
 import { CategoriesGateway } from "@/http/categories";
@@ -19,27 +20,9 @@ import { useForm } from "react-hook-form";
 import CategoriasView from "./view";
 
 export default function CategoriasPage() {
+  const { queries, setQueries } = useQueryParams();
   const categoriesGateway = new CategoriesGateway(Api);
-  const transactionsGateway = new TransactionsGateway(Api);
   const { toast } = useToast();
-
-  const { data: categorias, isLoading } = useQuery(
-    ["categories"],
-    () => categoriesGateway.getCategories(),
-    {
-      keepPreviousData: true,
-      staleTime: 60000,
-    }
-  );
-
-  const { data: transacoes, isLoading: isLoadingTransactions } = useQuery(
-    ["transacoes"],
-    () => transactionsGateway.getTransactions(),
-    {
-      keepPreviousData: true,
-      staleTime: 60000,
-    }
-  );
 
   const formMethods = useForm<
     TCreateCategoryInput,
@@ -54,6 +37,24 @@ export default function CategoriasPage() {
       hex: "",
     },
   });
+
+  const { data: categorias, isLoading } = useQuery(
+    ["categories"],
+    () => categoriesGateway.getCategories(),
+    {
+      keepPreviousData: true,
+      staleTime: 60000,
+    }
+  );
+
+  const { data: transacoes, isLoading: isLoadingTransactions } = useQuery(
+    ["transacoes", queries],
+    () => new TransactionsGateway(Api).getTransactions(queries),
+    {
+      keepPreviousData: true,
+      staleTime: 60000,
+    }
+  );
 
   const { mutateAsync: createCategory, isLoading: isCreating } = useMutation({
     mutationFn: async (data: TCreateCategory) =>

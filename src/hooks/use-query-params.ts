@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 
 type TQueries = {
@@ -10,6 +10,7 @@ type TQueries = {
   orderBy?: string;
   periodoDe?: string;
   periodoAte?: string;
+  quantity?: number;
 };
 
 export function useQueryParams() {
@@ -25,6 +26,7 @@ export function useQueryParams() {
       orderBy: searchParams.get("orderBy") ?? "data",
       periodoDe: searchParams.get("periodoDe") ?? "",
       periodoAte: searchParams.get("periodoAte") ?? "",
+      quantity: Number(searchParams.get("quantity") ?? "10"),
     };
   }, [searchParams]);
 

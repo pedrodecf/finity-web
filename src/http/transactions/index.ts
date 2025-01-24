@@ -8,7 +8,7 @@ export class TransactionsGateway {
   async getTransactions(
     params: getTransactionsQuery
   ): Promise<ListTransactionsResponse> {
-    const { data } = await this.api.get("/transacoes", { params: { ...params, quantity: 10 } });
+    const { data } = await this.api.get("/transacoes", { params });
     return data;
   }
 

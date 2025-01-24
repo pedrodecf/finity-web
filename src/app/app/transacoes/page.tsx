@@ -17,8 +17,10 @@ import { AxiosError } from "axios";
 import { CircleCheckBig, CircleX } from "lucide-react";
 import { useForm } from "react-hook-form";
 import TransacoesView from "./view";
+import { useQueryParams } from "@/hooks/use-query-params";
 
 export default function TransacoesPage() {
+  const { queries, setQueries } = useQueryParams();
   const transactionsGateway = new TransactionsGateway(Api);
   const { toast } = useToast();
 
@@ -41,8 +43,8 @@ export default function TransacoesPage() {
   });
 
   const { data: transacoes, isLoading } = useQuery(
-    ["transacoes"],
-    () => transactionsGateway.getTransactions(),
+    ["transacoes", queries],
+    () => new TransactionsGateway(Api).getTransactions(queries),
     {
       keepPreviousData: true,
       staleTime: 60000,

@@ -1,13 +1,15 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { TransactionsGateway } from "@/http/transactions";
-import { Api } from "@/http/axios";
-import DashboardView from "./view";
 import { useQueryParams } from "@/hooks/use-query-params";
+import { Api } from "@/http/axios";
+import { TransactionsGateway } from "@/http/transactions";
+import { useQuery } from "@tanstack/react-query";
+import DashboardView from "./view";
 
 export default function DashboardPage() {
   const { queries, setQueries } = useQueryParams();
+
+  queries.quantity = 6;
 
   const { data: transacoes, isLoading: isLoadingTransactions } = useQuery(
     ["transacoes", queries],
@@ -20,7 +22,8 @@ export default function DashboardPage() {
 
   if (!transacoes) return null;
 
-  const percentual = (transacoes.balance.total / transacoes.balance.totalEntrada) * 100;
+  const percentual =
+    (transacoes.balance.total / transacoes.balance.totalEntrada) * 100;
 
   function handleChangePeriod(period: "mesAtual" | "mesPassado" | "anoAtual") {
     if (period === "mesAtual") {
