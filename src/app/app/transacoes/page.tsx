@@ -20,7 +20,7 @@ import TransacoesView from "./view";
 import { useQueryParams } from "@/hooks/use-query-params";
 
 export default function TransacoesPage() {
-  const { queries, setQueries } = useQueryParams();
+  const { queries } = useQueryParams();
   const transactionsGateway = new TransactionsGateway(Api);
   const { toast } = useToast();
 

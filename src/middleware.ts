@@ -10,20 +10,19 @@ if (!JWT_SECRET) {
 }
 
 export const config = {
-  matcher: ["/app/:path*", "/login", "/signup"],
+  matcher: ["/app/:path*", "/login", "/registro"],
 };
 
 export async function middleware(request: NextRequest) {
   const token = request.cookies.get("token-finity")?.value;
   const { pathname } = request.nextUrl;
 
-  if (pathname === "/login" || pathname === "/signup") {
+  if (pathname === "/login" || pathname === "/registro") {
     if (token) {
       try {
         await jwtVerify(token, new TextEncoder().encode(JWT_SECRET));
         return NextResponse.redirect(new URL("/app/dashboard", request.url));
-      } catch (err) {
-      }
+      } catch (err) {}
     }
     return NextResponse.next();
   }

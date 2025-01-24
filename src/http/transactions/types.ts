@@ -2,12 +2,10 @@ import { TTransactions } from "@/components/tables/type";
 
 export type getTransactionsQuery = {
   name: string;
-  page: number;
   ordination: string;
   orderBy: string;
   periodoDe?: string;
   periodoAte?: string;
-  quantity?: number;
 };
 
 export type ListTransactionsResponse = {

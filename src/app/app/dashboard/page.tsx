@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import DashboardView from "./view";
 
 export default function DashboardPage() {
-  const { queries, setQueries } = useQueryParams();
+  const { queries } = useQueryParams();
 
   queries.quantity = 6;
 
@@ -25,25 +25,12 @@ export default function DashboardPage() {
   const percentual =
     (transacoes.balance.total / transacoes.balance.totalEntrada) * 100;
 
-  function handleChangePeriod(period: "mesAtual" | "mesPassado" | "anoAtual") {
-    if (period === "mesAtual") {
-      setQueries({ periodoDe: "01012025", periodoAte: "31012025" });
-    }
-    if (period === "mesPassado") {
-      setQueries({ periodoDe: "01122024", periodoAte: "31122024" });
-    }
-    if (period === "anoAtual") {
-      setQueries({ periodoDe: "01012025", periodoAte: "31122025" });
-    }
-  }
-
   return (
     <DashboardView
       transactions={transacoes.items}
       balance={transacoes.balance}
       isLoadingTransactions={isLoadingTransactions}
       percentual={percentual}
-      onChangePeriod={handleChangePeriod}
     />
   );
 }
