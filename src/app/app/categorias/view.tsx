@@ -6,13 +6,13 @@ import CategoriesTable from "@/components/tables/categorias/categories-table";
 import { TCategories, TTransactions } from "@/components/tables/type";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { DialogCategoryCreate } from "@/components/ui/dialog/categories/dialog-create";
-import { DialogDelete } from "@/components/ui/dialog/dialog-delete";
 import { DialogCategoryEdit } from "@/components/ui/dialog/categories/dialog-edit";
 import {
   TCreateCategory,
   TCreateCategoryInput,
   TCreateCategoryOutput,
 } from "@/components/ui/dialog/categories/schema";
+import { DialogDelete } from "@/components/ui/dialog/dialog-delete";
 import { getFirstLetter } from "@/lib/getters/get-first-letter";
 import * as LucideIcons from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
@@ -50,7 +50,7 @@ export default function CategoriasView({
 }: Props) {
   return (
     <>
-      <ControllerDashboard userName="user.nome" />
+      <ControllerDashboard />
       <div className="grid grid-cols-2 gap-6 w-full h-full overflow-hidden tablet:flex tablet:flex-col tablet:overflow-auto tablet:gap-4">
         <CategoriesTable
           loading={isLoading}

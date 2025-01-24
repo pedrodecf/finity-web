@@ -73,7 +73,7 @@ export default function TransacoesView({
 }: TTransacoesView) {
   return (
     <>
-      <ControllerDashboard userName="pedrão" />
+      <ControllerDashboard />
       <div className="grid grid-cols-3 gap-6 w-full tablet:flex tablet:flex-col tablet:gap-4">
         <Dialog>
           <DialogTrigger>
