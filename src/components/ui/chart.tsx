@@ -4,6 +4,7 @@ import * as React from "react";
 import * as RechartsPrimitive from "recharts";
 
 import { cn } from "@/lib/utils";
+import { formatToBRL } from "@/lib/formatters/format-to-brl";
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const;
@@ -240,8 +241,10 @@ const ChartTooltipContent = React.forwardRef<
                       </div>
                       {item.value && (
                         <span className="font-mono font-medium tabular-nums text-foreground">
-                          <span className="font-xs">R$</span>
-                          {item.value.toLocaleString()}
+                          {formatToBRL({
+                            value: Number(item.value),
+                            removeSymbol: false,
+                          })}
                         </span>
                       )}
                     </div>
