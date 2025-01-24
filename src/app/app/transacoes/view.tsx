@@ -274,7 +274,7 @@ export default function TransacoesView({
             },
             {
               id: "actions",
-              header: ({ column }) => {
+              header: () => {
                 return (
                   <p className="text-sm text-sub font-semibold leading-none tracking-tight mr-6">
                     Ações

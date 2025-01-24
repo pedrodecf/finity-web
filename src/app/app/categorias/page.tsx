@@ -20,7 +20,7 @@ import { useForm } from "react-hook-form";
 import CategoriasView from "./view";
 
 export default function CategoriasPage() {
-  const { queries, setQueries } = useQueryParams();
+  const { queries } = useQueryParams();
   const categoriesGateway = new CategoriesGateway(Api);
   const { toast } = useToast();
 
