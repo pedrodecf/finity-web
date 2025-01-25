@@ -9,8 +9,6 @@ import DashboardView from "./view";
 export default function DashboardPage() {
   const { queries } = useQueryParams();
 
-  queries.quantity = 6;
-
   const { data: transacoes, isLoading: isLoadingTransactions } = useQuery(
     ["transacoes", queries],
     () => new TransactionsGateway(Api).getTransactions(queries),
