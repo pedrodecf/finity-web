@@ -17,7 +17,6 @@ type TDashboardViewProps = {
     total: number;
   };
   percentual?: number;
-  onChangePeriod?: (period: "mesAtual" | "mesPassado" | "anoAtual") => void;
 };
 
 export default function DashboardView({
@@ -25,11 +24,10 @@ export default function DashboardView({
   isLoadingTransactions,
   balance,
   percentual,
-  onChangePeriod,
 }: TDashboardViewProps) {
   return (
     <>
-      <ControllerDashboard userName="Fulano" onChangePeriod={onChangePeriod} />
+      <ControllerDashboard />
       <div className="grid grid-cols-3 gap-6 w-full tablet:flex tablet:flex-col tablet:gap-4">
         <FinancesCard
           title="Balanço"

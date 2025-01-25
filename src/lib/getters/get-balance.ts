@@ -1,4 +1,4 @@
-import { TTransactions } from "@/components/tables/dashboard-transacoes/transactions-columns";
+import { TTransactions } from "@/components/tables/type";
 
 export const getBalance = (transactions: TTransactions[]) => {
   const saidas = transactions.filter(({ tipo }) => tipo === "Saida");

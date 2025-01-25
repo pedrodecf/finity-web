@@ -22,7 +22,7 @@ import { DataTablePagination } from "./pagination";
 
 export function TransactionsTable<TData, TValue>({
   columns,
-  data,
+  data = [],
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
