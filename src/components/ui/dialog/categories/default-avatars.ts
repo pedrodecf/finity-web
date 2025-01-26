@@ -30,7 +30,7 @@ export const defaultAvatars = [
     value: "CarFront",
   },
   {
-    value: "HeartPulse",
+    value: "Calendar",
   },
   {
     value: "Hospital",
@@ -70,5 +70,29 @@ export const defaultAvatars = [
   },
   {
     value: "Gamepad2",
+  },
+  {
+    value: "Cat",
+  },
+  {
+    value: "CircleDollarSign",
+  },
+  {
+    value: "BicepsFlexed",
+  },
+  {
+    value: "Bitcoin",
+  },
+  {
+    value: "Heart",
+  },
+  {
+    value: "Dumbbell",
+  },
+  {
+    value: "Crown",
+  },
+  {
+    value: "Plane",
   },
 ];
