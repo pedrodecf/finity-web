@@ -11,9 +11,11 @@ export function formatToBRL({
 }: FormatToBRLProps): string {
   const adjustedValue = (absolute ? Math.abs(value) : value) / 100;
 
-  const [integerPart, fractionalPart = "00"] = adjustedValue
-    .toFixed(2)
-    .split(".");
+  const strValue = adjustedValue.toFixed(2);
+
+  const isNegative = strValue.startsWith("-");
+  const onlyNumber = isNegative ? strValue.substring(1) : strValue;
+  const [integerPart, fractionalPart = "00"] = onlyNumber.split(".");
 
   let integerFormatted = "";
   let count = 0;
@@ -26,7 +28,7 @@ export function formatToBRL({
     }
   }
 
-  let result = `${integerFormatted},${fractionalPart}`;
+  let result = `${isNegative ? "-" : ""}${integerFormatted},${fractionalPart}`;
 
   if (!removeSymbol) {
     result = `R$ ${result}`;

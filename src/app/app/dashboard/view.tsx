@@ -66,7 +66,6 @@ export default function DashboardView({
         <CategoriesChartDashboard
           transacoes={transactions}
           loading={isLoadingTransactions}
-          className="h-fit"
         />
         <div className="col-span-3 h-full gap-6 flex flex-col tablet:gap-4 overflow-hidden">
           <BalanceChartDashboard

@@ -3,6 +3,7 @@
 import { useQueryParams } from "@/hooks/use-query-params";
 import { Api } from "@/http/axios";
 import { TransactionsGateway } from "@/http/transactions";
+import { calcularPercentual } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import DashboardView from "./view";
 
@@ -20,8 +21,7 @@ export default function DashboardPage() {
 
   if (!transacoes) return null;
 
-  const percentual =
-    (transacoes.balance.total / transacoes.balance.totalEntrada) * 100;
+  const percentual = calcularPercentual(transacoes);
 
   return (
     <DashboardView

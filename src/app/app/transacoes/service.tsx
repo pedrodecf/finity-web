@@ -18,6 +18,7 @@ import { AxiosError } from "axios";
 import { CircleCheckBig, CircleX } from "lucide-react";
 import { useForm } from "react-hook-form";
 import TransacoesView from "./view";
+import { calcularPercentual } from "@/lib/utils";
 
 export default function TransacoesPage() {
   const { queries } = useQueryParams();
@@ -172,8 +173,7 @@ export default function TransacoesPage() {
     return null;
   }
 
-  const percentual =
-    (transacoes?.balance.total / transacoes?.balance.totalEntrada) * 100;
+  const percentual = calcularPercentual(transacoes);
 
   return (
     <TransacoesView

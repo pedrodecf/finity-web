@@ -51,7 +51,7 @@ export default function CategoriasView({
   return (
     <>
       <ControllerDashboard />
-      <div className="grid grid-cols-2 gap-6 w-full h-full overflow-hidden tablet:flex tablet:flex-col tablet:overflow-auto tablet:gap-4">
+      <div className="grid grid-cols-2 gap-6 w-full flex-1 overflow-hidden tablet:flex tablet:flex-col tablet:overflow-auto tablet:gap-4">
         <CategoriesTable
           loading={isLoading}
           data={categories}
@@ -162,6 +162,7 @@ export default function CategoriasView({
           />
         </div>
       </div>
+      <div />
     </>
   );
 }

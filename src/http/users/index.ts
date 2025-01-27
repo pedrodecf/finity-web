@@ -10,7 +10,9 @@ export class UsersGateway {
   constructor(private api: typeof Api) {}
 
   async login(credentials: LoginCredentials): Promise<LoginResponse> {
-    const { data } = await this.api.post("/usuarios/login", credentials);
+    const { data } = await this.api.post("/usuarios/login", credentials, {
+      withCredentials: true,
+    });
     return data;
   }
 
