@@ -67,6 +67,7 @@ export function DialogTransactionCreate({
   } = formMethods;
 
   const tipo = watch("tipo");
+  const cartaoCredito = watch("cartaoCredito");
 
   const onHandleSubmit = async (data: TCreateTransaction) => {
     onCreate(data);
@@ -180,6 +181,26 @@ export function DialogTransactionCreate({
                 </>
               )}
             </div>
+            {cartaoCredito === true && (
+              <div className="flex gap-4 items-center justify-between">
+                <Input
+                  label="Total de parcelas"
+                  name="parcelas.total"
+                  placeholder="Ex: 12"
+                  type="number"
+                  control={control}
+                  helperText={errors.parcelas?.total?.message}
+                />
+                <Input
+                  label="Parcela atual"
+                  name="parcelas.atual"
+                  placeholder="Ex: 5"
+                  type="number"
+                  control={control}
+                  helperText={errors.parcelas?.atual?.message}
+                />
+              </div>
+            )}
           </div>
         </DialogHeader>
         <DialogFooter className="px-4 py-3 border-t border-border w-full flex items-center gap-2 justify-between sm:justify-between">

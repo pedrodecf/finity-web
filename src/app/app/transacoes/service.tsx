@@ -12,13 +12,13 @@ import { useToast } from "@/hooks/use-toast";
 import { Api } from "@/http/axios";
 import { TransactionsGateway } from "@/http/transactions";
 import { TErrorResponse } from "@/lib/types";
+import { calcularPercentual } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { CircleCheckBig, CircleX } from "lucide-react";
 import { useForm } from "react-hook-form";
 import TransacoesView from "./view";
-import { calcularPercentual } from "@/lib/utils";
 
 export default function TransacoesPage() {
   const { queries } = useQueryParams();
@@ -40,6 +40,7 @@ export default function TransacoesPage() {
       tipo: "Entrada",
       custoFixo: true,
       cartaoCredito: false,
+      parcelas: null,
     },
   });
 
@@ -139,6 +140,7 @@ export default function TransacoesPage() {
   }
 
   async function onCreate(data: TCreateTransaction) {
+    console.log(data);
     await createTransaction({
       descricao: data.descricao,
       valor: parseCurrency(data.valor as string),
@@ -147,6 +149,10 @@ export default function TransacoesPage() {
       tipo: data.tipo,
       custoFixo: data.tipo === "Saida" ? data.custoFixo : null,
       cartaoCredito: data.tipo === "Saida" ? data.cartaoCredito : null,
+      parcelas:
+        data.parcelas?.atual || data.parcelas?.total === null
+          ? null
+          : data.parcelas,
     });
   }
 
@@ -155,6 +161,7 @@ export default function TransacoesPage() {
   }
 
   async function onEdit(id: string, data: TCreateTransaction) {
+    console.log(data);
     await editTransaction({
       id,
       data: {
@@ -165,6 +172,10 @@ export default function TransacoesPage() {
         tipo: data.tipo,
         custoFixo: data.tipo === "Saida" ? data.custoFixo : null,
         cartaoCredito: data.tipo === "Saida" ? data.cartaoCredito : null,
+        parcelas:
+          data.parcelas?.atual || data.parcelas?.total === undefined
+            ? null
+            : data.parcelas,
       },
     });
   }

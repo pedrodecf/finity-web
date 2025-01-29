@@ -32,8 +32,10 @@ export default function AddButton({
         />
       </div>
 
-      <div>
-        <h2 className="font-semibold text-lg mobile:text-base truncate">{title}</h2>
+      <div className="w-full">
+        <h2 className="font-semibold text-lg mobile:text-base truncate">
+          {title}
+        </h2>
         <p className="text-sub text-[13px] truncate">{description}</p>
       </div>
     </div>

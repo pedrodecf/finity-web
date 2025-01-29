@@ -54,7 +54,7 @@ type TTransacoesView = {
     totalEntrada: number;
     totalSaida: number;
     total: number;
-  },
+  };
   percentual?: number;
 };
 
@@ -69,7 +69,7 @@ export default function TransacoesView({
   onEdit,
   isEditing,
   balance,
-  percentual
+  percentual,
 }: TTransacoesView) {
   return (
     <>
@@ -96,9 +96,15 @@ export default function TransacoesView({
             value: balance?.total || 0,
             removeSymbol: true,
           })}
-          balance={percentual !== undefined ? (percentual > 0 ? "positive" : "negative") : "neutral"}
+          balance={
+            percentual !== undefined
+              ? percentual > 0
+                ? "positive"
+                : "negative"
+              : "neutral"
+          }
           percentage={percentual}
-          difference={(balance?.totalEntrada || 0)  - (balance?.totalSaida || 0)}
+          difference={(balance?.totalEntrada || 0) - (balance?.totalSaida || 0)}
         />
         {FinancesStack({
           totalEntradas: balance?.totalEntrada || 0,
@@ -158,7 +164,15 @@ export default function TransacoesView({
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
-                    <p className="truncate">{row.original.descricao}</p>
+                    <p className="truncate">
+                      {row.original.descricao}{" "}
+                      {!!row.original.parcelas && (
+                        <span className="text-sub text-sm">
+                          {row.original.parcelas?.atual}/
+                          {row.original.parcelas?.total}
+                        </span>
+                      )}
+                    </p>
                   </div>
                 );
               },
@@ -309,6 +323,10 @@ export default function TransacoesView({
                             id: row.original.categoriaId,
                             nome: row.original.categoria.nome,
                           },
+                          parcelas: {
+                            atual: row.original.parcelas?.atual,
+                            total: row.original.parcelas?.total,
+                          }
                         }}
                       />
                     </Dialog>

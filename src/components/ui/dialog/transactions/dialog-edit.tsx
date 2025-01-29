@@ -33,6 +33,10 @@ type TDialogTransactionEdit = {
       id: number;
       nome: string;
     };
+    parcelas?: {
+      total: number | null;
+      atual: number | null;
+    } | null;
   };
   onEdit: (id: string, data: TEditTransaction) => void;
   isEditing?: boolean;
@@ -63,6 +67,7 @@ export function DialogTransactionEdit({
   });
 
   const tipo = watch("tipo");
+  const cartaoCredito = watch("cartaoCredito");
 
   useEffect(() => {
     if (transactionData) {
@@ -74,6 +79,7 @@ export function DialogTransactionEdit({
         tipo: transactionData.tipo,
         custoFixo: transactionData.custoFixo,
         cartaoCredito: transactionData.cartaoCredito,
+        parcelas: transactionData.parcelas,
       });
     }
   }, [transactionData, reset]);
@@ -193,6 +199,26 @@ export function DialogTransactionEdit({
                 </>
               )}
             </div>
+            {cartaoCredito === true && (
+              <div className="flex gap-4 items-center justify-between">
+                <Input
+                  label="Total de parcelas"
+                  name="parcelas.total"
+                  placeholder="Ex: 12"
+                  type="number"
+                  control={control}
+                  helperText={errors.parcelas?.total?.message}
+                />
+                <Input
+                  label="Parcela atual"
+                  name="parcelas.atual"
+                  placeholder="Ex: 5"
+                  type="number"
+                  control={control}
+                  helperText={errors.parcelas?.atual?.message}
+                />
+              </div>
+            )}
           </div>
         </DialogHeader>
         <DialogFooter className="px-4 py-3 border-t border-border w-full flex items-center gap-2 self-end sm:justify-between">
