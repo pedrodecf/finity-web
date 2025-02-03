@@ -12,42 +12,37 @@ const REDIRECT_WHEN_NOT_AUTHENTICATED_ROUTE = "/login";
 export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   const publicRoute = publicRoutes.find((route) => route.path === path);
-  const authToken = request.cookies.get("token-finity");
+  const tokenCookie = request.cookies.get("token-finity");
 
-  if (!authToken && publicRoute) {
-    console.log(1);
+  let isAuthenticated = false;
+
+  if (tokenCookie) {
+    try {
+      const decodedToken = jwtDecode<{ exp: number }>(tokenCookie.value);
+      if (decodedToken.exp * 1000 > Date.now()) {
+        isAuthenticated = true;
+      }
+    } catch (error) {
+      isAuthenticated = false;
+    }
+  }
+
+  if (!isAuthenticated && publicRoute) {
     return NextResponse.next();
   }
 
-  if (!authToken && !publicRoute) {
-    console.log(2);
+  if (!isAuthenticated && !publicRoute) {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = REDIRECT_WHEN_NOT_AUTHENTICATED_ROUTE;
     return NextResponse.redirect(redirectUrl);
   }
 
-  if (authToken && publicRoute?.whenAuthenticated === "redirect") {
-    console.log(3);
+  if (isAuthenticated && publicRoute?.whenAuthenticated === "redirect") {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = "/dashboard";
     return NextResponse.redirect(redirectUrl);
   }
 
-  if (authToken && !publicRoute) {
-    console.log(4);
-    const redirectUrl = request.nextUrl.clone();
-    redirectUrl.pathname = "/login";
-
-    const decodedToken = jwtDecode(authToken.value);
-
-    if (decodedToken.exp! < Date.now() / 1000) {
-      return NextResponse.redirect(redirectUrl);
-    }
-
-    return NextResponse.next();
-  }
-
-  console.log(5);
   return NextResponse.next();
 }
 
