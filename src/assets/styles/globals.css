@@ -92,6 +92,54 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-dm-sans);
+  }
+  @keyframes float-1 {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-7px);
+    }
+  }
+
+  @keyframes float-2 {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-7px);
+    }
+  }
+
+  @keyframes float-3 {
+    0%,
+    100% {
+      transform: translateY(-6px);
+    }
+    50% {
+      transform: translateY(0);
+    }
+  }
+}
+
+@layer utilities {
+  .animate-float-1 {
+    animation: float-1 6s ease-in-out infinite;
+  }
+  .animate-float-2 {
+    animation: float-2 7s ease-in-out infinite;
+  }
+  .animate-float-3 {
+    animation: float-3 6s ease-in infinite;
+  }
+  .animate-float-4 {
+    animation: float-2 6s ease-out infinite;
+  }
+  .transition-all {
+    transition: all 0.6s ease;
   }
 }
 
@@ -99,6 +147,40 @@
   background: linear-gradient(45deg, #1d1d41, #6359e9);
   animation: gradient 10s ease infinite;
   background-size: 200% 200%;
+}
+
+.hover-nav {
+  position: relative;
+  padding: 0.3rem 0;
+  cursor: pointer;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #fff;
+  }
+}
+
+.hover-nav::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: #fff;
+  transition:
+    width 0.3s ease,
+    transform 0.3s ease;
+  transform-origin: left;
+}
+
+.hover-nav:hover::after {
+  width: 100%;
+}
+
+.hover-nav:hover::after,
+.hover-nav::after {
+  transform: scaleX(1);
 }
 
 @keyframes gradient {

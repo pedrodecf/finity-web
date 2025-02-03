@@ -39,7 +39,6 @@ export default function LoginPage() {
         description: "Seja bem-vindo ao finity",
         icon: <CircleCheckBig />,
       });
-      router.push("/app/dashboard");
     },
 
     onError: (error: AxiosError<TErrorResponse>) => {

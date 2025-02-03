@@ -6,7 +6,7 @@ import {
   TCreateCategory,
   TCreateCategoryInput,
   TCreateCategoryOutput,
-} from "@/components/ui/dialog/categories/schema";
+} from "@/components/dialog/categories/schema";
 import { useQueryParams } from "@/hooks/use-query-params";
 import { useToast } from "@/hooks/use-toast";
 import { Api } from "@/http/axios";

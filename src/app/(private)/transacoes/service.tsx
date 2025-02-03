@@ -6,7 +6,7 @@ import {
   TCreateTransaction,
   TCreateTransactionInput,
   TCreateTransactionOutput,
-} from "@/components/ui/dialog/transactions/schema";
+} from "@/components/dialog/transactions/schema";
 import { useQueryParams } from "@/hooks/use-query-params";
 import { useToast } from "@/hooks/use-toast";
 import { Api } from "@/http/axios";
@@ -161,7 +161,6 @@ export default function TransacoesPage() {
   }
 
   async function onEdit(id: string, data: TCreateTransaction) {
-    console.log(data);
     await editTransaction({
       id,
       data: {
@@ -172,10 +171,12 @@ export default function TransacoesPage() {
         tipo: data.tipo,
         custoFixo: data.tipo === "Saida" ? data.custoFixo : null,
         cartaoCredito: data.tipo === "Saida" ? data.cartaoCredito : null,
-        parcelas:
-          data.parcelas?.atual || data.parcelas?.total === undefined
-            ? null
-            : data.parcelas,
+        parcelas: data.parcelas
+          ? {
+              total: data.parcelas.total ?? null,
+              atual: data.parcelas.atual ?? null,
+            }
+          : null,
       },
     });
   }

@@ -1,4 +1,4 @@
-import { TCreateCategory } from "@/components/ui/dialog/categories/schema";
+import { TCreateCategory } from "@/components/dialog/categories/schema";
 import { Api } from "../axios";
 import { ListCategoriesResponse } from "./types";
 

@@ -2,17 +2,17 @@
 import AddButton from "@/components/add-button";
 import { CategoriesChartDashboard } from "@/components/charts/categories-chart-dashboard";
 import { ControllerDashboard } from "@/components/controller-dashboard";
-import CategoriesTable from "@/components/tables/categorias/categories-table";
-import { TCategories, TTransactions } from "@/components/tables/type";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { DialogCategoryCreate } from "@/components/ui/dialog/categories/dialog-create";
-import { DialogCategoryEdit } from "@/components/ui/dialog/categories/dialog-edit";
+import { DialogCategoryCreate } from "@/components/dialog/categories/dialog-create";
+import { DialogCategoryEdit } from "@/components/dialog/categories/dialog-edit";
 import {
   TCreateCategory,
   TCreateCategoryInput,
   TCreateCategoryOutput,
-} from "@/components/ui/dialog/categories/schema";
-import { DialogDelete } from "@/components/ui/dialog/dialog-delete";
+} from "@/components/dialog/categories/schema";
+import { DialogDelete } from "@/components/dialog/dialog-delete";
+import CategoriesTable from "@/components/tables/categorias/categories-table";
+import { TCategories, TTransactions } from "@/components/tables/type";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { getFirstLetter } from "@/lib/getters/get-first-letter";
 import * as LucideIcons from "lucide-react";
 import { UseFormReturn } from "react-hook-form";

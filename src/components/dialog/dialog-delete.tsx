@@ -1,5 +1,5 @@
 import { Trash2 } from "lucide-react";
-import { Button } from "../button";
+import { Button } from "@/components/ui/button";
 import {
   DialogClose,
   DialogContent,
@@ -7,7 +7,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "../dialog";
+} from "@/components/ui/dialog";
 
 type TDialogDelete = {
   title?: string;

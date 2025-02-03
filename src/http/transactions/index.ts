@@ -1,4 +1,4 @@
-import { TCreateTransaction } from "@/components/ui/dialog/transactions/schema";
+import { TCreateTransaction } from "@/components/dialog/transactions/schema";
 import { Api } from "../axios";
 import { getTransactionsQuery, ListTransactionsResponse } from "./types";
 

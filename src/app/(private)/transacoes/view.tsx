@@ -2,19 +2,19 @@
 
 import AddButton from "@/components/add-button";
 import { ControllerDashboard } from "@/components/controller-dashboard";
+import { DialogDelete } from "@/components/dialog/dialog-delete";
+import { DialogTransactionCreate } from "@/components/dialog/transactions/dialog-create";
+import { DialogTransactionEdit } from "@/components/dialog/transactions/dialog-edit";
+import {
+  TCreateTransaction,
+  TCreateTransactionInput,
+  TCreateTransactionOutput,
+} from "@/components/dialog/transactions/schema";
 import { FinancesCard } from "@/components/finances-card";
 import { TransactionsTableComplete } from "@/components/tables/transacoes/transactions-table-complete";
 import { TTransactions } from "@/components/tables/type";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { DialogDelete } from "@/components/ui/dialog/dialog-delete";
-import { DialogTransactionCreate } from "@/components/ui/dialog/transactions/dialog-create";
-import { DialogTransactionEdit } from "@/components/ui/dialog/transactions/dialog-edit";
-import {
-  TCreateTransaction,
-  TCreateTransactionInput,
-  TCreateTransactionOutput,
-} from "@/components/ui/dialog/transactions/schema";
 import {
   Tooltip,
   TooltipContent,
@@ -309,7 +309,34 @@ export default function TransacoesView({
                         title="Editar transação"
                         transactionId={String(row.original.id)}
                         isEditing={isEditing}
-                        onEdit={(id, data) => onEdit(id, data)}
+                        onEdit={(id, data) =>
+                          onEdit(id, {
+                            descricao: data.descricao,
+                            valor: data.valor,
+                            categoriaId: data.categoriaId,
+                            data: data.data,
+                            tipo: data.tipo,
+                            custoFixo:
+                              data.tipo === "Saida" ? data.custoFixo : null,
+                            cartaoCredito:
+                              data.tipo === "Saida" ? data.cartaoCredito : null,
+                            parcelas: data.parcelas
+                              ? ({
+                                  total:
+                                    data.parcelas.total !== undefined
+                                      ? data.parcelas.total
+                                      : null,
+                                  atual:
+                                    data.parcelas.atual !== undefined
+                                      ? data.parcelas.atual
+                                      : null,
+                                } as {
+                                  total: number | null;
+                                  atual: number | null;
+                                })
+                              : null,
+                          })
+                        }
                         transactionData={{
                           id: row.original.id,
                           descricao: row.original.descricao,
@@ -323,10 +350,15 @@ export default function TransacoesView({
                             id: row.original.categoriaId,
                             nome: row.original.categoria.nome,
                           },
-                          parcelas: {
-                            atual: row.original.parcelas?.atual,
-                            total: row.original.parcelas?.total,
-                          }
+                          parcelas: row.original.parcelas
+                            ? ({
+                                atual: row.original.parcelas.atual ?? null,
+                                total: row.original.parcelas.total ?? null,
+                              } as {
+                                atual: number | null;
+                                total: number | null;
+                              })
+                            : null,
                         }}
                       />
                     </Dialog>

@@ -1,20 +1,20 @@
-import { Api } from "@/http/axios";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Pencil } from "lucide-react";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { Button } from "../../button";
-import { Combobox } from "../../combobox";
-import { SingleDatePicker } from "../../date-picker-single";
+import { Button } from "@/components/ui/button";
+import { Combobox } from "@/components/ui/combobox";
+import { SingleDatePicker } from "@/components/ui/date-picker-single";
 import {
   DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "../../dialog";
-import { Input } from "../../input";
-import { Radio } from "../../radio";
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Radio } from "@/components/ui/radio";
+import { Api } from "@/http/axios";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Pencil } from "lucide-react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { editTransactionSchema, TEditTransaction } from "./schema";
 
 type TDialogTransactionEdit = {
@@ -33,9 +33,9 @@ type TDialogTransactionEdit = {
       id: number;
       nome: string;
     };
-    parcelas?: {
-      total: number | null;
-      atual: number | null;
+    parcelas: {
+      total?: number | null; 
+      atual?: number | null; 
     } | null;
   };
   onEdit: (id: string, data: TEditTransaction) => void;
@@ -221,7 +221,7 @@ export function DialogTransactionEdit({
             )}
           </div>
         </DialogHeader>
-        <DialogFooter className="px-4 py-3 border-t border-border w-full flex items-center gap-2 self-end sm:justify-between">
+        <DialogFooter className="px-4 py-3 border-t border-border w-full flex items-center gap-2 justify-end sm:justify-end">
           <div className="flex gap-2">
             <DialogClose asChild>
               <Button variant="ghost" disabled={isEditing}>

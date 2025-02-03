@@ -19,17 +19,17 @@ import { ToggleTheme } from "./toggle-theme";
 const items = [
   {
     title: "Dashboard",
-    url: "/app/dashboard",
+    url: "/dashboard",
     icon: LayoutDashboard,
   },
   {
     title: "Transações",
-    url: "/app/transacoes",
+    url: "/transacoes",
     icon: ChartSpline,
   },
   {
     title: "Categorias",
-    url: "/app/categorias",
+    url: "/categorias",
     icon: Layers2,
   },
 ];

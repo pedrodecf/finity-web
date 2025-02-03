@@ -1,19 +1,19 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Pencil } from "lucide-react";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { Button } from "../../button";
-import { ColorPicker } from "../../color-picker";
+import { Button } from "@/components/ui/button";
+import { ColorPicker } from "@/components/ui/color-picker";
 import {
   DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "../../dialog";
-import { Input } from "../../input";
-import { RadioAvatar } from "../../radio-avatar";
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { RadioAvatar } from "@/components/ui/radio-avatar";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Pencil } from "lucide-react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { defaultAvatars } from "./default-avatars";
 import { editCategorySchema, TEditCategory } from "./schema";
 

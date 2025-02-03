@@ -1,13 +1,13 @@
 import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
+import { DM_Sans } from "next/font/google";
+import "../assets/styles/globals.css"
 import { Providers } from "./providers";
 
-const generalSans = localFont({
-  src: "../fonts/GeneralSans-Variable.woff",
-  variable: "--font-general-sans",
-  weight: "100 900",
+const dmSans = DM_Sans({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+  variable: "--font-dm-sans",
 });
 
 export const metadata: Metadata = {
@@ -21,8 +21,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-br">
-      <body className={`${generalSans.variable} antialiased`}>
+    <html lang="pt-br" className={dmSans.variable}>
+      <body className="antialiased">
         <Providers>{children}</Providers>
         <Toaster />
       </body>

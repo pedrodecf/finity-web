@@ -1,5 +1,6 @@
 "use client";
 
+import { CategoriesChartFallback } from "@/components/fallbacks/categories-chart-fallback";
 import {
   Card,
   CardContent,
@@ -21,7 +22,6 @@ import Link from "next/link";
 import React from "react";
 import { Pie, PieChart } from "recharts";
 import { TTransactions } from "../tables/type";
-import { CategoriesChartFallback } from "./categories-chart-fallback";
 
 type TCategoriesChartDashboard = {
   className?: string;
