@@ -30,29 +30,6 @@ type TDialogTransactionCreate = {
   isCreating?: boolean;
 };
 
-const frameworks = [
-  {
-    value: 1,
-    label: "Next.js",
-  },
-  {
-    value: 2,
-    label: "SvelteKit",
-  },
-  {
-    value: 3,
-    label: "Nuxt.js",
-  },
-  {
-    value: 4,
-    label: "Remix",
-  },
-  {
-    value: 5,
-    label: "Astro",
-  },
-];
-
 export function DialogTransactionCreate({
   title,
   formMethods,
@@ -116,7 +93,6 @@ export function DialogTransactionCreate({
               control={control}
               name="categoriaId"
               helperText={errors.categoriaId?.message}
-              data={frameworks}
               placeholder="Selecione uma categoria"
               request={{
                 api: Api,

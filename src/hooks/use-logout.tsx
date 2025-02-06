@@ -1,6 +1,7 @@
 import { useToast } from "@/hooks/use-toast";
 import { Api } from "@/http/axios";
 import { UsersGateway } from "@/http/users";
+import Cookies from "js-cookie";
 import { CircleCheckBig, CircleX } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -12,6 +13,7 @@ export function useLogout() {
   const logout = async () => {
     try {
       await usersGateway.logout();
+      Cookies.remove("finity-token");
       toast({
         variant: "success",
         title: "Logout realizado!",

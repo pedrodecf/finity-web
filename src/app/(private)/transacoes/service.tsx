@@ -139,8 +139,7 @@ export default function TransacoesPage() {
     return Number(numericValue);
   }
 
-  async function onCreate(data: TCreateTransaction) {
-    console.log(data);
+  async function onCreate(data: TCreateTransaction): Promise<boolean> {
     await createTransaction({
       descricao: data.descricao,
       valor: parseCurrency(data.valor as string),
@@ -154,6 +153,8 @@ export default function TransacoesPage() {
           ? null
           : data.parcelas,
     });
+
+    return true;
   }
 
   async function onDelete(id: string) {

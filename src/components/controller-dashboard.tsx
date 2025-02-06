@@ -1,13 +1,10 @@
 "use client";
 
+import { useQueryParams } from "@/hooks/use-query-params";
 import { useState } from "react";
 import { Button } from "./ui/button";
 import Welcome from "./welcome";
-import { useQueryParams } from "@/hooks/use-query-params";
 
-// ----- Funções auxiliares de data -----
-
-// formata a data no padrão "ddMMyyyy", ex.: 24012025
 function formatDateToDDMMYYYY(date = new Date()) {
   const day = String(date.getDate()).padStart(2, "0");
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -15,17 +12,15 @@ function formatDateToDDMMYYYY(date = new Date()) {
   return `${day}${month}${year}`;
 }
 
-// retorna { firstDay, lastDay } do mês atual
 function getCurrentMonthRange() {
   const now = new Date();
   const year = now.getFullYear();
-  const month = now.getMonth(); // 0 a 11
+  const month = now.getMonth();
   const firstDay = new Date(year, month, 1);
-  const lastDay = new Date(year, month + 1, 0); // último dia do mês
+  const lastDay = new Date(year, month + 1, 0);
   return { firstDay, lastDay };
 }
 
-// retorna { firstDay, lastDay } do mês anterior
 function getPreviousMonthRange() {
   const now = new Date();
   now.setMonth(now.getMonth() - 1);
@@ -36,16 +31,14 @@ function getPreviousMonthRange() {
   return { firstDay, lastDay };
 }
 
-// retorna { firstDay, lastDay } do ano atual
 function getCurrentYearRange() {
   const now = new Date();
   const year = now.getFullYear();
-  const firstDay = new Date(year, 0, 1);   // 1º de janeiro
-  const lastDay = new Date(year, 11, 31); // 31 de dezembro
+  const firstDay = new Date(year, 0, 1);
+  const lastDay = new Date(year, 11, 31);
   return { firstDay, lastDay };
 }
 
-// ----- Componente principal -----
 export function ControllerDashboard() {
   const { setQueries } = useQueryParams();
 
@@ -53,7 +46,6 @@ export function ControllerDashboard() {
     "mesAtual" | "mesPassado" | "anoAtual"
   >("mesAtual");
 
-  // Função que dispara ao clicar em cada botão
   function handleClick(period: "mesAtual" | "mesPassado" | "anoAtual") {
     setSelectedButton(period);
 

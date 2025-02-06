@@ -7,6 +7,7 @@ import { TErrorResponse } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import Cookies from "js-cookie";
 import { CircleCheckBig, CircleX } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -32,13 +33,18 @@ export default function LoginPage() {
     mutationFn: (data: { email: string; senha: string }) =>
       usersGateway.login(data),
 
-    onSuccess: () => {
+    onSuccess: (data) => {
+      Cookies.set("finity-token", data.token, { expires: 7 });
       toast({
         variant: "success",
         title: "Login efetuado com sucesso!",
         description: "Seja bem-vindo ao finity",
         icon: <CircleCheckBig />,
       });
+
+      router.push("/dashboard");
+
+      window.location.href = "/dashboard";
     },
 
     onError: (error: AxiosError<TErrorResponse>) => {

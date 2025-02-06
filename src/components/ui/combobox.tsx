@@ -209,7 +209,7 @@ export function Combobox<T extends FieldValues>({
         return (
           <div className={cn("flex flex-col gap-2 w-full", className)}>
             {label && <Label>{label}</Label>}
-            <Popover open={open} onOpenChange={setOpen}>
+            <Popover modal={true} open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"

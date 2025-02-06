@@ -44,7 +44,7 @@ type TTransacoesView = {
     unknown,
     TCreateTransactionOutput
   >;
-  onCreate: (data: TCreateTransaction) => void;
+  onCreate: (data: TCreateTransaction) => Promise<boolean>;
   isCreating: boolean;
   onDelete: (id: string) => void;
   isDeleting?: boolean;
