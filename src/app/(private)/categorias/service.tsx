@@ -7,6 +7,7 @@ import {
   TCreateCategoryInput,
   TCreateCategoryOutput,
 } from "@/components/dialog/categories/schema";
+import { ErrorRedirect } from "@/components/error-redirect";
 import { useQueryParams } from "@/hooks/use-query-params";
 import { useToast } from "@/hooks/use-toast";
 import { Api } from "@/http/axios";
@@ -18,6 +19,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { CircleCheckBig, CircleX } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { Fallback } from "./ui/fallback";
 import CategoriasView from "./view";
 
 export default function CategoriasPage() {
@@ -39,16 +41,24 @@ export default function CategoriasPage() {
     },
   });
 
-  const { data: categorias, isLoading } = useQuery(
-    ["categories"],
-    () => categoriesGateway.getCategories(),
-    {
-      keepPreviousData: true,
-      staleTime: 60000,
-    }
-  );
+  const {
+    data: categorias,
+    isLoading,
+    isError: categoriasError,
+  } = useQuery(["categories"], () => categoriesGateway.getCategories(), {
+    keepPreviousData: true,
+    staleTime: 60000,
+  });
 
-  const { data: transacoes, isLoading: isLoadingTransactions } = useQuery(
+  if (categoriasError) {
+    return <ErrorRedirect message="as categorias" />;
+  }
+
+  const {
+    data: transacoes,
+    isLoading: isLoadingTransactions,
+    isError: transacoesError,
+  } = useQuery(
     ["transacoes", queries],
     () => new TransactionsGateway(Api).getTransactions(queries),
     {
@@ -56,6 +66,10 @@ export default function CategoriasPage() {
       staleTime: 60000,
     }
   );
+
+  if (transacoesError) {
+    return <ErrorRedirect message="as transações" />;
+  }
 
   const { mutateAsync: createCategory, isLoading: isCreating } = useMutation({
     mutationFn: async (data: TCreateCategory) =>
@@ -138,6 +152,10 @@ export default function CategoriasPage() {
 
   async function onEdit(id: string, data: TCreateCategory) {
     await editCategory({ id, data });
+  }
+
+  if (!categorias || !transacoes) {
+    return <Fallback />;
   }
 
   return (

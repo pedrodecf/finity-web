@@ -19,6 +19,8 @@ import { AxiosError } from "axios";
 import { CircleCheckBig, CircleX } from "lucide-react";
 import { useForm } from "react-hook-form";
 import TransacoesView from "./view";
+import { ErrorRedirect } from "@/components/error-redirect";
+import { Fallback } from "./ui/fallback";
 
 export default function TransacoesPage() {
   const { queries } = useQueryParams();
@@ -43,7 +45,7 @@ export default function TransacoesPage() {
     },
   });
 
-  const { data: transacoes, isLoading } = useQuery(
+  const { data: transacoes, isLoading, isError } = useQuery(
     ["transacoes", queries],
     () => new TransactionsGateway(Api).getTransactions(queries),
     {
@@ -51,6 +53,10 @@ export default function TransacoesPage() {
       staleTime: 60000,
     }
   );
+  
+    if (isError) {
+      return <ErrorRedirect message="as transações" />;
+    }
 
   const { mutateAsync: createTransaction, isLoading: isCreating } = useMutation(
     {
@@ -172,7 +178,7 @@ export default function TransacoesPage() {
   }
 
   if (!transacoes) {
-    return null;
+    return <Fallback />;
   }
 
   const percentual = calcularPercentual(transacoes);

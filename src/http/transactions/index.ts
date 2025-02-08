@@ -9,7 +9,6 @@ export class TransactionsGateway {
     params: getTransactionsQuery
   ): Promise<ListTransactionsResponse> {
     const { data } = await this.api.get("/transacoes", { params });
-    console.log(data);
     return data;
   }
 

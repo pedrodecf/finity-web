@@ -17,7 +17,7 @@ export function Fallback() {
       </div>
 
       <div className="grid grid-cols-5 gap-6 w-full flex-1 overflow-hidden tablet:flex tablet:flex-col tablet:overflow-auto tablet:gap-4">
-        <Skeleton className="col-span-2 h-[553px] rounded-lg" />
+        <Skeleton className="col-span-2 h-[458px] rounded-lg" />
 
         <div className="col-span-3 h-full gap-6 flex flex-col tablet:gap-4 overflow-hidden">
           <Skeleton className="h-[204px] w-full rounded-lg" />
