@@ -40,7 +40,6 @@ export default function TransacoesPage() {
       tipo: "Entrada",
       custoFixo: true,
       cartaoCredito: false,
-      parcelas: null,
     },
   });
 
@@ -148,10 +147,6 @@ export default function TransacoesPage() {
       tipo: data.tipo,
       custoFixo: data.tipo === "Saida" ? data.custoFixo : null,
       cartaoCredito: data.tipo === "Saida" ? data.cartaoCredito : null,
-      parcelas:
-        data.parcelas?.atual || data.parcelas?.total === null
-          ? null
-          : data.parcelas,
     });
 
     return true;
@@ -172,12 +167,6 @@ export default function TransacoesPage() {
         tipo: data.tipo,
         custoFixo: data.tipo === "Saida" ? data.custoFixo : null,
         cartaoCredito: data.tipo === "Saida" ? data.cartaoCredito : null,
-        parcelas: data.parcelas
-          ? {
-              total: data.parcelas.total ?? null,
-              atual: data.parcelas.atual ?? null,
-            }
-          : null,
       },
     });
   }

@@ -1,6 +1,7 @@
 "use client";
 
 import { ScrollDownIcon } from "@/assets/icons";
+import { FinityLogo } from "@/assets/icons/finity-logo";
 import { Button } from "@/components/ui/button";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -9,6 +10,8 @@ import Image from "next/image";
 import { ReactNode, useRef } from "react";
 
 export default function Home() {
+  const logoRef = useRef(null);
+
   useGSAP(() => {
     (async () => {
       const LocomotiveScroll = (await import("locomotive-scroll")).default;
@@ -18,9 +21,24 @@ export default function Home() {
 
   return (
     <>
-      {Hero()}
-      {Navbar()}
-      {Description()}
+      <div className="absolute top-0 left-0 w-full h-full z-50">
+        <div className="grid grid-cols-4 w-full h-full">
+          <div className="bg-background" />
+          <div className="bg-background" />
+          <div className="bg-background" />
+          <div className="bg-background" />
+
+          <div className="absolute inset-0 flex justify-center items-center z-50">
+            <FinityLogo ref={logoRef} className="w-40 h-40" />
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <Hero />
+        <Navbar />
+        <Description />
+      </div>
     </>
   );
 
@@ -137,7 +155,7 @@ export default function Home() {
     return (
       <header
         ref={navbarRef}
-        className="w-full h-16 bg-card z-50 fixed top-0 flex justify-between items-center px-6"
+        className="w-full h-16 bg-card z-20 fixed top-0 flex justify-between items-center px-6"
       >
         <div className="w-52">
           <Image src="/finity-white.svg" alt="Logo" width={100} height={100} />
