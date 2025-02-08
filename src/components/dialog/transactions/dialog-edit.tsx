@@ -63,7 +63,6 @@ export function DialogTransactionEdit({
   });
 
   const tipo = watch("tipo");
-  const cartaoCredito = watch("cartaoCredito");
 
   useEffect(() => {
     if (transactionData) {

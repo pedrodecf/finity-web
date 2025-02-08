@@ -15,10 +15,6 @@ export type TTransactions = {
     avatar: string;
     hex: string;
   };
-  parcelas?: {
-    total: number;
-    atual: number;
-  }
 };
 
 export interface DataTableProps<TData, TValue> {

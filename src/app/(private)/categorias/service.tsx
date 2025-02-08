@@ -50,10 +50,6 @@ export default function CategoriasPage() {
     staleTime: 60000,
   });
 
-  if (categoriasError) {
-    return <ErrorRedirect message="as categorias" />;
-  }
-
   const {
     data: transacoes,
     isLoading: isLoadingTransactions,
@@ -66,10 +62,6 @@ export default function CategoriasPage() {
       staleTime: 60000,
     }
   );
-
-  if (transacoesError) {
-    return <ErrorRedirect message="as transações" />;
-  }
 
   const { mutateAsync: createCategory, isLoading: isCreating } = useMutation({
     mutationFn: async (data: TCreateCategory) =>
@@ -152,6 +144,14 @@ export default function CategoriasPage() {
 
   async function onEdit(id: string, data: TCreateCategory) {
     await editCategory({ id, data });
+  }
+
+  if (categoriasError) {
+    return <ErrorRedirect message="as categorias" />;
+  }
+
+  if (transacoesError) {
+    return <ErrorRedirect message="as transações" />;
   }
 
   if (!categorias || !transacoes) {

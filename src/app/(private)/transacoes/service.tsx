@@ -7,6 +7,7 @@ import {
   TCreateTransactionInput,
   TCreateTransactionOutput,
 } from "@/components/dialog/transactions/schema";
+import { ErrorRedirect } from "@/components/error-redirect";
 import { useQueryParams } from "@/hooks/use-query-params";
 import { useToast } from "@/hooks/use-toast";
 import { Api } from "@/http/axios";
@@ -18,9 +19,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { CircleCheckBig, CircleX } from "lucide-react";
 import { useForm } from "react-hook-form";
-import TransacoesView from "./view";
-import { ErrorRedirect } from "@/components/error-redirect";
 import { Fallback } from "./ui/fallback";
+import TransacoesView from "./view";
 
 export default function TransacoesPage() {
   const { queries } = useQueryParams();
@@ -45,7 +45,11 @@ export default function TransacoesPage() {
     },
   });
 
-  const { data: transacoes, isLoading, isError } = useQuery(
+  const {
+    data: transacoes,
+    isLoading,
+    isError,
+  } = useQuery(
     ["transacoes", queries],
     () => new TransactionsGateway(Api).getTransactions(queries),
     {
@@ -53,10 +57,6 @@ export default function TransacoesPage() {
       staleTime: 60000,
     }
   );
-  
-    if (isError) {
-      return <ErrorRedirect message="as transações" />;
-    }
 
   const { mutateAsync: createTransaction, isLoading: isCreating } = useMutation(
     {
@@ -175,6 +175,10 @@ export default function TransacoesPage() {
         cartaoCredito: data.tipo === "Saida" ? data.cartaoCredito : null,
       },
     });
+  }
+
+  if (isError) {
+    return <ErrorRedirect message="as transações" />;
   }
 
   if (!transacoes) {

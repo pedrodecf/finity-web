@@ -149,6 +149,12 @@
   background-size: 200% 200%;
 }
 
+.linear-bg-2 {
+  background: linear-gradient(45deg, #1d1d41, #141332);
+  animation: gradient 10s ease infinite;
+  background-size: 200% 200%;
+}
+
 .hover-nav {
   position: relative;
   padding: 0.3rem 0;

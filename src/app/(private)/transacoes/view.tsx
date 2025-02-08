@@ -164,15 +164,6 @@ export default function TransacoesView({
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
-                    <p className="truncate">
-                      {row.original.descricao}{" "}
-                      {!!row.original.parcelas && (
-                        <span className="text-sub text-sm">
-                          {row.original.parcelas?.atual}/
-                          {row.original.parcelas?.total}
-                        </span>
-                      )}
-                    </p>
                   </div>
                 );
               },
@@ -320,21 +311,6 @@ export default function TransacoesView({
                               data.tipo === "Saida" ? data.custoFixo : null,
                             cartaoCredito:
                               data.tipo === "Saida" ? data.cartaoCredito : null,
-                            parcelas: data.parcelas
-                              ? ({
-                                  total:
-                                    data.parcelas.total !== undefined
-                                      ? data.parcelas.total
-                                      : null,
-                                  atual:
-                                    data.parcelas.atual !== undefined
-                                      ? data.parcelas.atual
-                                      : null,
-                                } as {
-                                  total: number | null;
-                                  atual: number | null;
-                                })
-                              : null,
                           })
                         }
                         transactionData={{
@@ -350,15 +326,6 @@ export default function TransacoesView({
                             id: row.original.categoriaId,
                             nome: row.original.categoria.nome,
                           },
-                          parcelas: row.original.parcelas
-                            ? ({
-                                atual: row.original.parcelas.atual ?? null,
-                                total: row.original.parcelas.total ?? null,
-                              } as {
-                                atual: number | null;
-                                total: number | null;
-                              })
-                            : null,
                         }}
                       />
                     </Dialog>
