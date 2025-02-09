@@ -70,11 +70,13 @@ export default function Home() {
         <div className="rounded-full absolute w-[800px] h-[800px] top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 border border-[#242442] shadow-[0_0_30px_10px_rgba(36,36,66,0.30),_0_0_60px_20px_rgba(36,36,66,0.20),_0_0_90px_30px_rgba(36,36,66,0.10),_0_0_100px_40px_rgba(36,36,66,0.05)] -z-10" />
         <div className="rounded-full absolute w-[1000px] h-[1000px] top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 border border-[#242442] shadow-[0_0_30px_10px_rgba(36,36,66,0.30),_0_0_60px_20px_rgba(36,36,66,0.20),_0_0_90px_30px_rgba(36,36,66,0.10),_0_0_100px_40px_rgba(36,36,66,0.05)] -z-10" />
         <div className="rounded-full absolute w-[1200px] h-[1200px] top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 border border-[#242442] shadow-[0_0_30px_10px_rgba(36,36,66,0.30),_0_0_60px_20px_rgba(36,36,66,0.20),_0_0_90px_30px_rgba(36,36,66,0.10),_0_0_100px_40px_rgba(36,36,66,0.05)] -z-10" />
+        <div className="rounded-full absolute w-[1400px] h-[1400px] top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 border border-[#242442] shadow-[0_0_30px_10px_rgba(36,36,66,0.30),_0_0_60px_20px_rgba(36,36,66,0.20),_0_0_90px_30px_rgba(36,36,66,0.10),_0_0_100px_40px_rgba(36,36,66,0.05)] -z-10" />
+        <div className="rounded-full absolute w-[1600px] h-[1600px] top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 border border-[#242442] shadow-[0_0_30px_10px_rgba(36,36,66,0.30),_0_0_60px_20px_rgba(36,36,66,0.20),_0_0_90px_30px_rgba(36,36,66,0.10),_0_0_100px_40px_rgba(36,36,66,0.05)] -z-10" />
         <div className="text-6xl font-medium text-center relative flex flex-col items-center z-10 gap-6">
           <div className="">
-            <h1>Organize suas contas</h1>
+            <h1>Organize seus gastos</h1>
             <h1 className="mt-3 bg-gradient-to-r from-[#6359E9] to-[#8d85f6] inline-block text-transparent bg-clip-text">
-              Multiplique seus planos
+              Multiplique suas metas!
             </h1>
           </div>
           <Image
@@ -110,10 +112,10 @@ export default function Home() {
             className="absolute -bottom-28 -right-60 animate-float-3"
           />
           <p className="text-center font-medium text-lg">
-            Conheça o Finity, o app de controle de gastos e custos <br />
+            Conheça o Finity, seu app de controle de gastos e custos <br />
             que simplifica suas finanças. Acompanhe despesas, gastos no cartão,
             planeje
-            <br /> seu orçamento e alcance a segurança financeira.
+            <br /> seu orçamento e alcance a segurança financeira. De graça!
           </p>
           <div className="flex gap-2 items-center -mt-1">
             <a href="/login">

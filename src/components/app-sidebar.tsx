@@ -64,7 +64,9 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader>
-        <Logo />
+        <a href="/" className="w-fit">
+          <Logo />
+        </a>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
