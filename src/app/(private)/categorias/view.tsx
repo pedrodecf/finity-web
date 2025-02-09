@@ -27,12 +27,16 @@ type Props = {
   isLoading?: boolean;
   transactions?: TTransactions[];
   isLoadingTransactions?: boolean;
-  onCreate: (data: TCreateCategory) => void;
+  onCreate: (data: TCreateCategory) => Promise<boolean>;
   isCreating?: boolean;
-  onDelete: (id: string) => void;
+  onDelete: (id: string) => Promise<boolean>;
   isDeleting?: boolean;
-  onEdit: (id: string, data: TCreateCategory) => void;
+  onEdit: (id: string, data: TCreateCategory) => Promise<boolean>;
   isEditing?: boolean;
+  categoryToEdit: TCategories | null;
+  setCategoryToEdit: (value: TCategories | null) => void;
+  categoryToDelete: TCategories | null;
+  setCategoryToDelete: (value: TCategories | null) => void;
 };
 
 export default function CategoriasView({
@@ -47,6 +51,10 @@ export default function CategoriasView({
   isDeleting,
   onEdit,
   isEditing,
+  categoryToDelete,
+  categoryToEdit,
+  setCategoryToDelete,
+  setCategoryToEdit,
 }: Props) {
   return (
     <>
@@ -100,35 +108,19 @@ export default function CategoriasView({
               ),
               cell: ({ row }) => (
                 <div className="flex items-center justify-end gap-3">
-                  <Dialog>
-                    <DialogTrigger>
-                      <LucideIcons.Pencil
-                        className="text-sub hover:text-foreground transition-all"
-                        size={20}
-                      />
-                    </DialogTrigger>
-                    <DialogCategoryEdit
-                      title="Editar categoria"
-                      categoryId={String(row.original.id)}
-                      isEditing={isEditing}
-                      onEdit={(id, data) => onEdit(id, data)}
-                      categoryData={row.original}
+                  <button onClick={() => setCategoryToEdit(row.original)}>
+                    <LucideIcons.Pencil
+                      className="text-sub hover:text-foreground transition-all"
+                      size={20}
                     />
-                  </Dialog>
-                  <Dialog>
-                    <DialogTrigger>
-                      <LucideIcons.Trash2
-                        className="text-sub hover:text-foreground transition-all"
-                        size={20}
-                      />
-                    </DialogTrigger>
-                    <DialogDelete
-                      title="Deletar categoria"
-                      item={row.original.nome}
-                      onDelete={() => onDelete(String(row.original.id))}
-                      isDeleting={isDeleting}
+                  </button>
+
+                  <button onClick={() => setCategoryToDelete(row.original)}>
+                    <LucideIcons.Trash2
+                      className="text-sub hover:text-foreground transition-all"
+                      size={20}
                     />
-                  </Dialog>
+                  </button>
                 </div>
               ),
               enableResizing: false,
@@ -163,6 +155,43 @@ export default function CategoriasView({
         </div>
       </div>
       <div />
+      <Dialog
+        open={!!categoryToEdit}
+        onOpenChange={(open) => {
+          if (!open) setCategoryToEdit(null);
+        }}
+      >
+        {categoryToEdit && (
+          <DialogCategoryEdit
+            title="Editar categoria"
+            categoryId={String(categoryToEdit.id)}
+            isEditing={isEditing}
+            onEdit={(id, data) => onEdit(id, data)}
+            categoryData={categoryToEdit}
+            setOpenDialogEdit={() => setCategoryToEdit(null)}
+          />
+        )}
+      </Dialog>
+
+      <Dialog
+        open={!!categoryToDelete}
+        onOpenChange={(open) => {
+          if (!open) setCategoryToDelete(null);
+        }}
+      >
+        {categoryToDelete && (
+          <DialogDelete
+            title="Deletar categoria"
+            item={categoryToDelete.nome}
+            onDelete={() =>
+              onDelete(String(categoryToDelete.id)).then(() => {
+                setCategoryToDelete(null);
+              })
+            }
+            isDeleting={isDeleting}
+          />
+        )}
+      </Dialog>
     </>
   );
 }

@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { RadioAvatar } from "@/components/ui/radio-avatar";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Pencil } from "lucide-react";
+import { Loader, Pencil } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { defaultAvatars } from "./default-avatars";
@@ -27,7 +27,8 @@ type Props = {
     hex: string;
   };
   isEditing?: boolean;
-  onEdit: (id: string, data: TEditCategory) => void;
+  onEdit: (id: string, data: TEditCategory) => Promise<boolean>;
+  setOpenDialogEdit: (value: boolean) => void;
 };
 
 export function DialogCategoryEdit({
@@ -36,6 +37,7 @@ export function DialogCategoryEdit({
   categoryData,
   isEditing,
   onEdit,
+  setOpenDialogEdit,
 }: Props) {
   const {
     control,
@@ -62,8 +64,9 @@ export function DialogCategoryEdit({
   }, [categoryData, reset]);
 
   function onSubmit(data: TEditCategory) {
-    onEdit(categoryId, data);
-    reset();
+    onEdit(categoryId, data).then(() => {
+      setOpenDialogEdit(false);
+    });
   }
 
   return (
@@ -103,7 +106,7 @@ export function DialogCategoryEdit({
             />
           </div>
         </DialogHeader>
-        <DialogFooter className="px-4 py-3 border-t border-border w-full flex items-center gap-2 justify-end sm:justify-end">
+        <DialogFooter className="px-4 py-3 border-t border-border w-full flex items-center justify-end sm:justify-end">
           <DialogClose asChild>
             <Button
               variant="ghost"
@@ -114,7 +117,8 @@ export function DialogCategoryEdit({
             </Button>
           </DialogClose>
           <Button type="submit" disabled={isEditing}>
-            Salvar
+            {!isEditing && "Salvar"}
+            {isEditing && <Loader className="h-auto animate-spin" />}
           </Button>
         </DialogFooter>
       </form>

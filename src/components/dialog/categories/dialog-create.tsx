@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { RadioAvatar } from "@/components/ui/radio-avatar";
-import { Layers2 } from "lucide-react";
+import { Layers2, Loader } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { defaultAvatars } from "./default-avatars";
 import {
@@ -21,7 +21,7 @@ import {
 type TDialogCategoryCreate = {
   title?: string;
   isCreating?: boolean;
-  onCreate: (data: TCreateCategory) => void;
+  onCreate: (data: TCreateCategory) => Promise<boolean>;
   formMethods: UseFormReturn<
     TCreateCategoryInput,
     unknown,
@@ -43,8 +43,9 @@ export function DialogCategoryCreate({
   } = formMethods;
 
   const onHandleSubmit = async (data: TCreateCategory) => {
-    onCreate(data);
-    reset();
+    onCreate(data).then(() => {
+      reset();
+    });
   };
 
   const onResetForm = () => {
@@ -111,7 +112,8 @@ export function DialogCategoryCreate({
               </Button>
             </DialogClose>
             <Button type="submit" disabled={isCreating}>
-              Salvar
+              {!isCreating && "Salvar"}
+              {isCreating && <Loader className="h-auto animate-spin" />}
             </Button>
           </div>
         </DialogFooter>

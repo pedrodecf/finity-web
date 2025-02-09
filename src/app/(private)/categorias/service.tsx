@@ -8,6 +8,7 @@ import {
   TCreateCategoryOutput,
 } from "@/components/dialog/categories/schema";
 import { ErrorRedirect } from "@/components/error-redirect";
+import { TCategories } from "@/components/tables/type";
 import { useQueryParams } from "@/hooks/use-query-params";
 import { useToast } from "@/hooks/use-toast";
 import { Api } from "@/http/axios";
@@ -18,11 +19,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { CircleCheckBig, CircleX } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Fallback } from "./ui/fallback";
 import CategoriasView from "./view";
 
 export default function CategoriasPage() {
+  const [categoryToEdit, setCategoryToEdit] =
+    useState<TCategories | null>(null);
+
+  const [categoryToDelete, setCategoryToDelete] =
+    useState<TCategories | null>(null);
+
   const { queries } = useQueryParams();
   const categoriesGateway = new CategoriesGateway(Api);
   const { toast } = useToast();
@@ -134,16 +142,19 @@ export default function CategoriasPage() {
     },
   });
 
-  async function onCreate(data: TCreateCategory) {
+  async function onCreate(data: TCreateCategory): Promise<boolean> {
     await createCategory(data);
+    return true;
   }
 
-  async function onDelete(id: string) {
+  async function onDelete(id: string): Promise<boolean> {
     await deleteCategory(id);
+    return true;
   }
 
-  async function onEdit(id: string, data: TCreateCategory) {
+  async function onEdit(id: string, data: TCreateCategory): Promise<boolean> {
     await editCategory({ id, data });
+    return true;
   }
 
   if (categoriasError) {
@@ -171,6 +182,10 @@ export default function CategoriasPage() {
       isDeleting={isDeleting}
       onEdit={onEdit}
       isEditing={isEditing}
+      categoryToEdit={categoryToEdit}
+      setCategoryToEdit={setCategoryToEdit}
+      categoryToDelete={categoryToDelete}
+      setCategoryToDelete={setCategoryToDelete}
     />
   );
 }
