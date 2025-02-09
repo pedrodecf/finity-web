@@ -11,7 +11,15 @@ import {
   SidebarSeparator,
 } from "@/components/ui/sidebar";
 import { Logo } from "@/lib/getters/get-logo-theme";
-import { ChartSpline, Layers2, LayoutDashboard, Sun } from "lucide-react";
+import {
+  ChartSpline,
+  ClipboardPenLine,
+  Layers2,
+  LayoutDashboard,
+  PiggyBank,
+  RefreshCcw,
+  Sun,
+} from "lucide-react";
 import Link from "next/link";
 import AppSidebarFooter from "./app-sidebar-footer";
 import { ToggleTheme } from "./toggle-theme";
@@ -32,6 +40,24 @@ const items = [
     url: "/categorias",
     icon: Layers2,
   },
+  {
+    title: "Recorrências",
+    url: "#",
+    icon: RefreshCcw,
+    soon: true,
+  },
+  {
+    title: "Relatórios",
+    url: "#",
+    icon: ClipboardPenLine,
+    soon: true,
+  },
+  {
+    title: "Investimentos",
+    url: "#",
+    icon: PiggyBank,
+    soon: true,
+  },
 ];
 
 export function AppSidebar() {
@@ -45,12 +71,28 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild size={"lg"}>
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span className="font-semibold">{item.title}</span>
-                    </Link>
+                <SidebarMenuItem
+                  key={item.title}
+                  className={item.soon ? "opacity-30" : ""}
+                >
+                  <SidebarMenuButton
+                    asChild
+                    size={"lg"}
+                    className={
+                      item.soon ? "cursor-not-allowed hover:bg-transparent" : ""
+                    }
+                  >
+                    {!item.soon ? (
+                      <Link href={item.url}>
+                        <item.icon />
+                        <span className="font-semibold">{item.title}</span>
+                      </Link>
+                    ) : (
+                      <span>
+                        <item.icon />
+                        <span className="font-semibold">{item.title}</span>
+                      </span>
+                    )}
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

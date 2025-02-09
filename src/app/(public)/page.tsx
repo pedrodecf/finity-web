@@ -3,9 +3,15 @@
 import { Button } from "@/components/ui/button";
 import { Github } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  const isLogged = localStorage.getItem("finity-logged");
+  const [isLogged, setIsLogged] = useState(false);
+
+  useEffect(() => {
+    const storedLogged = localStorage.getItem("finity-logged");
+    setIsLogged(!!storedLogged);
+  }, []);
   return (
     <main className="relative h-screen bg-black/10 overflow-hidden">
       <header className="relative z-50 py-4 border-b border-[#242442] bg-gradient-to-l from-card to-background">
