@@ -35,7 +35,7 @@ export default function RegistroView({
         className="rounded-lg bg-card-foreground text-card p-8 flex flex-col gap-4 w-full max-w-md shadow-lg"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <a href="/" className="w-fit">
+        <Link href="/" className="w-fit">
           <Image
             src="/finity-black.svg"
             alt="Logo"
@@ -43,7 +43,7 @@ export default function RegistroView({
             height={100}
             className="flex self-center mb-6"
           />
-        </a>
+        </Link>
         <h1 className="text-2xl font-bold mb-2">Crie uma conta</h1>
         <Input
           name="name"
