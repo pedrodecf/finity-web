@@ -45,21 +45,23 @@ export default function Home() {
             </nav>
           </div>
           <div className="flex gap-2 items-center">
-            <Button size="icon-sm" variant="gray">
-              <a
-                href="https://github.com/pedrodecf/front-financas"
-                target="_blank"
-              >
+            <a
+              href="https://github.com/pedrodecf/front-financas"
+              target="_blank"
+            >
+              <Button size="icon-sm" variant="gray">
                 <Github />
-              </a>
-            </Button>
-            <Button size="sm" variant="gray">
-              {isLogged ? (
+              </Button>
+            </a>
+            {isLogged ? (
+              <Button size="sm" variant="gray">
                 <a href="/dashboard">Dashboard</a>
-              ) : (
+              </Button>
+            ) : (
+              <Button size="sm" variant="gray">
                 <a href="/registro">Criar conta</a>
-              )}
-            </Button>
+              </Button>
+            )}
           </div>
         </div>
       </header>
@@ -114,12 +116,12 @@ export default function Home() {
             <br /> seu orçamento e alcance a segurança financeira.
           </p>
           <div className="flex gap-2 items-center -mt-1">
-            <Button variant="purple">
-              <a href="/registro">Acesse sua conta</a>
-            </Button>
-            <Button variant="gray">
-              <a href="/registro">Faça seu registro grátis</a>
-            </Button>
+            <a href="/login">
+              <Button variant="purple">Acesse sua conta</Button>
+            </a>
+            <a href="/registro">
+              <Button variant="gray">Faça seu registro grátis</Button>
+            </a>
           </div>
         </div>
       </div>

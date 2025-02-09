@@ -42,9 +42,6 @@ export default function LoginPage() {
         description: "Seja bem-vindo ao finity",
         icon: <CircleCheckBig />,
       });
-
-      router.push("/dashboard");
-
       window.location.href = "/dashboard";
     },
 
