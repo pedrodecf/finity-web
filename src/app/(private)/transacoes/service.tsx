@@ -8,6 +8,7 @@ import {
   TCreateTransactionOutput,
 } from "@/components/dialog/transactions/schema";
 import { ErrorRedirect } from "@/components/error-redirect";
+import { TTransactions } from "@/components/tables/type";
 import { useQueryParams } from "@/hooks/use-query-params";
 import { useToast } from "@/hooks/use-toast";
 import { Api } from "@/http/axios";
@@ -18,11 +19,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { CircleCheckBig, CircleX } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Fallback } from "./ui/fallback";
 import TransacoesView from "./view";
 
 export default function TransacoesPage() {
+  const [transactionToEdit, setTransactionToEdit] =
+    useState<TTransactions | null>(null);
+
+  const [transactionToDelete, setTransactionToDelete] =
+    useState<TTransactions | null>(null);
+
   const { queries } = useQueryParams();
   const transactionsGateway = new TransactionsGateway(Api);
   const { toast } = useToast();
@@ -118,8 +126,9 @@ export default function TransacoesPage() {
       id: string;
       data: TCreateTransaction;
     }) => transactionsGateway.editTransaction(id, data),
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       await queryClient.invalidateQueries(["transacoes"]);
+      setTransactionToEdit((prev) => (prev ? { ...prev, ...data } : prev));
       toast({
         variant: "success",
         title: "Transação editada com sucesso",
@@ -158,11 +167,15 @@ export default function TransacoesPage() {
     return true;
   }
 
-  async function onDelete(id: string) {
+  async function onDelete(id: string): Promise<boolean> {
     await deleteTransaction(id);
+    return true;
   }
 
-  async function onEdit(id: string, data: TCreateTransaction) {
+  async function onEdit(
+    id: string,
+    data: TCreateTransaction
+  ): Promise<boolean> {
     await editTransaction({
       id,
       data: {
@@ -175,6 +188,8 @@ export default function TransacoesPage() {
         cartaoCredito: data.tipo === "Saida" ? data.cartaoCredito : null,
       },
     });
+
+    return true;
   }
 
   if (isError) {
@@ -200,6 +215,10 @@ export default function TransacoesPage() {
       isDeleting={isDeleting}
       onEdit={onEdit}
       isEditing={isEditing}
+      transactionToEdit={transactionToEdit}
+      setTransactionToEdit={setTransactionToEdit}
+      transactionToDelete={transactionToDelete}
+      setTransactionToDelete={setTransactionToDelete}
     />
   );
 }

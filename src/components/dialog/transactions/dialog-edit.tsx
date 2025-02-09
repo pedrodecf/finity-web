@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Radio } from "@/components/ui/radio";
 import { Api } from "@/http/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Pencil } from "lucide-react";
+import { Loader, Pencil } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { editTransactionSchema, TEditTransaction } from "./schema";
@@ -34,8 +34,9 @@ type TDialogTransactionEdit = {
       nome: string;
     };
   };
-  onEdit: (id: string, data: TEditTransaction) => void;
+  onEdit: (id: string, data: TEditTransaction) => Promise<boolean>;
   isEditing?: boolean;
+  setOpenDialogEdit: (value: boolean) => void;
 };
 
 export function DialogTransactionEdit({
@@ -44,6 +45,7 @@ export function DialogTransactionEdit({
   transactionData,
   onEdit,
   isEditing,
+  setOpenDialogEdit,
 }: TDialogTransactionEdit) {
   const {
     control,
@@ -78,14 +80,15 @@ export function DialogTransactionEdit({
     }
   }, [transactionData, reset]);
 
-  function onSubmit(data: TEditTransaction) {
-    onEdit(transactionId, data);
-    reset();
-  }
+  const onHandleSubmit = async (data: TEditTransaction) => {
+    onEdit(transactionId, data).then(() => {
+      setOpenDialogEdit(false);
+    });
+  };
 
   return (
     <DialogContent className="max-w-[500px] p-0">
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onHandleSubmit)}>
         <DialogHeader>
           {!!title && (
             <DialogTitle className="py-4 px-6 border-b border-border w-full flex items-center gap-2">
@@ -203,7 +206,8 @@ export function DialogTransactionEdit({
               </Button>
             </DialogClose>
             <Button type="submit" disabled={isEditing}>
-              Salvar
+              {!isEditing && "Salvar"}
+              {isEditing && <Loader className="h-auto animate-spin" />}
             </Button>
           </div>
         </DialogFooter>

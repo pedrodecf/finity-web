@@ -1,4 +1,5 @@
-import { Trash2 } from "lucide-react";
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   DialogClose,
@@ -8,6 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Loader, Trash2 } from "lucide-react";
 
 type TDialogDelete = {
   title?: string;
@@ -38,14 +40,15 @@ export function DialogDelete({
           </DialogDescription>
         )}
       </DialogHeader>
-      <DialogFooter className="py-3 px-4 border-t border-border w-full flex items-center gap-2">
+      <DialogFooter className="py-3 px-4 border-t border-border w-full flex items-center">
         <DialogClose asChild>
           <Button variant="ghost" disabled={isDeleting}>
             Cancelar
           </Button>
         </DialogClose>
         <Button onClick={onDelete} disabled={isDeleting}>
-          Excluir
+          {!isDeleting && "Excluir"}
+          {isDeleting && <Loader className="h-auto animate-spin" />}
         </Button>
       </DialogFooter>
     </DialogContent>

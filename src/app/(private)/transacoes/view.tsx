@@ -46,9 +46,9 @@ type TTransacoesView = {
   >;
   onCreate: (data: TCreateTransaction) => Promise<boolean>;
   isCreating: boolean;
-  onDelete: (id: string) => void;
+  onDelete: (id: string) => Promise<boolean>;
   isDeleting?: boolean;
-  onEdit: (id: string, data: TCreateTransaction) => void;
+  onEdit: (id: string, data: TCreateTransaction) => Promise<boolean>;
   isEditing?: boolean;
   balance?: {
     totalEntrada: number;
@@ -56,6 +56,10 @@ type TTransacoesView = {
     total: number;
   };
   percentual?: number;
+  transactionToEdit: TTransactions | null;
+  setTransactionToEdit: (value: TTransactions | null) => void;
+  transactionToDelete: TTransactions | null;
+  setTransactionToDelete: (value: TTransactions | null) => void;
 };
 
 export default function TransacoesView({
@@ -70,6 +74,10 @@ export default function TransacoesView({
   isEditing,
   balance,
   percentual,
+  transactionToEdit,
+  setTransactionToEdit,
+  transactionToDelete,
+  setTransactionToDelete,
 }: TTransacoesView) {
   return (
     <>
@@ -142,12 +150,12 @@ export default function TransacoesView({
                   row.original.categoria.avatar as keyof typeof LucideIcons
                 ] as React.ElementType;
                 return (
-                  <div className="flex items-center text-left gap-2">
+                  <div className="flex items-center text-left gap-2 cursor-default">
                     <TooltipProvider delayDuration={0}>
                       <Tooltip>
                         <TooltipTrigger>
                           <div
-                            className="flex items-center justify-center w-7 h-7 rounded-lg cursor-default"
+                            className="flex items-center justify-center w-7 h-7 rounded-lg"
                             style={{
                               backgroundColor: row.original.categoria.hex,
                             }}
@@ -164,6 +172,7 @@ export default function TransacoesView({
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
+                    <p>{row.original.descricao}</p>
                   </div>
                 );
               },
@@ -289,61 +298,21 @@ export default function TransacoesView({
               cell: ({ row }) => {
                 return (
                   <div className="flex items-center justify-end gap-3">
-                    <Dialog>
-                      <DialogTrigger>
-                        <LucideIcons.Pencil
-                          className="text-sub hover:text-foreground transition-all"
-                          size={20}
-                        />
-                      </DialogTrigger>
-                      <DialogTransactionEdit
-                        title="Editar transação"
-                        transactionId={String(row.original.id)}
-                        isEditing={isEditing}
-                        onEdit={(id, data) =>
-                          onEdit(id, {
-                            descricao: data.descricao,
-                            valor: data.valor,
-                            categoriaId: data.categoriaId,
-                            data: data.data,
-                            tipo: data.tipo,
-                            custoFixo:
-                              data.tipo === "Saida" ? data.custoFixo : null,
-                            cartaoCredito:
-                              data.tipo === "Saida" ? data.cartaoCredito : null,
-                          })
-                        }
-                        transactionData={{
-                          id: row.original.id,
-                          descricao: row.original.descricao,
-                          valor: String(row.original.valor),
-                          categoriaId: row.original.categoriaId,
-                          data: String(row.original.data),
-                          tipo: row.original.tipo,
-                          custoFixo: row.original.custoFixo,
-                          cartaoCredito: row.original.cartaoCredito,
-                          categoria: {
-                            id: row.original.categoriaId,
-                            nome: row.original.categoria.nome,
-                          },
-                        }}
+                    <button onClick={() => setTransactionToEdit(row.original)}>
+                      <LucideIcons.Pencil
+                        className="text-sub hover:text-foreground transition-all"
+                        size={20}
                       />
-                    </Dialog>
+                    </button>
 
-                    <Dialog>
-                      <DialogTrigger>
-                        <LucideIcons.Trash2
-                          className="text-sub hover:text-foreground transition-all"
-                          size={20}
-                        />
-                      </DialogTrigger>
-                      <DialogDelete
-                        title="Deletar transação"
-                        item={row.original.descricao}
-                        onDelete={() => onDelete(String(row.original.id))}
-                        isDeleting={isDeleting}
+                    <button
+                      onClick={() => setTransactionToDelete(row.original)}
+                    >
+                      <LucideIcons.Trash2
+                        className="text-sub hover:text-foreground transition-all"
+                        size={20}
                       />
-                    </Dialog>
+                    </button>
                   </div>
                 );
               },
@@ -355,6 +324,55 @@ export default function TransacoesView({
           ]}
         />
       </div>
+      <Dialog
+        open={!!transactionToEdit}
+        onOpenChange={(open) => {
+          if (!open) setTransactionToEdit(null);
+        }}
+      >
+        {transactionToEdit && (
+          <DialogTransactionEdit
+            title="Editar transação"
+            transactionId={String(transactionToEdit.id)}
+            isEditing={isEditing}
+            onEdit={onEdit}
+            setOpenDialogEdit={() => setTransactionToEdit(null)}
+            transactionData={{
+              id: transactionToEdit.id,
+              descricao: transactionToEdit.descricao,
+              valor: String(transactionToEdit.valor),
+              categoriaId: transactionToEdit.categoriaId,
+              data: String(transactionToEdit.data),
+              tipo: transactionToEdit.tipo,
+              custoFixo: transactionToEdit.custoFixo,
+              cartaoCredito: transactionToEdit.cartaoCredito,
+              categoria: {
+                id: transactionToEdit.categoriaId,
+                nome: transactionToEdit.categoria.nome,
+              },
+            }}
+          />
+        )}
+      </Dialog>
+      <Dialog
+        open={!!transactionToDelete}
+        onOpenChange={(open) => {
+          if (!open) setTransactionToDelete(null);
+        }}
+      >
+        {transactionToDelete && (
+          <DialogDelete
+            title="Deletar transação"
+            item={transactionToDelete.descricao}
+            onDelete={() => {
+              onDelete(String(transactionToDelete.id)).then(() => {
+                setTransactionToDelete(null);
+              });
+            }}
+            isDeleting={isDeleting}
+          />
+        )}
+      </Dialog>
     </>
   );
 }

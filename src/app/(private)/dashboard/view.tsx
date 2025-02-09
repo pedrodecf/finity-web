@@ -63,10 +63,12 @@ export default function DashboardView({
         />
       </div>
       <div className="grid grid-cols-5 gap-6 w-full flex-1 overflow-hidden tablet:flex tablet:flex-col tablet:overflow-auto tablet:gap-4">
-        <CategoriesChartDashboard
-          transacoes={transactions}
-          loading={isLoadingTransactions}
-        />
+        <div className="w-full col-span-2 overflow-auto">
+          <CategoriesChartDashboard
+            transacoes={transactions}
+            loading={isLoadingTransactions}
+          />
+        </div>
         <div className="col-span-3 h-full gap-6 flex flex-col tablet:gap-4 overflow-hidden">
           <BalanceChartDashboard
             transacoes={transactions || []}

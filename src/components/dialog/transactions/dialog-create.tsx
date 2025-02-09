@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Radio } from "@/components/ui/radio";
 import { Api } from "@/http/axios";
-import { ChartSpline } from "lucide-react";
+import { ChartSpline, Loader } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import {
   TCreateTransaction,
@@ -26,7 +26,7 @@ type TDialogTransactionCreate = {
     unknown,
     TCreateTransactionOutput
   >;
-  onCreate: (data: TCreateTransaction) => void;
+  onCreate: (data: TCreateTransaction) => Promise<boolean>;
   isCreating?: boolean;
 };
 
@@ -44,11 +44,11 @@ export function DialogTransactionCreate({
   } = formMethods;
 
   const tipo = watch("tipo");
-  const cartaoCredito = watch("cartaoCredito");
 
   const onHandleSubmit = async (data: TCreateTransaction) => {
-    onCreate(data);
-    formMethods.reset();
+    onCreate(data).then(() => {
+      formMethods.reset();
+    });
   };
 
   return (
@@ -176,7 +176,8 @@ export function DialogTransactionCreate({
               </Button>
             </DialogClose>
             <Button type="submit" disabled={isCreating}>
-              Salvar
+              {!isCreating && "Salvar"}
+              {isCreating && <Loader className="h-auto animate-spin" />}
             </Button>
           </div>
         </DialogFooter>
