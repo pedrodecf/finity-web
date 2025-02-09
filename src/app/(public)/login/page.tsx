@@ -34,6 +34,7 @@ export default function LoginPage() {
       usersGateway.login(data),
 
     onSuccess: (data) => {
+      localStorage.setItem("finity-logged", 'true');
       Cookies.set("finity-token", data.token, { expires: 7 });
       toast({
         variant: "success",

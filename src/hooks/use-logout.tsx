@@ -13,6 +13,7 @@ export function useLogout() {
   const logout = async () => {
     try {
       await usersGateway.logout();
+      localStorage.removeItem("finity-logged");
       Cookies.remove("finity-token");
       toast({
         variant: "success",
