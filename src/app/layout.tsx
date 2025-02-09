@@ -25,6 +25,7 @@ export default function RootLayout({
     <html lang="pt-br" className={dmSans.variable}>
       <body className="antialiased">
         <Providers>{children}</Providers>
+        <div id="portal-root" />
         <Toaster />
       </body>
     </html>

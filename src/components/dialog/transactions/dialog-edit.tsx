@@ -78,7 +78,7 @@ export function DialogTransactionEdit({
         cartaoCredito: transactionData.cartaoCredito,
       });
     }
-  }, [transactionData, reset]);
+  }, [reset]);
 
   const onHandleSubmit = async (data: TEditTransaction) => {
     onEdit(transactionId, data).then(() => {
