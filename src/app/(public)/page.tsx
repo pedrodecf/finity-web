@@ -1,17 +1,10 @@
 "use client";
 
-import { ScrollDownIcon } from "@/assets/icons";
-import { FinityLogo } from "@/assets/icons/finity-logo";
 import { Button } from "@/components/ui/button";
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
-import { ReactNode, useRef } from "react";
 
 export default function Home() {
-  const logoRef = useRef(null);
-
   useGSAP(() => {
     (async () => {
       const LocomotiveScroll = (await import("locomotive-scroll")).default;
@@ -20,223 +13,111 @@ export default function Home() {
   }, []);
 
   return (
-    <>
-      <div className="absolute top-0 left-0 w-full h-full z-50">
-        <div className="grid grid-cols-4 w-full h-full">
-          <div className="bg-background" />
-          <div className="bg-background" />
-          <div className="bg-background" />
-          <div className="bg-background" />
-
-          <div className="absolute inset-0 flex justify-center items-center z-50">
-            <FinityLogo ref={logoRef} className="w-40 h-40" />
+    <main className="h-screen bg-black/10 overflow-hidden">
+      <div className="relative z-50 py-5 border-b border-[#242442] bg-background">
+        <div className="max-w-screen-lg flex justify-between items-center mx-auto">
+          <div className="flex items-center gap-14">
+            <Image
+              src="/finity-white.svg"
+              alt="Logo Finity"
+              width="100"
+              height="100"
+              priority
+            />
+            <nav>
+              <ul className="flex items-center space-x-8 text-sm font-semibold">
+                <li>
+                  <a href="#" className="hover-nav">
+                    Sobre
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover-nav">
+                    Serviços
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover-nav">
+                    Contato
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <div className="flex gap-2 items-center">
+            <Button size="sm" variant="gray">
+              <a href="/registro">Criar conta</a>
+            </Button>
+            <Button size="sm" variant="purple">
+              <a href="/registro">Entrar</a>
+            </Button>
           </div>
         </div>
       </div>
-
-      <div>
-        <Hero />
-        <Navbar />
-        <Description />
-      </div>
-    </>
-  );
-
-  function Hero() {
-    const backgroundImgRef = useRef(null);
-    const introImgRef = useRef(null);
-    const titleTextRef = useRef(null);
-    const scrollDownIconRef = useRef(null);
-
-    useGSAP(() => {
-      gsap.registerPlugin(ScrollTrigger);
-      const timeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: document.documentElement,
-          start: "top",
-          end: "+=500px",
-          scrub: true,
-        },
-      });
-
-      timeline.to(introImgRef.current, { height: "100px" }, 0);
-    }, []);
-
-    useGSAP(() => {
-      gsap.fromTo(
-        titleTextRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 3, ease: "power2.inOut" }
-      );
-    }, []);
-
-    useGSAP(() => {
-      const timeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: document.documentElement,
-          start: "top",
-          end: "+=50",
-          scrub: true,
-        },
-      });
-
-      timeline.to(scrollDownIconRef.current, { opacity: 0 }, 0);
-    }, []);
-
-    return (
-      <div className="relative w-full flex justify-center">
-        <div ref={backgroundImgRef} className="w-full h-[140vh] absolute">
+      <div className="flex flex-col flex-1 gap-8 items-center justify-center mt-44">
+        <div className="rounded-full absolute w-[800px] h-[800px] top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 border border-[#242442] shadow-[0_0_30px_10px_rgba(36,36,66,0.30),_0_0_60px_20px_rgba(36,36,66,0.20),_0_0_90px_30px_rgba(36,36,66,0.10),_0_0_100px_40px_rgba(36,36,66,0.05)] -z-10" />
+        <div className="rounded-full absolute w-[1000px] h-[1000px] top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 border border-[#242442] shadow-[0_0_30px_10px_rgba(36,36,66,0.30),_0_0_60px_20px_rgba(36,36,66,0.20),_0_0_90px_30px_rgba(36,36,66,0.10),_0_0_100px_40px_rgba(36,36,66,0.05)] -z-10" />
+        <div className="rounded-full absolute w-[1200px] h-[1200px] top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 border border-[#242442] shadow-[0_0_30px_10px_rgba(36,36,66,0.30),_0_0_60px_20px_rgba(36,36,66,0.20),_0_0_90px_30px_rgba(36,36,66,0.10),_0_0_100px_40px_rgba(36,36,66,0.05)] -z-10" />
+        <div className="m-auto text-6xl font-medium text-center relative">
+          <h1>Organize suas contas</h1>
+          <h1 className="mt-3 bg-gradient-to-r from-[#6359E9] to-[#8d85f6] inline-block text-transparent bg-clip-text">
+            Multiplique seus planos
+          </h1>
           <Image
-            src="/background.jpeg"
-            alt="Hero"
-            fill={true}
-            priority={true}
-            className="object-cover brightness-50"
+            src="/item1.svg"
+            alt=""
+            width="172"
+            height="102"
+            priority
+            className="absolute -top-6 -left-72 animate-float-1"
+          />
+          <Image
+            src="/item2.svg"
+            alt=""
+            width="172"
+            height="58"
+            priority
+            className="absolute -top-14 -right-72 animate-float-2"
+          />
+          <Image
+            src="/item3.svg"
+            alt=""
+            width="78"
+            height="78"
+            priority
+            className="absolute -bottom-36 -left-40 animate-float-4"
+          />
+          <Image
+            src="/item4.svg"
+            alt=""
+            width="157"
+            height="90"
+            priority
+            className="absolute -bottom-28 -right-60 animate-float-3"
           />
         </div>
-
-        <div className="flex justify-center relative items-center mt-[35vh]">
-          <div
-            ref={introImgRef}
-            className="w-[350px] h-[475px] absolute"
-            data-scroll
-            data-scroll-speed="0.3"
-          >
-            <Image
-              src="/intro.png"
-              alt="Intro"
-              fill={true}
-              priority={true}
-              className="object-cover object-center brightness-50"
-            />
-            <div
-              ref={scrollDownIconRef}
-              className="absolute -bottom-28 right-0 left-0 opacity-60 animate-float-3"
-              data-scroll
-              data-scroll-speed="0.2"
-            >
-              <ScrollDownIcon className="size-10" />
-            </div>
-          </div>
-
-          <h1
-            ref={titleTextRef}
-            className="text-white font-bold text-[6vw] z-10 text-center whitespace-nowrap leading-none"
-            data-scroll
-            data-scroll-speed="0.7"
-          >
-            CONTROLE SUAS FINANÇAS <br /> COM{" "}
-            <span className="bg-gradient-to-t from-[#25c15e] to-[#00fc87] inline-block text-transparent bg-clip-text font-bold">
-              FINNITY
-            </span>
-          </h1>
+        <p className="text-center font-medium text-lg">
+          Conheça o Finity, o app de controle de gastos e custos <br />
+          que simplifica suas finanças. Acompanhe despesas, gastos no cartão,
+          planeje
+          <br /> seu orçamento e alcance a segurança financeira.
+        </p>
+        <div className="flex gap-2 items-center -mt-1">
+          <Button variant="purple">
+            <a href="/registro">Acesse sua conta</a>
+          </Button>
+          <Button variant="gray">
+            <a href="/registro">Faça seu registro grátis</a>
+          </Button>
         </div>
+
+        <footer className="absolute bottom-10">
+          <span className="text-sub/80 text-sm">
+            Desenvolvido com <span className="text-primary/80">❤</span> por
+            pedrodecf
+          </span>
+        </footer>
       </div>
-    );
-  }
-
-  function Navbar() {
-    const navbarRef = useRef(null);
-
-    useGSAP(() => {
-      gsap.registerPlugin(ScrollTrigger);
-      const timeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: document.documentElement,
-          start: "top+=330px",
-          end: "top+=500px",
-          scrub: true,
-          markers: true,
-        },
-      });
-
-      timeline.from(navbarRef.current, { top: "-64px" }, 0);
-    }, []);
-    return (
-      <header
-        ref={navbarRef}
-        className="w-full h-16 bg-card z-20 fixed top-0 flex justify-between items-center px-6"
-      >
-        <div className="w-52">
-          <Image src="/finity-white.svg" alt="Logo" width={100} height={100} />
-        </div>
-        <nav>
-          <ul className="flex space-x-10 text-sm">
-            <li>
-              <a href="#" className="hover-nav">
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover-nav">
-                Sobre
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover-nav">
-                Funcionalidades
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover-nav">
-                Contato
-              </a>
-            </li>
-          </ul>
-        </nav>
-        <div className="flex items-center space-x-4 w-52">
-          <a href="/registro">
-            <Button variant="ghost">Criar conta</Button>
-          </a>
-          <a href="/login">
-            <Button>Entrar</Button>
-          </a>
-        </div>
-      </header>
-    );
-  }
-
-  function Description() {
-    const frases = [
-      "Finnity gerencia suas finanças",
-      "Controle receitas e despesas",
-      "Acompanhe seus gastos diários",
-      "Crie orçamentos personalizados",
-      "Veja relatórios detalhados",
-    ];
-
-    return (
-      <div className="relative text-[3vw] mt-[20vw] ml-[10vw]">
-        {frases.map((frase, index) => {
-          return <AnimatedText key={index}>{frase}</AnimatedText>;
-        })}
-      </div>
-    );
-  }
-
-  function AnimatedText({ children }: { children: ReactNode }) {
-    const animatedTextRef = useRef(null);
-
-    useGSAP(() => {
-      gsap.registerPlugin(ScrollTrigger);
-      gsap.from(animatedTextRef.current, {
-        scrollTrigger: {
-          trigger: animatedTextRef.current,
-          start: "0px bottom",
-          end: "bottom+=400px bottom",
-          scrub: true,
-          markers: true,
-        },
-        opacity: 0,
-        left: "-100px",
-        ease: "power3.inOut",
-      });
-    }, []);
-
-    return (
-      <p className="m-0 relative" ref={animatedTextRef}>
-        {children}
-      </p>
-    );
-  }
+    </main>
+  );
 }
