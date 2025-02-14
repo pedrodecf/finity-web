@@ -10,34 +10,34 @@ Aplicação de finanças construída com **Next.js**.
 
 ## Screenshots
 
-<table>
+<table align="center">
   <tr>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/44f65d71-806f-446d-8f05-c93fdb44b9d5" alt="Landing Page" width="300"><br>
+      <img src="https://github.com/user-attachments/assets/44f65d71-806f-446d-8f05-c93fdb44b9d5" alt="Landing Page" width="350"><br>
       <strong>Landing Page</strong>
     </td>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/d6bda16a-efb5-4071-b926-7ae622a6a87c" alt="Dashboard" width="300"><br>
+      <img src="https://github.com/user-attachments/assets/d6bda16a-efb5-4071-b926-7ae622a6a87c" alt="Dashboard" width="350"><br>
       <strong>Dashboard</strong>
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/747b66aa-1ce3-481c-97cc-2a021d96297a" alt="Transações" width="300"><br>
+      <img src="https://github.com/user-attachments/assets/747b66aa-1ce3-481c-97cc-2a021d96297a" alt="Transações" width="350"><br>
       <strong>Transações</strong>
     </td>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/3eaf1fed-d55e-4089-8f54-596f164e7c33" alt="Categorias" width="300"><br>
+      <img src="https://github.com/user-attachments/assets/3eaf1fed-d55e-4089-8f54-596f164e7c33" alt="Categorias" width="350"><br>
       <strong>Categorias</strong>
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/3dfe5092-d264-48be-a10b-38b2732c518b" alt="Edição" width="300"><br>
+      <img src="https://github.com/user-attachments/assets/3dfe5092-d264-48be-a10b-38b2732c518b" alt="Edição" width="350"><br>
       <strong>Edição (categoria)</strong>
     </td>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/3e7b4814-701b-4da8-9fcb-a623e622e2d8" alt="Exclusão" width="300"><br>
+      <img src="https://github.com/user-attachments/assets/3e7b4814-701b-4da8-9fcb-a623e622e2d8" alt="Exclusão" width="350"><br>
       <strong>Exclusão</strong>
     </td>
   </tr>
