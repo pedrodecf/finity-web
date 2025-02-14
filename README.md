@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Finity Web
 
-## Getting Started
+Aplicação de finanças construída com **Next.js**.
 
-First, run the development server:
+## Deploy
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+[Finity Wallet](https://finitywallet.vercel.app/)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Screenshots
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Screenshots
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/44f65d71-806f-446d-8f05-c93fdb44b9d5" alt="Landing Page" width="300"><br>
+      <strong>Landing Page</strong>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/d6bda16a-efb5-4071-b926-7ae622a6a87c" alt="Dashboard" width="300"><br>
+      <strong>Dashboard</strong>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/747b66aa-1ce3-481c-97cc-2a021d96297a" alt="Transações" width="300"><br>
+      <strong>Transações</strong>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/3eaf1fed-d55e-4089-8f54-596f164e7c33" alt="Categorias" width="300"><br>
+      <strong>Categorias</strong>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/3dfe5092-d264-48be-a10b-38b2732c518b" alt="Edição" width="300"><br>
+      <strong>Edição (categoria)</strong>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/3e7b4814-701b-4da8-9fcb-a623e622e2d8" alt="Exclusão" width="300"><br>
+      <strong>Exclusão</strong>
+    </td>
+  </tr>
+</table>
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## Tecnologias
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org)  [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org)  [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)  [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)  [![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white)](https://axios-http.com)  [![Radix UI](https://img.shields.io/badge/Radix_UI-000000?style=for-the-badge&logo=radix-ui&logoColor=white)](https://www.radix-ui.com)  [![React Hook Form](https://img.shields.io/badge/react_hook_form-EC5990?style=for-the-badge&logo=react-hook-form&logoColor=white)](https://react-hook-form.com)  [![React Query](https://img.shields.io/badge/React_Query-FF4154?style=for-the-badge&logo=react-query&logoColor=white)](https://tanstack.com/query/v4)  [![Zod](https://img.shields.io/badge/Zod-100000?style=for-the-badge&logo=zod&logoColor=white)](https://github.com/colinhacks/zod)
