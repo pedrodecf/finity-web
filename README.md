@@ -8,8 +8,6 @@ Aplicação de finanças construída com **Next.js**.
 
 ## Screenshots
 
-## Screenshots
-
 <table align="center">
   <tr>
     <td align="center">
